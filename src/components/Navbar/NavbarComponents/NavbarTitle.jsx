@@ -7,19 +7,16 @@ export default function NavbarTitle({ text, highlightText }) {
 
   function handleResize() {
     // setWidthSite(window.innerWidth);
-    setWidthSite(window.innerHeight);
+    setWidthSite(window.innerWidth);
     console.log(widthSite);
   }
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   return (
-    <div style={{ position: "relative", top: 40, left: 160 }}>
+    <div style={{ position: "relative", top: 160, left: 160 }}>
       <h1
         style={{
           color: "white",

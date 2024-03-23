@@ -1,4 +1,6 @@
 import React from "react";
+import NavBarLogo from "./NavBarLogo";
+import NavBarButtonBar from "./NavBarButtonBar";
 
 export default function NavbarLogoButtons() {
   return (
@@ -8,10 +10,25 @@ export default function NavbarLogoButtons() {
         flexDirection: "row",
         justifyContent: "space-between",
         padding: "0 100 0  100",
+        color: "red",
+        padding: "0 140px 0 140px ",
       }}
     >
-      <div style={{ color: "red" }}>LOGO</div>
-      <div style={{ color: "red" }}>BUTTON</div>
+      <NavBarLogo style={{}} />
+      <NavBarButtonBar />
     </div>
   );
+  // return (
+  //   <div
+  //     style={{
+  //       display: "flex",
+  //       flexDirection: "row",
+  //       justifyContent: "space-between",
+  //       padding: "0 100 0  100",
+  //     }}
+  //   >
+  //     <div style={{ color: "red" }}>LOGO</div>
+  //     <div style={{ color: "red" }}>BUTTON</div>
+  //   </div>
+  // );
 }

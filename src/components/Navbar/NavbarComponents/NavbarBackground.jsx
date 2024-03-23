@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import background from "./background.png";
 import NavbarTitle from "./NavbarTitle";
+import NavbarLogoButtons from "./NavbarLogoButtons";
 // import { View, Image, Text, StyleSheet } from "";
 // import Image from "react";
 
@@ -58,6 +59,7 @@ export default function NavbarBackground() {
           clipPath: "polygon(0 0, 100% 0, 100% 43%, 0 98%)",
         }}
       >
+        <NavbarLogoButtons />
         {/* <p style={{ color: "white", zIndex: 5, position: "relative" }}>LOLO</p> */}
         <NavbarTitle text={"TRAIN LIKE A "} highlightText={"CHEMPION"} />
       </div>

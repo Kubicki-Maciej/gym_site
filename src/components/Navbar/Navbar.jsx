@@ -23,8 +23,6 @@ export default function Navbar() {
       }}
     >
       <NavbarBackground />
-      {/* <NavbarTitle text={"TRAIN LIKE A "} highlightText={"CHEMPION"} /> */}
-      <NavbarLogoButtons />
     </div>
   );
 }
