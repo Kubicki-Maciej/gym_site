@@ -1,0 +1,21 @@
+.layout {
+  width: 1440px;
+  height: 620px;
+  flex-shrink: 0;
+}
+.backgroundNavbar {
+  width: 1440px;
+  height: 620px;
+  flex-shrink: 0;
+  fill: linear-gradient(
+      90deg,
+      #000 0.08%,
+      rgba(0, 0, 0, 0.97) 23.05%,
+      rgba(0, 0, 0, 0.77) 40.52%,
+      rgba(0, 0, 0, 0.74) 51.01%,
+      rgba(0, 0, 0, 0) 99.94%
+    ),
+    url("E:\_REACT\gymreact\src\components\Navbar\NavbarComponents\background.png"),
+    lightgray 239.685px -139.918px / 100% 132.719% no-repeat;
+  filter: drop-shadow(0px 15px 4px rgba(0, 0, 0, 0.25));
+}
