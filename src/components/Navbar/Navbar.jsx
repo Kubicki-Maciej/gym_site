@@ -2,6 +2,7 @@ import React from "react";
 import NavbarBackground from "./NavbarComponents/NavbarBackground";
 import NavbarTitle from "./NavbarComponents/NavbarTitle";
 import NavbarLogoButtons from "./NavbarComponents/NavbarLogoButtons";
+// import NavBarTwo from "../NavBarTwo/NavBarTwo";
 
 /*
     1. 12 grid

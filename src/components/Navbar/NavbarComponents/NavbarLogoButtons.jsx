@@ -9,26 +9,15 @@ export default function NavbarLogoButtons() {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+        
         padding: "0 100 0  100",
         color: "red",
-        padding: "0 140px 0 140px ",
+        padding: "20px 140px 0 140px ",
       }}
     >
-      <NavBarLogo style={{}} />
+
+      <NavBarLogo />
       <NavBarButtonBar />
     </div>
   );
-  // return (
-  //   <div
-  //     style={{
-  //       display: "flex",
-  //       flexDirection: "row",
-  //       justifyContent: "space-between",
-  //       padding: "0 100 0  100",
-  //     }}
-  //   >
-  //     <div style={{ color: "red" }}>LOGO</div>
-  //     <div style={{ color: "red" }}>BUTTON</div>
-  //   </div>
-  // );
 }

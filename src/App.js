@@ -1,18 +1,20 @@
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import Section from "./components/Section/Section";
-import NavbarMidle from "./components/NavbarMidle/NavbarMidle";
+import NavBarTwo from "./components/NavBarTwo/NavBarTwo.jsx";
+
 import Navbar from "./components/Navbar/Navbar.jsx";
 
 function App() {
   return (
     <div className="App">
       <Navbar />
-      {/* <NavbarMidle /> */}
-      {/* <Section /> */}
-      {/* <Footer /> */}
+      <NavBarTwo />
+      <Section />
+      <Footer />
     </div>
   );
 }
 
 export default App;
+
