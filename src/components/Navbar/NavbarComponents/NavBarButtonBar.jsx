@@ -2,7 +2,10 @@ import React from "react";
 import NavBarButtons from "./NavBarButtons";
 export default function NavBarButtonBar() {
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div 
+      className="navbarButtonBar"
+      // style={{ display: "flex", flexDirection: "row" }}
+    >
       <NavBarButtons
         isRed={false}
         buttonName={"home"}

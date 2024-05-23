@@ -1,0 +1,93 @@
+.Navbar{
+    height: 40rem;
+    width: "100%",
+}
+
+.backgroundNavbar{
+    position: static;
+    width: 100%;
+    height: 100%;
+}
+.backgroundNavbarImage{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    right: 0;
+    z-index: 0;
+    background-size: 120%;
+    box-shadow: 0px 15px 4px rgba(0, 0, 0, 0.25);
+    clip-path: polygon(0 0, 100% 0, 100% 43%, 0 98%);
+}
+
+.backgorundNavbarShadowbox{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+
+    background: linear-gradient(90deg, black 0%, rgba(0, 0, 0, 1) 23%, rgba(0, 0, 0, 0.9) 41%, rgba(0, 0, 0, 0.74) 51%, rgba(0, 0, 0, 0) 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 43%, 0 98%);
+}   
+
+.navbarTopContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding:20px 140px 0 140px;
+    color: red
+}
+
+.navbarLogo{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbarLogo > img{
+    height: 45px;
+    width: 45px;
+    filter: invert(50%) sepia(41%) saturate(3992%) hue-rotate(162deg) brightness(95%) contrast(102%);
+}
+
+.navbarButtonBar{
+    display: flex;
+    flex-direction: row;
+}
+.navbarButton{
+    font-size: 30px;
+    padding:  0 8px 0 8px;
+    margin: 4px;
+    color: white;
+    font-family: CustomFont, sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: transparent;
+    
+    border: none;
+
+
+    
+}
+
+.redElementButton{
+    font-size: 25px;
+    border:none;
+    border-radius: 6px;
+    background-color: red;
+}
+
+
+
+@media (max-width: 1024px) {
+    
+}
+  
+@media (max-width: 764px) {
+
+}

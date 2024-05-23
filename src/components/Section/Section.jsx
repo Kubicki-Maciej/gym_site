@@ -1,7 +1,6 @@
 import React from 'react'
 import Article from './Article'
 
-
 function Section() {
   return (
     // <Article />
@@ -15,5 +14,4 @@ function Section() {
     
   )
 }
-
 export default Section

@@ -1,0 +1,48 @@
+.socialIconBar{
+  display: flex;
+  height: 140px;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialIconBar >a >img{
+  height: 45px;
+  width: 45px;
+  margin-left: 35px;
+}
+
+.footerElement > div> h1{
+  font-size: 2rem;
+}
+
+.footerElement{
+  flex-direction: row;
+  padding:  0 6rem 0 6rem;
+}
+
+@media (max-width: 1120px) {
+  .footerElement > div> h1{
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+
+  .footerElement{
+    padding: 0 4rem 0 4rem;
+  }
+}
+
+@media (max-width: 764px) {
+  .socialIconBar >h1{
+    font-size: 1.5rem;
+  }
+
+  .footerElement{
+    flex-direction: column;
+    padding: 0 2rem 0 2rem;
+  }
+  .footerElement > div> h1{
+    font-size: 1rem;
+  }
+}

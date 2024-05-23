@@ -2,6 +2,8 @@ import React from "react";
 import NavbarBackground from "./NavbarComponents/NavbarBackground";
 import NavbarTitle from "./NavbarComponents/NavbarTitle";
 import NavbarLogoButtons from "./NavbarComponents/NavbarLogoButtons";
+
+import './styleNavbar.css'
 // import NavBarTwo from "../NavBarTwo/NavBarTwo";
 
 /*
@@ -19,8 +21,7 @@ export default function Navbar() {
       className="Navbar"
       style={{
         // position: "static",
-        width: "100%",
-        height: "640px",
+        
       }}
     >
       <NavbarBackground />

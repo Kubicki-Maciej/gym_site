@@ -10,7 +10,7 @@ export default function FooterText() {
         // height:"140px"
     }}
     ><h1>
-        READY FOR <span style={{color:"red"}}>NEXT</span> TRANING
+        READY FOR <span style={{color:"red"}}>NEXT</span> TRANING ? 
     </h1>
     </div>
   )
