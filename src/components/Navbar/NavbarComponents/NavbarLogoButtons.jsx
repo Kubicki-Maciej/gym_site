@@ -1,23 +1,15 @@
 import React from "react";
 import NavBarLogo from "./NavBarLogo";
 import NavBarButtonBar from "./NavBarButtonBar";
+import svgImage from "../../Icons/trophy-solid.svg";
 
 export default function NavbarLogoButtons() {
   return (
     <div
       className="navbarTopContainer"
-      style={{
-        // display: "flex",
-        // flexDirection: "row",
-        // justifyContent: "space-between",
-        
-       
-        // color: "red",
-        // padding: "20px 140px 0 140px ",
-      }}
     >
 
-      <NavBarLogo />
+      <NavBarLogo image={svgImage} />
       <NavBarButtonBar />
     </div>
   );

@@ -1,9 +1,9 @@
-import React from "react";
+import React  from "react";
+
 import NavbarBackground from "./NavbarComponents/NavbarBackground";
-import NavbarTitle from "./NavbarComponents/NavbarTitle";
-import NavbarLogoButtons from "./NavbarComponents/NavbarLogoButtons";
 
 import './styleNavbar.css'
+
 // import NavBarTwo from "../NavBarTwo/NavBarTwo";
 
 /*
@@ -16,15 +16,13 @@ import './styleNavbar.css'
 */
 
 export default function Navbar() {
-  return (
-    <div
-      className="Navbar"
-      style={{
-        // position: "static",
-        
-      }}
-    >
-      <NavbarBackground />
-    </div>
-  );
+    return (
+    
+      <div
+        className="Navbar"
+      >
+        <NavbarBackground />
+      </div>
+    );
+
 }

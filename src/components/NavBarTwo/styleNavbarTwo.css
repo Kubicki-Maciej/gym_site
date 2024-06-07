@@ -33,8 +33,6 @@
     height: 35px;
 }
 
-
-
 @media (max-width: 1024px) {
     .buttonContainerNavbarTwo{
         margin-left: 4rem;
@@ -53,18 +51,16 @@
   
 @media (max-width: 764px) {
     .buttonContainerNavbarTwo{
-        margin-left: 1rem;
-        margin-right:  1rem;
+        margin-left: 0rem;
+        margin-right:  0rem;
         height: 80px;
+        border-radius: 0;
     }
     .buttonNavbarTwo{
         font-size: 1rem;
-        
     }
     .buttonNavbarTwo > img{
         width: 25px;
         height: 25px;
-        
     }
-
 }

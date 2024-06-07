@@ -1,8 +1,8 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
 import NavBarButtons from "./NavBarButtons";
-import svgImage from "../../Icons/trophy-solid.svg";
-export default function NavBarLogo() {
+
+export default function NavBarLogo({image}) {
   return (
     <div
       className="navbarLogo"
@@ -23,11 +23,11 @@ export default function NavBarLogo() {
         //   filter:
         //     "invert(50%) sepia(41%) saturate(3992%) hue-rotate(162deg) brightness(95%) contrast(102%)",
         // }}
-        src={svgImage}
+        src={image}
         alt="Logo Image"
       />
 
-      <NavBarButtons isRed={false} buttonName={"Progym"} uppercase={"normal"} />
+      <NavBarButtons isRed={false} buttonName={"Progym"} uppercase={"normal"} to={""} />
     </div>
   );
 }

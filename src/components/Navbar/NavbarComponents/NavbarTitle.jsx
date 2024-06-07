@@ -8,7 +8,7 @@ export default function NavbarTitle({ text, highlightText }) {
   function handleResize() {
     // setWidthSite(window.innerWidth);
     setWidthSite(window.innerWidth);
-    console.log(widthSite);
+    
   }
 
   useEffect(() => {
@@ -16,16 +16,19 @@ export default function NavbarTitle({ text, highlightText }) {
   }, []);
 
   return (
-    <div style={{ position: "relative", top: 160, left: 160 }}>
+    <div 
+    className="navbarTitle"
+    // style={{ position: "relative", top: 160, left: 160 }}
+    >
       <h1
-        style={{
-          color: "white",
-          zIndex: 2,
-          margin: 4,
-          fontWeight: 400,
-          fontSize: 90,
-          lineHeight: "90%",
-        }}
+        // style={{
+        //   color: "white",
+        //   zIndex: 2,
+        //   margin: 4,
+        //   fontWeight: 400,
+        //   fontSize: 90,
+        //   lineHeight: "90%",
+        // }}
       >
         {text}
         <br />
@@ -33,11 +36,11 @@ export default function NavbarTitle({ text, highlightText }) {
       <h1
         style={{
           color: "red",
-          zIndex: 2,
-          margin: 4,
-          fontWeight: 400,
-          fontSize: 90,
-          lineHeight: "90%",
+          // zIndex: 2,
+          // margin: 4,
+          // fontWeight: 400,
+          // fontSize: 90,
+          // lineHeight: "90%",
         }}
       >
         {highlightText}
