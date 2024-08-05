@@ -8,7 +8,7 @@ export default function NavBarButtonBar() {
   
   const [email, setEmail] = useState(localStorage.getItem("userLogged"));
   const [userLogged, setUserLogged] = useContext(UserContext)
-  console.log(typeof(email));
+  
   return (
     <div 
       className="navbarButtonBar"
@@ -35,7 +35,7 @@ export default function NavBarButtonBar() {
       {userLogged.logged ? 
       <Logout/>
       
-    :
+      :
     <NavBarButtons
     isRed={true}
     buttonName={"login"}
