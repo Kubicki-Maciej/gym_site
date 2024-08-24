@@ -3,6 +3,7 @@
   height: 140px;
   align-items: center;
   justify-content: center;
+  
 }
 
 .socialIconBar >a >img{
@@ -13,10 +14,10 @@
 
 .footerElement > div> h1{
   font-size: 2rem;
+  flex-grow: 1;
 }
 
-.footerElement{
-  flex-direction: row;
+.footerElement{  
   padding:  0 6rem 0 6rem;
 }
 
@@ -45,4 +46,8 @@
   .footerElement > div> h1{
     font-size: 1rem;
   }
+}
+
+.footer {
+  
 }

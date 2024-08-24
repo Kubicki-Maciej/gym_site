@@ -23,7 +23,7 @@ export default function ButtonsContainer() {
       //   boxShadow:" 13px 13px 42px -2px rgba(255, 0, 0, 1)"
       // }}
     >
-      <NavbarTwoButtons name={"EXERCISE"} icon={weight} />
+      <NavbarTwoButtons name={"EXERCISE"} icon={weight} srcPath={'/exercise'}/>
       <NavbarTwoButtons name={"PROGRESS"} icon={ruler} />
       <NavbarTwoButtons name={"SCHEDULE"} icon={schedule} />
     </div>

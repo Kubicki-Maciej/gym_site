@@ -6,9 +6,14 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Article from './Article'
 import Calendar from '../Calendar/Calendar';
+import ExerciseScreen from '../Exercise/ExerciseMainScreen';
+import CreateNewTrening from '../Exercise/CreateNewTrening';
+import CreateExercise from '../Exercise/CreateExercise';
 
 // context
 import { UserContext } from '../User/context';
+
+
 
 function Section() {
   const [userLogged, setUserLogged] = useContext(UserContext)
@@ -47,6 +52,18 @@ function Section() {
         <Route
           path="logout/*"
           element={<Login/>}
+        ></Route>
+        <Route
+          path="exercise/*"
+          element={<ExerciseScreen/>}
+        ></Route>
+        <Route
+          path="exercise/createnewtrening/*"
+          element={<CreateNewTrening />}
+        ></Route>
+        <Route
+          path="exercise/createnewtrening/createexercise/*"
+          element={<CreateExercise />}
         ></Route>
       </Routes>
       {/* <Article /> */}  

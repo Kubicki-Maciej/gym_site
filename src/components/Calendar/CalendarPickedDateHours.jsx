@@ -37,9 +37,6 @@ export default function CalendarPickedDateHours({pickedDate}) {
         })
     }
 
-
-
-
     return (
         <div style={{
             display:'flex',

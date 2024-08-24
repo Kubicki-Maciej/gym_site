@@ -1,0 +1,19 @@
+.calendarWindow{
+    display:"flex";
+    flex-direction:"row";
+    justify-content:"center";
+    margin-bottom: 20px
+
+}
+
+@media (max-width: 1024px) {
+    .calendarWindow{
+        flex-direction:"column";
+    }
+}
+  
+@media (max-width: 764px) {
+    .calendarWindow >h1{
+        flex-direction:"column";
+    }
+}

@@ -45,7 +45,7 @@ export default function SingleHour({hour, isPicked, date, idElement}) {
                 {/* <div style={{height:"200px", width:"200px", backgroundColor:"red"}}>
                 </div> */}
                  {close => (    
-                    <PopupWindow idElement={idElement} date={date} closeBtn={close} hour />  
+                    <PopupWindow idElement={idElement} date={date} closeBtn={close} hour={hour} />  
                     
             )}
             </Popup>

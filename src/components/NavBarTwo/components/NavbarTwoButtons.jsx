@@ -1,16 +1,23 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
+export default function NavbarTwoButtons({name, icon, srcPath}) {
+  const navigate = useNavigate();
 
-export default function NavbarTwoButtons({name, icon}) {
+  const goTo = () => {
+  navigate(srcPath);
+};
   // ikon + button 
-  return <div
+  return <button
+    onClick={goTo}
     className="buttonNavbarTwo"
     style={{   
-      
+      border:"none",
+      backgroundColor:"transparent"
     }}
   >{name}  
     <img 
     src={icon}
     />
-  </div>;
+  </button>;
 }
 
