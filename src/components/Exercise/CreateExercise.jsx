@@ -128,7 +128,7 @@ export default function CreateExercise() {
                
             }}>
                 <p>Znajdź i zmodyfikuj </p>
-                <Searcher dataOutput={getExerciseFromSercher}/>
+                <Searcher dataOutput={getExerciseFromSercher} labelName={"Szukaj ćwiczenia"} apiAdress={'http://127.0.0.1:8000/exercise/exercise/all'}/>
                 <p>Stwórz nowe ćwiczenie </p>
             </div>
             <Box

@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { TextField, Autocomplete } from '@mui/material'
 
-export default function Searcher({dataOutput}) {
+export default function Searcher({dataOutput, apiAdress, labelName}) {
   const [exercises, setExercises] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  async function fetchExercises(){
+  async function fetchData(){
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/exercise/exercise/all '); 
+      const response = await fetch(apiAdress); 
+      // const response = await fetch('http://127.0.0.1:8000/exercise/exercise/all '); 
       if (!response.ok) {
         throw new Error('Network error: Failed to download all exercise data');
       }
@@ -24,7 +25,7 @@ export default function Searcher({dataOutput}) {
     }
   };
   useEffect(() => {
-    fetchExercises()
+    fetchData()
   }, []);
 
     function handleChange(event, value){
@@ -45,7 +46,7 @@ export default function Searcher({dataOutput}) {
             getOptionLabel={(option) => option.name}
 
             renderInput={(params) => (
-              <TextField {...params} label="Szukaj" variant="outlined" fullWidth />
+              <TextField {...params} label={labelName} variant="outlined" fullWidth />
             )}
           />
         )}
