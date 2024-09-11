@@ -100,6 +100,7 @@ export default function CreateNewTraining() {
         handleNotification()
         console.log('To ćwiczenie już istnieje na liście.');
       }
+      
   
       // Resetuj stan po próbie dodania ćwiczenia
       setExerciseObject(null);
@@ -124,6 +125,7 @@ export default function CreateNewTraining() {
         name: trainingName,
         description: trainingComment,
         exercise_groups: exercises.map((exercise)=> exercise.id)
+        // exercise_groups: exercises
       }
       sendTreningToApi(treningObject)
     }
