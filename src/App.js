@@ -7,59 +7,83 @@ import { useEffect, useState } from "react";
 import NavbarMobile from "./components/Navbar/NavbarMobile.jsx";
 import { UserContext } from "./components/User/context.jsx";
 
-
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
-  const [userLogin, setUserLogin] = useState(false)
-  
-  
-  useEffect(()=>{
-      const handleResize = () =>{
-        setWidth(window.innerWidth)
-      }
-      window.addEventListener('resize', handleResize)
-      return () =>{
-        window.removeEventListener("resize", handleResize);
-      }
-    },[])
+  const [userLogin, setUserLogin] = useState(false);
 
-  useEffect(()=>{
-    if(localStorage.getItem('userLogged')=='true'){
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("userLogged") == "true") {
       setUserLogin({
-        logged : true,
-        userData : localStorage.getItem('user')
-      })
+        logged: true,
+        userData: localStorage.getItem("user"),
+      });
     }
-  },[])
+  }, []);
 
-  if(width > 764){
+  if (width > 764) {
     return (
       <UserContext.Provider value={[userLogin, setUserLogin]}>
-      <div className="App">
+        <div
+          className="App"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+            justifyContent: "space-between",
+          }}
+        >
+          <Navbar />
+          {localStorage.getItem("userLogged") == "true" ? (
+            <NavBarTwo />
+          ) : (
+            <div style={{ height: "50px" }}></div>
+          )}
+          <div
+            style={{
+              flexGrow: 1,
+            }}
+          >
+            {" "}
+            <Section />
+          </div>
 
-        <Navbar />
-        {
-         localStorage.getItem('userLogged')=='true' ? <NavBarTwo />: <div  style={{ height: "50px"}}></div>
-        }
-        <Section />
-        <Footer />
-      </div>
+          <Footer />
+        </div>
       </UserContext.Provider>
     );
-  }else{
+  } else {
     return (
       <UserContext.Provider value={[userLogin, setUserLogin]}>
-      <div className="App">
-        <NavbarMobile/>
-        {
-         localStorage.getItem('userLogged')=='true' ? <NavBarTwo />: <div  style={{ height: "50px"}}></div>
-        }
-        <Section />
-        <Footer />
-      </div>
+        <div
+          className="App"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+            justifyContent: "space-between",
+          }}
+        >
+          <NavbarMobile />
+          {localStorage.getItem("userLogged") == "true" ? (
+            <NavBarTwo />
+          ) : (
+            <div style={{ height: "50px" }}></div>
+          )}
+          <Section />
+          <Footer />
+        </div>
       </UserContext.Provider>
     );
-  } 
+  }
 }
 export default App;
-
