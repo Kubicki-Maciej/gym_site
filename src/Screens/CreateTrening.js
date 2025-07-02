@@ -1,90 +1,202 @@
-import React from "react";
+// Clean, modern refactor of your CreateNewTraining component
+
+import React, { useState } from "react";
 import {
-  Container,
   TextField,
   Button,
-  Typography,
-  Paper,
-  Stack,
-  Snackbar,
+  List,
+  ListItem,
+  ListItemText,
   IconButton,
+  Box,
+  Chip,
+  Stack,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import SaveIcon from "@mui/icons-material/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function TrainingForm() {
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+import StatusAlert, { StatusAlertService } from "react-status-alert";
+import "react-status-alert/dist/status-alert.css";
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
+import Searcher from "../components/Core/Searcher";
+import Notification from "../components/Core/Messager";
+import NavigateButton from "../components/Buttons/MainButton";
+
+export default function CreateNewTraining() {
+  const [openNotification, setOpenNotification] = useState(false);
+  const [trainingName, setTrainingName] = useState("");
+  const [trainingId, setTrainingId] = useState("");
+  const [trainingComment, setTrainingComment] = useState("");
+  const [exercises, setExercises] = useState([]);
+  const [exerciseObject, setExerciseObject] = useState(null);
+  const [selectedTraining, setSelectedTraining] = useState(null);
+
+  const errorMessage = text =>
+    StatusAlertService.showError(text || "Coś poszło nie tak!");
+  const successMessage = text =>
+    StatusAlertService.showSuccess(text || "Operacja zakończona sukcesem!");
+
+  const sendTrainingToApi = async dataToSend => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/training/create_training",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dataToSend),
+        }
+      );
+
+      if (!response.ok) throw new Error("Błąd wysyłania na serwer");
+      await response.json();
+      successMessage("Trening utworzony pomyślnie!");
+    } catch (error) {
+      console.error(error);
+      errorMessage("Nie udało się utworzyć treningu.");
+    }
+  };
+
+  const updateTrainingToApi = async dataToSend => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/training/create_training",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dataToSend),
+        }
+      );
+
+      if (!response.ok) throw new Error("Błąd aktualizacji na serwerze");
+      await response.json();
+      successMessage("Trening zaktualizowany pomyślnie!");
+    } catch (error) {
+      console.error(error);
+      errorMessage("Nie udało się zaktualizować treningu.");
+    }
   };
 
   const handleAddExercise = () => {
-    setSnackbarOpen(true);
+    if (!exerciseObject) return;
+    if (exercises.some(ex => ex.id === exerciseObject.id)) {
+      setOpenNotification(true);
+      return;
+    }
+    setExercises([...exercises, exerciseObject]);
+    setExerciseObject(null);
+  };
+
+  const handleDeleteExercise = index => {
+    setExercises(exercises.filter((_, idx) => idx !== index));
+  };
+
+  const handleSaveTraining = () => {
+    if (!trainingName || !trainingComment || exercises.length === 0) {
+      errorMessage(
+        "Wprowadź nazwę, komentarz oraz dodaj przynajmniej jedno ćwiczenie."
+      );
+      return;
+    }
+
+    const payload = selectedTraining
+      ? {
+          user_training_id: trainingId,
+          description: trainingComment,
+          exercise_groups: exercises.map(ex => ex.id),
+        }
+      : {
+          name: trainingName,
+          description: trainingComment,
+          exercise_groups: exercises.map(ex => ex.id),
+        };
+
+    selectedTraining
+      ? updateTrainingToApi(payload)
+      : sendTrainingToApi(payload);
+  };
+
+  const handleSelectTraining = training => {
+    if (training) {
+      setSelectedTraining(training);
+      setTrainingName(training.name);
+      setTrainingId(training.id);
+      setTrainingComment(training.description);
+      setExercises(training.exercise_groups);
+    } else {
+      setSelectedTraining(null);
+      setTrainingName("");
+      setTrainingId("");
+      setTrainingComment("");
+      setExercises([]);
+    }
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
-        <Stack spacing={3}>
-          <Typography variant="h5" fontWeight={600}>
-            Tworzenie treningu
-          </Typography>
-
-          <TextField label="Nazwa treningu" variant="outlined" fullWidth />
-
-          <TextField
-            label="Komentarz do treningu"
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={3}
-            helperText="Dodaj notatki do treningu, np. cel lub uwagi."
-          />
-
-          <TextField
-            label="Wyszukaj ćwiczenie do dodania"
-            variant="outlined"
-            fullWidth
-          />
-
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AddIcon />}
-            onClick={handleAddExercise}
-            size="large"
-          >
-            Dodaj ćwiczenie do treningu
-          </Button>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<SaveIcon />}
-            size="large"
-          >
-            Utwórz trening
-          </Button>
-
-          <Button
-            variant="outlined"
-            color="success"
-            startIcon={<FitnessCenterIcon />}
-            size="large"
-          >
-            Stwórz nowe ćwiczenie
-          </Button>
-        </Stack>
-      </Paper>
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        message="Dodano ćwiczenie do treningu"
+    <Box
+      sx={{
+        maxWidth: 500,
+        mx: "auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        p: 2,
+      }}
+    >
+      <Notification
+        text={"To ćwiczenie jest już na liście."}
+        openNotification={openNotification}
+        setOpenNotification={setOpenNotification}
       />
-    </Container>
+      <Searcher
+        dataOutput={handleSelectTraining}
+        labelName="Szukaj treningu"
+        apiAdress="http://127.0.0.1:8000/training/all"
+      />
+      <TextField
+        label="Nazwa treningu"
+        value={trainingName}
+        onChange={e => setTrainingName(e.target.value)}
+        fullWidth
+      />
+      <TextField
+        label="Komentarz do treningu"
+        value={trainingComment}
+        onChange={e => setTrainingComment(e.target.value)}
+        fullWidth
+        multiline
+        rows={3}
+      />
+      <Stack direction="row" spacing={1} flexWrap="wrap">
+        {exercises.map((exercise, index) => (
+          <Chip
+            key={exercise.id || index}
+            label={exercise.name}
+            onDelete={() => handleDeleteExercise(index)}
+            color="primary"
+            size="small"
+          />
+        ))}
+      </Stack>
+      <Searcher
+        dataOutput={setExerciseObject}
+        labelName="Szukaj ćwiczenia"
+        apiAdress="http://127.0.0.1:8000/exercise/exercise/all"
+      />
+      <Button variant="contained" onClick={handleAddExercise}>
+        Dodaj ćwiczenie
+      </Button>
+
+      <Button
+        variant="contained"
+        color={selectedTraining ? "secondary" : "primary"}
+        onClick={handleSaveTraining}
+      >
+        {selectedTraining ? "Zaktualizuj trening" : "Utwórz trening"}
+      </Button>
+      <NavigateButton
+        navigateDir="createexercise/"
+        name="Stwórz nowe ćwiczenie"
+      />
+      <StatusAlert />
+    </Box>
   );
 }
