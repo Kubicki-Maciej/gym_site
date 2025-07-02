@@ -26,124 +26,30 @@ export default function CreatePanelMui() {
       </Typography>
 
       <Grid container spacing={4} maxWidth="md" justifyContent="center">
-        <Grid item xs={12} md={4}>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 4,
-              textAlign: "center",
-              "&:hover": {
-                boxShadow: 6,
-                transform: "scale(1.05)",
-                transition: "all 0.3s ease",
-              },
-            }}
-          >
-            <PlaylistAddCheckIcon
-              sx={{ fontSize: 50, color: "error.main", mb: 1 }}
-            />
-            <Typography variant="h6" gutterBottom>
-              Create Training
-            </Typography>
-            <Button variant="contained" color="error" fullWidth>
-              Create Training
-            </Button>
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 4,
-              textAlign: "center",
-              "&:hover": {
-                boxShadow: 6,
-                transform: "scale(1.05)",
-                transition: "all 0.3s ease",
-              },
-            }}
-          >
-            <FitnessCenterIcon
-              sx={{ fontSize: 50, color: "error.main", mb: 1 }}
-            />
-            <Typography variant="h6" gutterBottom>
-              Stwórz ćwiczenie
-            </Typography>
-            <Button variant="contained" color="error" fullWidth>
-              Create Exercise
-            </Button>
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 4,
-              textAlign: "center",
-              "&:hover": {
-                boxShadow: 6,
-                transform: "scale(1.05)",
-                transition: "all 0.3s ease",
-              },
-            }}
-          >
-            <EditIcon sx={{ fontSize: 50, color: "error.main", mb: 1 }} />
-            <Typography variant="h6" gutterBottom>
-              Edytuj Cwiczenie
-            </Typography>
-            <Button variant="contained" color="error" fullWidth>
-              Edit
-            </Button>
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 4,
-              textAlign: "center",
-              "&:hover": {
-                boxShadow: 6,
-                transform: "scale(1.05)",
-                transition: "all 0.3s ease",
-              },
-            }}
-          >
-            <EditNoteIcon sx={{ fontSize: 50, color: "error.main", mb: 1 }} />
-            <Typography variant="h6" gutterBottom>
-              Edytuj trening
-            </Typography>
-            <Button variant="contained" color="error" fullWidth>
-              Edit
-            </Button>
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 4,
-              textAlign: "center",
-              "&:hover": {
-                boxShadow: 6,
-                transform: "scale(1.05)",
-                transition: "all 0.3s ease",
-              },
-            }}
-          >
-            <HomeIcon sx={{ fontSize: 50, color: "error.main", mb: 1 }} />
-            <Typography variant="h6" gutterBottom>
-              Go Home
-            </Typography>
-            <Button variant="outlined" color="error" fullWidth>
-              Go Home
-            </Button>
-          </Paper>
-        </Grid>
+        <MenuCard
+          Icon={PlaylistAddCheckIcon}
+          text={"Stwórz trening"}
+          btnText={"Stwórz trening"}
+          colorFullBoolean={true}
+        />
+        <MenuCard
+          Icon={FitnessCenterIcon}
+          text={"Stwórz ćwiczenie"}
+          btnText={"Stwórz ćwiczenie"}
+          colorFullBoolean={true}
+        />
+        <MenuCard
+          Icon={EditIcon}
+          text={"Edytuj Cwiczenie"}
+          btnText={"Edytuj Cwiczenie"}
+          colorFullBoolean={false}
+        />
+        <MenuCard
+          Icon={EditNoteIcon}
+          text={"Edytuj trening"}
+          btnText={"Edytuj trening"}
+          colorFullBoolean={false}
+        />
       </Grid>
     </Box>
   );
