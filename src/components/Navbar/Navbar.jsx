@@ -1,8 +1,8 @@
-import React  from "react";
+import React from "react";
 
 import NavbarBackground from "./NavbarComponents/NavbarBackground";
 
-import './styleNavbar.css'
+import "./styleNavbar.css";
 
 // import NavBarTwo from "../NavBarTwo/NavBarTwo";
 
@@ -16,13 +16,9 @@ import './styleNavbar.css'
 */
 
 export default function Navbar() {
-    return (
-    
-      <div
-        className="Navbar"
-      >
-        <NavbarBackground />
-      </div>
-    );
-
+  return (
+    <div className="Navbar">
+      <NavbarBackground />
+    </div>
+  );
 }

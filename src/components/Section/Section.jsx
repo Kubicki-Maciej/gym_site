@@ -1,62 +1,41 @@
-import React, { useContext } from 'react' 
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 
 // import elements
-import Login from '../Login/Login';
-import Register from '../Register/Register';
-import Article from './Article'
-import Calendar from '../Calendar/Calendar';
-import ExerciseScreen from '../Exercise/ExerciseMainScreen';
-import CreateNewTrening from '../Exercise/CreateNewTrening';
-import CreateExercise from '../Exercise/CreateExercise';
+import Login from "../Login/Login";
+import Register from "../Register/Register";
+import Article from "./Article";
+import Calendar from "../Calendar/Calendar";
+import ExerciseScreen from "../Exercise/ExerciseMainScreen";
+import CreateNewTrening from "../Exercise/CreateNewTrening";
+import CreateExercise from "../Exercise/CreateExercise";
+
+import CreatePanelMui from "../../Screens/MenuList";
+import TrainingForm from "../../Screens/CreateTrening.js";
 
 // context
-import { UserContext } from '../User/context';
-
-
+import { UserContext } from "../User/context";
 
 function Section() {
-  const [userLogged, setUserLogged] = useContext(UserContext)
-  // const user = useUse
+  const [userLogged, setUserLogged] = useContext(UserContext);
   return (
-    // <Article />
-    <div style={{
-      position:"relative",
-            // top:"40px"
-    }}>
+    <div
+      style={{
+        position: "relative",
+        // top:"40px"
+      }}
+    >
       <Routes>
-        <Route
-          path=""
-          element={<Article />}
-        ></Route>
-        <Route
-          path="about/*"
-          element={<div>About me</div>}
-        ></Route>
-        <Route
-          path="bookout/*"
-          element={<Calendar/>}
-        ></Route>
-        <Route
-          path="login/*"
-          element={<Login/>}
-        ></Route>
-        <Route
-          path="login/*"
-          element={<Login/>}
-        ></Route>
-        <Route
-          path="login/register/*"
-          element={<Register/>}
-        ></Route>
-        <Route
-          path="logout/*"
-          element={<Login/>}
-        ></Route>
-        <Route
-          path="exercise/*"
-          element={<ExerciseScreen/>}
-        ></Route>
+        <Route path="" element={<Article />}></Route>
+        <Route path="about/*" element={<div>About me</div>}></Route>
+        <Route path="bookout/*" element={<Calendar />}></Route>
+        <Route path="login/*" element={<Login />}></Route>
+
+        <Route path="login/register/*" element={<Register />}></Route>
+        <Route path="test/from/*" element={<TrainingForm />}></Route>
+        <Route path="test/menu/*" element={<CreatePanelMui />}></Route>
+        <Route path="logout/*" element={<Login />}></Route>
+        <Route path="exercise/*" element={<ExerciseScreen />}></Route>
         <Route
           path="exercise/createnewtrening/*"
           element={<CreateNewTrening />}
@@ -66,9 +45,9 @@ function Section() {
           element={<CreateExercise />}
         ></Route>
       </Routes>
-      {/* <Article /> */}  
+      {/* <Article /> */}
     </div>
-  )
+  );
 }
 
-export default Section
+export default Section;

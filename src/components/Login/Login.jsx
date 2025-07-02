@@ -12,7 +12,7 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000/",
 });
 
-export default function Login() {
+export default function Login({ closeWindow }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useContext(UserContext);
@@ -40,6 +40,8 @@ export default function Login() {
         });
         console.log("userLogged");
         console.log(userData);
+
+        closeWindow();
         navigate("/");
       });
   };
