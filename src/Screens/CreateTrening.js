@@ -165,9 +165,10 @@ export default function CreateNewTraining() {
         multiline
         rows={3}
       />
-      <Stack direction="row" spacing={1} flexWrap="wrap">
+      <Stack direction="row" spacing={0} flexWrap="wrap">
         {exercises.map((exercise, index) => (
           <Chip
+            sx={{ mr: 1, mb: 1 }}
             key={exercise.id || index}
             label={exercise.name}
             onDelete={() => handleDeleteExercise(index)}
