@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, Button, Typography, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function MenuCard({
   Icon,
@@ -8,6 +9,11 @@ export default function MenuCard({
   colorFullBoolean,
   path,
 }) {
+  const navigate = useNavigate();
+  const goPath = () => {
+    navigate(path);
+  };
+
   return (
     <Grid item xs={12} md={4}>
       <Paper
@@ -30,6 +36,7 @@ export default function MenuCard({
           variant={colorFullBoolean ? "contained" : "outlined"}
           color="error"
           fullWidth
+          onClick={goPath}
         >
           {btnText}
         </Button>

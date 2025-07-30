@@ -8,7 +8,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import EditIcon from "@mui/icons-material/Edit";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 
-export default function CreatePanelMui() {
+export default function ExerciseMenuList() {
   return (
     <Box
       display="flex"
@@ -31,12 +31,14 @@ export default function CreatePanelMui() {
           text={"Stwórz trening"}
           btnText={"Stwórz trening"}
           colorFullBoolean={true}
+          path={"create/trening/"}
         />
         <MenuCard
           Icon={FitnessCenterIcon}
           text={"Stwórz ćwiczenie"}
           btnText={"Stwórz ćwiczenie"}
           colorFullBoolean={true}
+          path={"create/exercise"}
         />
         <MenuCard
           Icon={EditIcon}
@@ -49,6 +51,7 @@ export default function CreatePanelMui() {
           text={"Edytuj trening"}
           btnText={"Edytuj trening"}
           colorFullBoolean={false}
+          path={"edit/trening"}
         />
       </Grid>
     </Box>

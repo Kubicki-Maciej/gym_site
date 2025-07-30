@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 export default function Modal({ onClose, component, setWindowProperty }) {
   function closeWindowFunc() {
     setWindowProperty(false);
   }
   const modalRef = useRef;
-  console.log("modal on");
 
   const closeModal = e => {
     if (modalRef.current === e.target) {
@@ -20,30 +21,36 @@ export default function Modal({ onClose, component, setWindowProperty }) {
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.3)",
+        backgroundColor: "rgba(0, 0, 0, 0.6)",
         backdropFilter: "blur(4px)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 10000,
+        zIndex: 1,
       }}
-      //   className="fixed insent-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center"
     >
-      <button
+      <div
+        className="mt-10 flex flex-col gap-5 text-white"
         style={{
-          marginTop: "2.5rem",
           display: "flex",
           flexDirection: "column",
-          gap: "1.25rem",
-          color: "white",
+
+          color: "black",
         }}
-        onClick={onClose}
       >
-        X
-      </button>
-      {React.cloneElement(component, {
-        closeWindowFunc: closeWindowFunc,
-      })}
+        <IconButton
+          style={{
+            placeSelf: "start",
+            color: "white",
+          }}
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </IconButton>
+        {React.cloneElement(component, {
+          closeWindowFunc: closeWindowFunc,
+        })}
+      </div>
     </div>
   );
 }

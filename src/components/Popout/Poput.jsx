@@ -5,7 +5,7 @@ export default function Poput({
   setWindowProperty,
   windowProperty,
 }) {
-  console.log("moj pop");
+
   return (
     <div className="h=screen flex flex-col items-center gap-6 bg-[#14161b]">
       {windowProperty && (

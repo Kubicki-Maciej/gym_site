@@ -11,22 +11,20 @@ import {
   Stack,
 } from "@mui/material";
 
-import CreateExerciseForm from "./CreateExerciseForm";
+import CreateExerciseForm from "../../Screens/CreateExerciseForm";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import StatusAlert, { StatusAlertService } from "react-status-alert";
 import "react-status-alert/dist/status-alert.css";
 
-import Searcher from "../components/Core/Searcher";
-import Notification from "../components/Core/Messager";
-import NavigateButton from "../components/Buttons/MainButton";
+import Notification from "../Core/Messager";
+import Searcher from "../Core/Searcher";
+import NavigateButton from "../Buttons/MainButton";
 
-import Poput from "../components/Popout/Poput";
-
+import Poput from "../Popout/Poput";
 import { Create } from "@mui/icons-material";
 
-export default function CreateNewTraining() {
+export default function EditTrening() {
   const [popOutWindow, setPopOutWindow] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
   const [trainingName, setTrainingName] = useState("");
@@ -120,6 +118,22 @@ export default function CreateNewTraining() {
       : sendTrainingToApi(payload);
   };
 
+  const handleSelectTraining = training => {
+    if (training) {
+      setSelectedTraining(training);
+      setTrainingName(training.name);
+      setTrainingId(training.id);
+      setTrainingComment(training.description);
+      setExercises(training.exercise_groups);
+    } else {
+      setSelectedTraining(null);
+      setTrainingName("");
+      setTrainingId("");
+      setTrainingComment("");
+      setExercises([]);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -136,12 +150,10 @@ export default function CreateNewTraining() {
         openNotification={openNotification}
         setOpenNotification={setOpenNotification}
       />
-
-      <TextField
-        label="Nazwa treningu"
-        value={trainingName}
-        onChange={e => setTrainingName(e.target.value)}
-        fullWidth
+      <Searcher
+        dataOutput={handleSelectTraining}
+        labelName="Szukaj treningu"
+        apiAdress="http://127.0.0.1:8000/training/all"
       />
       <TextField
         label="Komentarz do treningu"

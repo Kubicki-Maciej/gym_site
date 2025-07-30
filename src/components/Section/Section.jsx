@@ -10,9 +10,12 @@ import ExerciseScreen from "../Exercise/ExerciseMainScreen";
 import CreateNewTrening from "../Exercise/CreateNewTrening";
 import CreateExercise from "../Exercise/CreateExercise";
 
-import CreatePanelMui from "../../Screens/MenuList";
+import ExerciseMenuList from "../../Screens/ExerciseMenuList.js";
 import TrainingForm from "../../Screens/CreateTrening.js";
-
+import CreateNewTraining from "../../Screens/CreateTrening.js";
+import CreateExerciseForm from "../../Screens/CreateExerciseForm.js";
+import EditTrening from "../Trening/EditTrening.jsx";
+import EditExercise from "../Exercise/EditExercise.jsx";
 // context
 import { UserContext } from "../User/context";
 
@@ -22,19 +25,32 @@ function Section() {
     <div
       style={{
         position: "relative",
-        // top:"40px"
       }}
     >
       <Routes>
         <Route path="" element={<Article />}></Route>
         <Route path="about/*" element={<div>About me</div>}></Route>
-        <Route path="bookout/*" element={<Calendar />}></Route>
         <Route path="login/*" element={<Login />}></Route>
-
         <Route path="login/register/*" element={<Register />}></Route>
-        <Route path="test/from/*" element={<TrainingForm />}></Route>
-        <Route path="test/menu/*" element={<CreatePanelMui />}></Route>
         <Route path="logout/*" element={<Login />}></Route>
+        {/* new trening create*/}
+        <Route
+          path="menu/create/trening/*"
+          element={<CreateNewTraining />}
+        ></Route>
+        {/* new exercise create */}
+        <Route
+          path="menu/create/exercise/*"
+          element={<CreateExerciseForm />}
+        ></Route>
+        {/* menu */}
+        <Route path="menu/*" element={<ExerciseMenuList />}></Route>
+        {/* edit trening */}
+        <Route path="menu/edit/trening" element={<EditTrening />}></Route>
+        {/* edit exercise */}
+        <Route path="menu/edit/exercise" element={<EditExercise />}></Route>
+
+        {/* old to delete */}
         <Route path="exercise/*" element={<ExerciseScreen />}></Route>
         <Route
           path="exercise/createnewtrening/*"
@@ -44,8 +60,8 @@ function Section() {
           path="exercise/createnewtrening/createexercise/*"
           element={<CreateExercise />}
         ></Route>
+        {/*  */}
       </Routes>
-      {/* <Article /> */}
     </div>
   );
 }

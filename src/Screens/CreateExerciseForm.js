@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
-import Searcher from "../Core/Searcher";
-
 import {
-  TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
   Box,
+  TextField,
+  Typography,
   Button,
-  Checkbox,
-  ListItemText,
   Autocomplete,
+  Chip,
+  Stack,
+  Paper,
+  Container,
 } from "@mui/material";
 
-export default function CreateExercise() {
-  const [muscleGroupOptions, setMuscleGroupOptions] = useState([]);
-  const [exerciseObject, setExerciseObject] = useState({});
+import Searcher from "../components/Core/Searcher";
+import StatusAlert, { StatusAlertService } from "react-status-alert";
+
+export default function CreateExerciseForm() {
+  const errorMessage = text =>
+    StatusAlertService.showError(text || "Coś poszło nie tak!");
+  const successMessage = text =>
+    StatusAlertService.showSuccess(text || "Operacja zakończona sukcesem!");
   const [exerciseName, setExerciseName] = useState("");
   const [exerciseDescription, setExerciseDescription] = useState("");
+  const [selectedMuscles, setSelectedMuscles] = useState([]);
+
+  const [muscleGroupOptions, setMuscleGroupOptions] = useState([]);
+  const [exerciseObject, setExerciseObject] = useState({});
   const [muscleGroups, setMuscleGroups] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -69,6 +75,7 @@ export default function CreateExercise() {
   useEffect(() => {
     console.log("Zaktualizowany obiekt ćwiczenia:", exerciseObject);
   }, [exerciseObject]);
+
   const handleNameChange = event => {
     setExerciseName(event.target.value);
   };
@@ -109,89 +116,68 @@ export default function CreateExercise() {
 
         const data = await response.json();
         console.log("Dane wysłane pomyślnie:", data);
-        alert("Formularz został pomyślnie wysłany!");
+        successMessage("Ćwiczenie utworzone pomyślnie!");
       } catch (error) {
         console.error("Błąd podczas wysyłania danych:", error);
-        alert("Wystąpił błąd podczas wysyłania formularza.");
+        errorMessage("Nie udało się utworzyć ćwiczenia.");
       }
     } else {
-      alert("Proszę uzupełnić wszystkie wymagane pola.");
+      errorMessage("Proszę uzupełnić wszystkie wymagane pola.");
     }
   }
 
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          maxWidth: "400px",
-          margin: "auto",
-        }}
-      >
-        <p>Znajdź i zmodyfikuj </p>
-        <Searcher
-          dataOutput={getExerciseFromSercher}
-          labelName={"Szukaj ćwiczenia"}
-          apiAdress={"http://127.0.0.1:8000/exercise/exercise/all"}
-        />
-        <p>Stwórz nowe ćwiczenie </p>
-      </div>
-      <Box
-        component="form"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
-          maxWidth: 400,
-          margin: "auto",
-        }}
-      >
-        <TextField
-          label="Nazwa ćwiczenia"
-          variant="outlined"
-          value={exerciseName}
-          onChange={handleNameChange}
-          fullWidth
-          required
-        />
-        <TextField
-          label="Opis ćwiczenia"
-          variant="outlined"
-          value={exerciseDescription}
-          onChange={handleDescriptionChange}
-          multiline
-          rows={4}
-          fullWidth
-        />
-        <FormControl fullWidth required>
-          {loading ? (
-            <p>Ładowanie danych...</p>
-          ) : error ? (
-            <p>Błąd: {error}</p>
-          ) : (
-            <Autocomplete
-              multiple
-              onChange={handleMuscleGroupsChange}
-              options={muscleGroupOptions}
-              getOptionLabel={option => option.name}
-              value={muscleGroups}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  label="Rodzaj partii mięśniowe"
-                  variant="outlined"
-                  placeholder="Wybierz partie mięśniowe"
-                />
-              )}
-            />
-          )}
-        </FormControl>
-        <Button variant="contained" color="primary" onClick={createNewExercise}>
-          Zapisz ćwiczenie
-        </Button>
-      </Box>
-    </div>
+    <Container maxWidth="sm">
+      <Paper elevation={3} sx={{ p: 4, mt: 4, borderRadius: 3 }}>
+        <Stack spacing={3}>
+          <Typography variant="h5" fontWeight={600}>
+            Dodaj nowe ćwiczenie
+          </Typography>
+
+          <TextField
+            label="Nazwa ćwiczenia"
+            value={exerciseName}
+            onChange={e => setExerciseName(e.target.value)}
+            fullWidth
+            required
+          />
+
+          <TextField
+            label="Opis ćwiczenia"
+            value={exerciseDescription}
+            onChange={e => setExerciseDescription(e.target.value)}
+            fullWidth
+            multiline
+            minRows={3}
+            helperText="Opcjonalnie opisz sprzęt, pozycję, itp."
+          />
+
+          <Autocomplete
+            multiple
+            onChange={handleMuscleGroupsChange}
+            options={muscleGroupOptions}
+            getOptionLabel={option => option.name}
+            value={muscleGroups}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            renderInput={params => (
+              <TextField
+                {...params}
+                label="Rodzaj partii mięśniowe"
+                variant="outlined"
+                placeholder="Wybierz ..."
+              />
+            )}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={createNewExercise}
+            size="large"
+          >
+            Zapisz ćwiczenie
+          </Button>
+        </Stack>
+      </Paper>
+    </Container>
   );
 }

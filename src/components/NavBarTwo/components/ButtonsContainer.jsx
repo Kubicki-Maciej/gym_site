@@ -1,8 +1,8 @@
 import React from "react";
 import NavbarTwoButtons from "./NavbarTwoButtons";
-import weight from "../../Icons/weight.png"
-import ruler from "../../Icons/ruler.png"
-import schedule from "../../Icons/schedule.png"
+import weight from "../../Icons/weight.png";
+import ruler from "../../Icons/ruler.png";
+import schedule from "../../Icons/schedule.png";
 
 export default function ButtonsContainer() {
   return (
@@ -23,7 +23,7 @@ export default function ButtonsContainer() {
       //   boxShadow:" 13px 13px 42px -2px rgba(255, 0, 0, 1)"
       // }}
     >
-      <NavbarTwoButtons name={"EXERCISE"} icon={weight} srcPath={'/exercise'}/>
+      <NavbarTwoButtons name={"EXERCISE"} icon={weight} srcPath={"/menu"} />
       <NavbarTwoButtons name={"PROGRESS"} icon={ruler} />
       <NavbarTwoButtons name={"SCHEDULE"} icon={schedule} />
     </div>
