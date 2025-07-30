@@ -1,6 +1,6 @@
 import "./App.css";
 import Footer from "./components/Footer/Footer";
-import Section from "./components/Section/Section";
+import Section from "./components/Section/AppRoutes.jsx";
 import NavBarTwo from "./components/NavBarTwo/NavBarTwo.jsx";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import { useEffect, useState } from "react";

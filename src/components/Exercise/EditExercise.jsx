@@ -13,7 +13,6 @@ import {
   Container,
 } from "@mui/material";
 
-// http://localhost:8000/exercise/exercise/1/update/
 export default function EditExercise() {
   const errorMessage = text =>
     StatusAlertService.showError(text || "Coś poszło nie tak!");
@@ -112,14 +111,11 @@ export default function EditExercise() {
             body: JSON.stringify(object),
           }
         );
-
         if (!response.ok)
           throw new Error("Nie udało się zaktualizować ćwiczenia");
-
         const data = await response.json();
         console.log("Ćwiczenie zaktualizowane:", data);
         successMessage("Ćwiczenie zaktualizowane pomyślnie!");
-
         successMessage("Ćwiczenie zaktualizowane (symulacja)!");
       } catch (error) {
         console.error("Błąd podczas edycji danych:", error);

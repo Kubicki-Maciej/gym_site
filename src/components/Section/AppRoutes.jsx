@@ -1,0 +1,53 @@
+import React, { useContext } from "react";
+import { Route, Routes } from "react-router-dom";
+
+// import elements
+import Login from "../Login/Login.jsx";
+import Register from "../Register/Register.jsx";
+import Article from "./Article.jsx";
+import Calendar from "../Calendar/Calendar.jsx";
+
+// import CreateNewTrening from "../Exercise/CreateNewTrening";
+
+import ExerciseMenuList from "../../Screens/ExerciseMenuTiles.jsx";
+
+import CreateNewTraining from "../Trening/CreateTrening.jsx";
+import CreateExercise from "../Exercise/CreateExercise.jsx";
+import EditTrening from "../Trening/EditTrening.jsx";
+import EditExercise from "../Exercise/EditExercise.jsx";
+// context
+import { UserContext } from "../User/context.jsx";
+
+function Section() {
+  const [userLogged, setUserLogged] = useContext(UserContext);
+  return (
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
+      <Routes>
+        <Route path="" element={<Article />}></Route>
+        <Route path="about/*" element={<div>About me</div>}></Route>
+        <Route path="login/*" element={<Login />}></Route>
+        <Route path="login/register/*" element={<Register />}></Route>
+        <Route path="logout/*" element={<Login />}></Route>
+        {/* Tiles Menu */}
+        <Route
+          path="menu/create/trening/*"
+          element={<CreateNewTraining />}
+        ></Route>
+        <Route
+          path="menu/create/exercise/*"
+          element={<CreateExercise />}
+        ></Route>
+        <Route path="menu/*" element={<ExerciseMenuList />}></Route>
+        <Route path="menu/edit/trening" element={<EditTrening />}></Route>
+        <Route path="menu/edit/exercise" element={<EditExercise />}></Route>
+        {/* Tiles Menu End*/}
+      </Routes>
+    </div>
+  );
+}
+
+export default Section;

@@ -11,30 +11,21 @@ export default function Footer() {
       style={{
         backgroundColor: "#1b1b1b",
         color: "#fff",
-        // textAlign: 'center',
         height: "140px",
-        // position: 'fixed',
-        // left: '0',
-        // bottom: '0',
         width: "100%",
         display: "flex",
         flexDirection: "row",
         justifyContent: "flex-end",
-
-        // marginTop:"120px"
       }}
     >
       <div
         className="footerElement"
         style={{
           width: "100%",
-          // padding:"0 120px 0 120px",
           display: "flex",
-          // flexDirection:'row',
           justifyContent: "space-between",
           textAlign: "center",
           alignItems: "center",
-          // justifyContent:"center"
         }}
       >
         <FooterText />

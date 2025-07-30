@@ -45,6 +45,7 @@ export default function ExerciseMenuList() {
           text={"Edytuj Cwiczenie"}
           btnText={"Edytuj Cwiczenie"}
           colorFullBoolean={false}
+          path={"edit/exercise"}
         />
         <MenuCard
           Icon={EditNoteIcon}

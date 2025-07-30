@@ -11,7 +11,7 @@ import {
   Stack,
 } from "@mui/material";
 
-import CreateExerciseForm from "../../Screens/CreateExerciseForm";
+import CreateExerciseForm from "../Exercise/CreateExercise";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import StatusAlert, { StatusAlertService } from "react-status-alert";

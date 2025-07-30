@@ -11,18 +11,18 @@ import {
   Stack,
 } from "@mui/material";
 
-import CreateExerciseForm from "./CreateExerciseForm";
+import CreateExerciseForm from "../Exercise/CreateExercise";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import StatusAlert, { StatusAlertService } from "react-status-alert";
 import "react-status-alert/dist/status-alert.css";
 
-import Searcher from "../components/Core/Searcher";
-import Notification from "../components/Core/Messager";
-import NavigateButton from "../components/Buttons/MainButton";
+import Searcher from "../Core/Searcher";
+import Notification from "../Core/Messager";
+import NavigateButton from "../Buttons/MainButton";
 
-import Poput from "../components/Popout/Poput";
+import Poput from "../Popout/Poput";
 
 import { Create } from "@mui/icons-material";
 
