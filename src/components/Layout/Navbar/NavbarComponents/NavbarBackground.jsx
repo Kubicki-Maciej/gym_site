@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.css";
 import background from "./background.png";
+
 import NavbarTitle from "./NavbarTitle";
 import NavbarLogoButtons from "./NavbarLogoButtons";
 // import { View, Image, Text, StyleSheet } from "";
@@ -20,18 +21,14 @@ export default function NavbarBackground() {
     // <div className="layout">
     //   <div className="bacgroundNavbar"></div>
     // </div>
-    <div
-      className="backgroundNavbar"
-    >
+    <div className="backgroundNavbar">
       <div
         className="backgroundNavbarImage"
         style={{
           backgroundImage: `url(${background})`,
         }}
       ></div>
-      <div
-        className="backgorundNavbarShadowbox"
-      >
+      <div className="backgorundNavbarShadowbox">
         <NavbarLogoButtons />
         <NavbarTitle text={"TRAIN LIKE A "} highlightText={"CHEMPION"} />
       </div>

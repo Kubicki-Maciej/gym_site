@@ -1,16 +1,11 @@
 import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
-
-// import elements
-import Login from "../Login/Login.jsx";
-import Register from "../Register/Register.jsx";
+import Login from "../../Screens/Auth/Login/Login.jsx";
+import Register from "../../Screens/Auth/Register/Register.jsx";
 import Article from "./Article.jsx";
 import Calendar from "../Calendar/Calendar.jsx";
 
-// import CreateNewTrening from "../Exercise/CreateNewTrening";
-
 import ExerciseMenuList from "../../Screens/ExerciseMenuTiles.jsx";
-
 import CreateNewTraining from "../Trening/CreateTrening.jsx";
 import CreateExercise from "../Exercise/CreateExercise.jsx";
 import EditTrening from "../Trening/EditTrening.jsx";
@@ -49,5 +44,4 @@ function Section() {
     </div>
   );
 }
-
 export default Section;

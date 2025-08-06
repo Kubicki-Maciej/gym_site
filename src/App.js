@@ -1,10 +1,11 @@
 import "./App.css";
-import Footer from "./components/Footer/Footer";
-import Section from "./components/Section/AppRoutes.jsx";
-import NavBarTwo from "./components/NavBarTwo/NavBarTwo.jsx";
-import Navbar from "./components/Navbar/Navbar.jsx";
 import { useEffect, useState } from "react";
-import NavbarMobile from "./components/Navbar/NavbarMobile.jsx";
+
+import Footer from "./components/Layout/Footer/Footer";
+import Section from "./components/Section/AppRoutes.jsx";
+import NavBarTwo from "./components/Layout/NavBarTwo/NavBarTwo.jsx";
+import Navbar from "./components/Layout/Navbar/Navbar.jsx";
+import NavbarMobile from "./components/Layout/Navbar/NavbarMobile.jsx";
 import { UserContext } from "./components/User/context.jsx";
 
 function App() {

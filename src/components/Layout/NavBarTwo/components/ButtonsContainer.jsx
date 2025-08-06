@@ -1,8 +1,9 @@
 import React from "react";
 import NavbarTwoButtons from "./NavbarTwoButtons";
-import weight from "../../Icons/weight.png";
-import ruler from "../../Icons/ruler.png";
-import schedule from "../../Icons/schedule.png";
+
+import weight from "../../../../assets/Icons/weight.png";
+import ruler from "../../../../assets/Icons/ruler.png";
+import schedule from "../../../../assets/Icons/schedule.png";
 
 export default function ButtonsContainer() {
   return (

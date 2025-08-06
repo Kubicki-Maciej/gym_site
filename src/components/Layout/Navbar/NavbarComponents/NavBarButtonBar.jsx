@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import NavBarButtons from "./NavBarButtons";
-import LoginButton from "../../Buttons/LoginButton";
-import { UserContext } from "../../User/context";
-import Logout from "../../Login/Logout";
+import LoginButton from "../../../Buttons/LoginButton";
+import { UserContext } from "../../../User/context";
+// import Logout from "../../Login/Logout";
+import Logout from "../../../../Screens/Auth/Login/Logout";
 
 export default function NavBarButtonBar() {
   const [email, setEmail] = useState(localStorage.getItem("userLogged"));

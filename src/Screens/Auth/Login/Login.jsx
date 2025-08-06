@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import NavBarButtons from "../Navbar/NavbarComponents/NavBarButtons";
-import { UserContext } from "../User/context";
+import NavBarButtons from "../../../components/Layout/Navbar/NavbarComponents/NavBarButtonBar";
+import { UserContext } from "../../../components/User/context";
 import { Navigate, useNavigate } from "react-router-dom";
 
 axios.defaults.xsrfCookieName = "csrftoken";

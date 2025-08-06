@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import Login from "../Login/Login";
+import Login from "../../Screens/Auth/Login/Login";
 import PopOutWindow from "../PopOutContainer/PopOutWindow";
 import { use } from "react";
 
