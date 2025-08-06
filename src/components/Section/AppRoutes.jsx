@@ -10,6 +10,8 @@ import CreateNewTraining from "../Trening/CreateTrening.jsx";
 import CreateExercise from "../Exercise/CreateExercise.jsx";
 import EditTrening from "../Trening/EditTrening.jsx";
 import EditExercise from "../Exercise/EditExercise.jsx";
+import TrainingScreen from "../../Screens/Training/TrainingScreen.jsx";
+import UserAddTraning from "../../Screens/Training/Froms/UserAddTraning.jsx";
 // context
 import { UserContext } from "../User/context.jsx";
 
@@ -39,6 +41,7 @@ function Section() {
         <Route path="menu/*" element={<ExerciseMenuList />}></Route>
         <Route path="menu/edit/trening" element={<EditTrening />}></Route>
         <Route path="menu/edit/exercise" element={<EditExercise />}></Route>
+        <Route path="training/*" element={<TrainingScreen />}></Route>
         {/* Tiles Menu End*/}
       </Routes>
     </div>
