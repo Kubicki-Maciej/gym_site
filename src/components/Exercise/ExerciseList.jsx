@@ -15,6 +15,7 @@ export default function ExerciseList({
   exercises,
   onAddExercise,
   onRemoveExercise,
+  userSelected,
 }) {
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
@@ -25,7 +26,11 @@ export default function ExerciseList({
           onRemove={() => onRemoveExercise(exercise.id)}
         />
       ))}
-      <AddExerciseCard onAdd={onAddExercise} excludedExercises={exercises} />
+      <AddExerciseCard
+        onAdd={onAddExercise}
+        excludedExercises={exercises}
+        userSelected={userSelected}
+      />
     </Box>
   );
 }

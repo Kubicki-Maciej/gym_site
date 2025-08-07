@@ -11,12 +11,16 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 
-const AddExerciseCard = ({ onAdd, excludedExercises }) => {
+export default function AddExerciseCard({
+  onAdd,
+  excludedExercises,
+  userSelected,
+}) {
   const [open, setOpen] = useState(false);
+  const [trainingLoaded, setTreningLoaded] = useState(false);
   const [allExercises, setAllExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState(null);
 
-  // Pobierz wszystkie ćwiczenia z API
   useEffect(() => {
     const fetchExercises = async () => {
       try {
@@ -45,7 +49,7 @@ const AddExerciseCard = ({ onAdd, excludedExercises }) => {
   return (
     <Card
       sx={{
-        width: 240,
+        width: 200,
         aspectRatio: "4 / 3",
         display: "flex",
         alignItems: "center",
@@ -59,6 +63,7 @@ const AddExerciseCard = ({ onAdd, excludedExercises }) => {
           startIcon={<AddIcon />}
           variant="outlined"
           onClick={() => setOpen(true)}
+          disabled={!userSelected}
         >
           Dodaj ćwiczenie
         </Button>
@@ -97,6 +102,4 @@ const AddExerciseCard = ({ onAdd, excludedExercises }) => {
       )}
     </Card>
   );
-};
-
-export default AddExerciseCard;
+}
