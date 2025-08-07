@@ -5,7 +5,9 @@ import GetUsers from "../../../components/User/Component/GetUsers";
 import GetTraining from "../../../components/Trening/GetTraining";
 import ExerciseList from "../../../components/Exercise/ExerciseList";
 import ExerciseMuscleCounter from "../../../components/Exercise/ExerciseMuscleCounter";
-// import EventTypeSelector from "../../../components/Calendar/EventTypeSelector";
+import EventTypeSelector from "../../../components/Calendar/EventTypeSelector";
+
+import EventCalendar from "../../../components/Calendar/EventCalendar";
 
 export default function UserAddTraning() {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -49,7 +51,8 @@ export default function UserAddTraning() {
         onRemoveExercise={handleRemoveExercise}
         userSelected={boolUserSelected}
       />
-      {/* <EventTypeSelector onChange={setEventData} /> */}
+      <EventTypeSelector onChange={setEventData} />
+      <EventCalendar />
 
       {/* Jednorazowy trening czy cykliczny  */}
 
