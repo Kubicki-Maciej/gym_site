@@ -3,6 +3,7 @@ import MenuCard from "../../components/Cards/MenuCard";
 import EditIcon from "@mui/icons-material/Edit";
 import { Route, Routes } from "react-router-dom";
 import UserAddTraning from "./Froms/UserAddTraning";
+import CreateWorkout from "../../components/Trening/CreateWorkout";
 
 import { Box, Grid, Button, Typography, Paper } from "@mui/material";
 export default function TrainingScreen() {
@@ -16,8 +17,8 @@ export default function TrainingScreen() {
       >
         <MenuCard
           Icon={EditIcon}
-          text={"Dodaj użytkownikowi trening"}
-          btnText={"Dodaj trening"}
+          text={"Dodaj użytkownikowi plan treningowy"}
+          btnText={"Dodaj plan"}
           colorFullBoolean={true}
           path={"createusertraining"}
         />
@@ -26,12 +27,13 @@ export default function TrainingScreen() {
           text={"Dodaj użytkownikowi trening"}
           btnText={"Dodaj trening"}
           colorFullBoolean={true}
-          path={"createusertraining"}
+          path={"createworkout"}
         />
       </Box>
       <Box sx={{ flexGrow: 1, padding: 3 }}>
         <Routes>
           <Route path="createusertraining" element={<UserAddTraning />} />
+          <Route path="createworkout" element={<CreateWorkout />} />
         </Routes>
       </Box>
     </Box>

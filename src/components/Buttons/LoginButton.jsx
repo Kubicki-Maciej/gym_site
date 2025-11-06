@@ -3,22 +3,8 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Login from "../../Screens/Auth/Login/Login";
 import PopOutWindow from "../PopOutContainer/PopOutWindow";
-import { use } from "react";
+import MainButton from "./MainButton";
 
 export default function LoginButton() {
-  const [windowOpen, setWindowOpen] = useState(false);
-
-  function closeWindow() {
-    setWindowOpen(false);
-  }
-  function openPopup() {
-    setWindowOpen(true);
-  }
-
-  return (
-    <PopOutWindow
-      elementInside={<Login closeWindow={closeWindow} />}
-      windowOpen={windowOpen}
-    />
-  );
+  return <MainButton name={"Login"} navigateDir={"login/"} />;
 }

@@ -39,47 +39,10 @@ export default function EventCalendar() {
 
   return (
     <Box m="20px">
-      {/* <Header title="calendar" subtitle="Full Calendar Page" /> */}
-
       <Box display="flex" justifyContent="space-between">
-        {/* Events */}
-        {/* <Box
-          flex="1 1 20%"
-          //   backgroundColor={colors.primary[400]}
-          p="15px"
-          borderRadius="4px"
-        >
-          <Typography variant="h5">Events</Typography>
-          <List>
-            {currentEvents.map(event => (
-              <ListItem
-                key={event.id}
-                sx={{
-                  //   backgroundColor: colors.greenAccent[500],
-                  margin: "10px 0",
-                  borderRadius: "2px",
-                }}
-              >
-                <ListItemText
-                  primary={event.title}
-                  secondary={
-                    <Typography>
-                      {formatDate(event.start, {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Box> */}
-        {/* Calendar */}
         <Box flex="1 1 100%" ml="15px">
           <FullCalendar
-            height="75vh"
+            height="50vh"
             plugins={[
               dayGridPlugin,
               timeGridPlugin,
@@ -91,16 +54,24 @@ export default function EventCalendar() {
               center: "title",
               right: "timeGridWeek,timeGridDay,listMonth",
             }}
+            allDaySlot={false}
             initialView="timeGridWeek"
             editable={true}
             selectable={true}
             selectMirror={true}
             dayMaxEvents={true}
+            slotMinTime={"8:00:00"}
+            slotMaxTime={"22:00:00"}
+            slotLabelFormat={{
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            }}
             select={handleDateClick}
             eventClick={handleEventClick}
             eventsSet={events => setCurrentEvents(events)}
             initialEvents={[
-              { id: "1234", title: "TestEvent 1", date: "2025-04-01" },
+              { id: "12345", title: "TestEvent 1", date: "2025-04-01" },
               { id: "1234", title: "TestEvent 1", date: "2025-04-15" },
             ]}
           />

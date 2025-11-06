@@ -26,8 +26,6 @@ export default function Logout() {
       localStorage.setItem("user", {});
       localStorage.setItem("userLogged", false);
       localStorage.setItem("loginExpAt", 0);
-      console.log("userData WYLOGUJ");
-      console.log(userData);
     });
     redirect("/");
   };
