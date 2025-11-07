@@ -2,7 +2,7 @@ import React from "react";
 import MenuCard from "../../components/Cards/MenuCard";
 import EditIcon from "@mui/icons-material/Edit";
 import { Route, Routes } from "react-router-dom";
-import UserAddTraning from "./Froms/UserAddTraning";
+import UserAddTraining from "./Forms/UserAddTraining";
 import CreateWorkout from "../../components/Trening/CreateWorkout";
 
 import { Box, Grid, Button, Typography, Paper } from "@mui/material";
@@ -32,7 +32,7 @@ export default function TrainingScreen() {
       </Box>
       <Box sx={{ flexGrow: 1, padding: 3 }}>
         <Routes>
-          <Route path="createusertraining" element={<UserAddTraning />} />
+          <Route path="createusertraining" element={<UserAddTraining />} />
           <Route path="createworkout" element={<CreateWorkout />} />
         </Routes>
       </Box>

@@ -13,7 +13,6 @@ import CreateExercise from "../Exercise/CreateExercise.jsx";
 import EditTrening from "../Trening/EditTrening.jsx";
 import EditExercise from "../Exercise/EditExercise.jsx";
 import TrainingScreen from "../../Screens/Training/TrainingScreen.jsx";
-import UserAddTraning from "../../Screens/Training/Froms/UserAddTraning.jsx";
 import CreateWorkout from "../Trening/CreateWorkout.jsx";
 import TrainerCalendar from "../Calendar/TrainerCalendar.jsx";
 // context
