@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, Typography } from "@mui/material";
 
-export default function TrainingCard() {
+export default function TrainingCard({ eventInfo }) {
   return (
     <div
       style={{

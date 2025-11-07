@@ -15,6 +15,7 @@ import EditExercise from "../Exercise/EditExercise.jsx";
 import TrainingScreen from "../../Screens/Training/TrainingScreen.jsx";
 import UserAddTraning from "../../Screens/Training/Froms/UserAddTraning.jsx";
 import CreateWorkout from "../Trening/CreateWorkout.jsx";
+import TrainerCalendar from "../Calendar/TrainerCalendar.jsx";
 // context
 import { UserContext } from "../User/context.jsx";
 
@@ -44,13 +45,15 @@ function Section() {
         <Route path="menu/*" element={<ExerciseMenuList />}></Route>
         <Route path="menu/edit/trening" element={<EditTrening />}></Route>
         <Route path="menu/edit/exercise" element={<EditExercise />}></Route>
+        {/* Tiles training */}
         <Route path="training/*" element={<TrainingScreen />}></Route>
-        <Route path="test/" element={<CreateWorkout />}></Route>
+        <Route path="test/" element={<TrainerCalendar />}></Route>
       </Routes>
     </div>
   );
 }
 export default Section;
+
 // {
 //   "type": "jednorazowe",
 //   "date": "2025-11-20T23:00:00.000Z",
@@ -60,7 +63,7 @@ export default Section;
 
 // {
 //   "type": "cykliczne",
-//   "events": [
+//   "  ": [
 //     {
 //       "date": "2025-11-10T00:00:00.000Z",
 //       "duration": "60"
