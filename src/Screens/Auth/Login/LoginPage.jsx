@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "../../../components/User/context";
+import React, { useState } from "react";
+import { useUserContext } from "../../../components/User/context";
 import {
   Box,
   TextField,
@@ -17,7 +17,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useContext(UserContext);
+  const { login } = useUserContext();
 
   const [alert, setAlert] = useState({
     open: false,
@@ -53,16 +53,11 @@ export default function LoginPage() {
           message: "Zalogowano pomyślnie!",
           severity: "success",
         });
-        localStorage.setItem("user", JSON.stringify(res.data));
-        localStorage.setItem("userLogged", true);
+        login(data);
         localStorage.setItem(
           "loginExpAt",
           Date.now() + 30 * 24 * 60 * 60 * 1000
         );
-        setUserData({
-          logged: true,
-          userData: res.data,
-        });
         setTimeout(() => navigate("/"), 1500);
       } else {
         setAlert({

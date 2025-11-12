@@ -51,15 +51,13 @@ function parseHHMM(timeString) {
 }
 
 function toDjangoISO(date) {
-  return date.toISOString(); // ISO 8601 — zgodne z Django
+  return date.toISOString();
 }
-
-// -------------------- Generator dat cyklicznych --------------------
 
 function generateDatesFromSelectedDays(selectedDays, cycles) {
   const results = [];
   const now = new Date();
-  const todayJsDay = now.getDay(); // niedziela=0
+  const todayJsDay = now.getDay();
 
   const toJsWeekday = dayValue => (dayValue + 1) % 7;
 
@@ -92,8 +90,6 @@ function generateDatesFromSelectedDays(selectedDays, cycles) {
   return results;
 }
 
-// -------------------- Dni tygodnia --------------------
-
 const weekDays = [
   { label: "Poniedziałek", value: 0 },
   { label: "Wtorek", value: 1 },
@@ -104,8 +100,6 @@ const weekDays = [
   { label: "Niedziela", value: 6 },
 ];
 
-// -------------------- Główny komponent --------------------
-
 export default function EventTypeSelector({ onChange, setTrainigType }) {
   const [eventType, setEventType] = useState("cykliczne");
   const [selectedDays, setSelectedDays] = useState([]);
@@ -114,8 +108,6 @@ export default function EventTypeSelector({ onChange, setTrainigType }) {
   const [singleTime, setSingleTime] = useState("");
   const [singleDuration, setSingleDuration] = useState("60");
   const [validationError, setValidationError] = useState("");
-
-  // -------------------- Obsługa cyklicznego --------------------
 
   const handleDayChange = dayValue => {
     setSelectedDays(prev => {
@@ -179,11 +171,29 @@ export default function EventTypeSelector({ onChange, setTrainigType }) {
     } else {
       setTrainigType?.("single");
       setValidationError("");
+
+      const dateTime =
+        singleDate && singleTime
+          ? (() => {
+              const parsed = parseTimeString(singleTime);
+              const combined = new Date(singleDate);
+              combined.setHours(parsed.getHours(), parsed.getMinutes(), 0, 0);
+              return combined;
+            })()
+          : null;
+
+      const events = dateTime
+        ? [
+            {
+              date: toDjangoISO(dateTime),
+              duration: singleDuration,
+            },
+          ]
+        : [];
+
       onChange?.({
         type: "jednorazowe",
-        date: singleDate ? singleDate.toISOString() : null,
-        time: singleTime,
-        duration: singleDuration,
+        events,
       });
     }
   }, [
@@ -221,7 +231,6 @@ export default function EventTypeSelector({ onChange, setTrainigType }) {
         </RadioGroup>
       </FormControl>
 
-      {/* -------------------- CYKLICZNE -------------------- */}
       {eventType === "cykliczne" && (
         <Box sx={{ mt: 2 }}>
           <FormLabel>Wybierz dni tygodnia</FormLabel>
@@ -301,7 +310,6 @@ export default function EventTypeSelector({ onChange, setTrainigType }) {
         </Box>
       )}
 
-      {/* -------------------- JEDNORAZOWE -------------------- */}
       {eventType === "jednorazowe" && (
         <Box sx={{ mt: 2 }}>
           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={pl}>

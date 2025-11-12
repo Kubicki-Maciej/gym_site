@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../../Screens/Auth/Login/Login.jsx";
 import LoginPage from "../../Screens/Auth/Login/LoginPage.jsx";
@@ -16,10 +16,10 @@ import TrainingScreen from "../../Screens/Training/TrainingScreen.jsx";
 import CreateWorkout from "../Trening/CreateWorkout.jsx";
 import TrainerCalendar from "../Calendar/TrainerCalendar.jsx";
 // context
-import { UserContext } from "../User/context.jsx";
+import { useUserContext } from "../User/context.jsx";
 
 function Section() {
-  const [userLogged, setUserLogged] = useContext(UserContext);
+  const { logged } = useUserContext();
   return (
     <div
       style={{

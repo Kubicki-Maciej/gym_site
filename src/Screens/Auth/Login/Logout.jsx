@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import NavBarButtons from "../../../components/Layout/Navbar/NavbarComponents/NavBarButtons";
 // import NavBarButtons from "../Navbar/NavbarComponents/NavBarButtons";
-import { UserContext } from "../../../components/User/context";
+import { useUserContext } from "../../../components/User/context";
 import { redirect } from "react-router-dom";
 
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -14,17 +14,12 @@ const client = axios.create({
 });
 
 export default function Logout() {
-  const [userData, setUserData] = useContext(UserContext);
+  const { logout } = useUserContext();
 
   const handleLogout = async e => {
     e.preventDefault();
     client.post("user/logout", {}).then(function (res) {
-      setUserData({
-        logged: false,
-        userData: {},
-      });
-      localStorage.setItem("user", {});
-      localStorage.setItem("userLogged", false);
+      logout();
       localStorage.setItem("loginExpAt", 0);
     });
     redirect("/");

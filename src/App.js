@@ -6,11 +6,11 @@ import Section from "./components/Section/AppRoutes.jsx";
 import NavBarTwo from "./components/Layout/NavBarTwo/NavBarTwo.jsx";
 import Navbar from "./components/Layout/Navbar/Navbar.jsx";
 import NavbarMobile from "./components/Layout/Navbar/NavbarMobile.jsx";
-import { UserContext } from "./components/User/context.jsx";
+import { useUserContext } from "./components/User/context.jsx";
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
-  const [userLogin, setUserLogin] = useState(false);
+  const { logged } = useUserContext();
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,68 +22,47 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    if (localStorage.getItem("userLogged") == "true") {
-      setUserLogin({
-        logged: true,
-        userData: localStorage.getItem("user"),
-      });
-    }
-  }, []);
-
   if (width > 764) {
     return (
-      <UserContext.Provider value={[userLogin, setUserLogin]}>
+      <div
+        className="App"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          justifyContent: "space-between",
+        }}
+      >
+        <Navbar />
+        {logged ? <NavBarTwo /> : <div style={{ height: "50px" }}></div>}
         <div
-          className="App"
           style={{
-            display: "flex",
-            flexDirection: "column",
-            minHeight: "100vh",
-            justifyContent: "space-between",
+            flexGrow: 1,
           }}
         >
-          <Navbar />
-          {localStorage.getItem("userLogged") == "true" ? (
-            <NavBarTwo />
-          ) : (
-            <div style={{ height: "50px" }}></div>
-          )}
-          <div
-            style={{
-              flexGrow: 1,
-            }}
-          >
-            {" "}
-            <Section />
-          </div>
-
-          <Footer />
+          {" "}
+          <Section />
         </div>
-      </UserContext.Provider>
+
+        <Footer />
+      </div>
     );
   } else {
     return (
-      <UserContext.Provider value={[userLogin, setUserLogin]}>
-        <div
-          className="App"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            minHeight: "100vh",
-            justifyContent: "space-between",
-          }}
-        >
-          <NavbarMobile />
-          {localStorage.getItem("userLogged") == "true" ? (
-            <NavBarTwo />
-          ) : (
-            <div style={{ height: "50px" }}></div>
-          )}
-          <Section />
-          <Footer />
-        </div>
-      </UserContext.Provider>
+      <div
+        className="App"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          justifyContent: "space-between",
+        }}
+      >
+        <NavbarMobile />
+        {logged ? <NavBarTwo /> : <div style={{ height: "50px" }}></div>}
+        <Section />
+        <Footer />
+      </div>
     );
   }
 }

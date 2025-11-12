@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import NavBarButtons from "../../../components/Layout/Navbar/NavbarComponents/NavBarButtonBar";
-import { UserContext } from "../../../components/User/context";
+import { useUserContext } from "../../../components/User/context";
 import { Navigate, useNavigate } from "react-router-dom";
 
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -15,7 +15,7 @@ const client = axios.create({
 export default function Login({ closeWindow }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useContext(UserContext);
+  const { login } = useUserContext();
   const navigate = useNavigate();
 
   const handleLogin = async e => {
@@ -28,18 +28,15 @@ export default function Login({ closeWindow }) {
       .then(function (res) {
         console.log("zalogowany");
         console.log(res.data);
-        localStorage.setItem("user", JSON.stringify(res.data));
-        localStorage.setItem("userLogged", true);
+
+        // Użyj funkcji login z contextu - ona automatycznie zapisze do localStorage
+        login(res.data);
+
+        // Dodatkowe ustawienia (opcjonalne)
         localStorage.setItem(
           "loginExpAt",
           Date.now() + 30 * 24 * 60 * 60 * 1000
         );
-        setUserData({
-          logged: true,
-          userData: res.data,
-        });
-        console.log("userLogged");
-        console.log(userData);
 
         closeWindow();
         navigate("/");

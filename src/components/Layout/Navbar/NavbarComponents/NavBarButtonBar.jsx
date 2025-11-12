@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import NavBarButtons from "./NavBarButtons";
 import LoginButton from "../../../Buttons/LoginButton";
-import { UserContext } from "../../../User/context";
+import { useUserContext } from "../../../User/context";
 // import Logout from "../../Login/Logout";
 import Logout from "../../../../Screens/Auth/Login/Logout";
 
 export default function NavBarButtonBar() {
   const [email, setEmail] = useState(localStorage.getItem("userLogged"));
-  const [userLogged, setUserLogged] = useContext(UserContext);
+  const { logged } = useUserContext();
 
   return (
     <div
@@ -33,7 +33,7 @@ export default function NavBarButtonBar() {
         to={"bookout"}
       />
 
-      {userLogged.logged ? <Logout /> : <LoginButton />}
+      {logged ? <Logout /> : <LoginButton />}
     </div>
   );
 }

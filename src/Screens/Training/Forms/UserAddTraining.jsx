@@ -10,6 +10,8 @@ import PlanTraining from "../../../components/Trening/PlanTraining";
 import { API_URL } from "../../../config";
 import EventCalendar from "../../../components/Calendar/EventCalendar";
 import { Button } from "@mui/material";
+import { el } from "date-fns/locale";
+import useUserTraining from "../../../hooks/useUserTraining";
 
 // dodajesz trening/i użytkownikowi
 export default function UserAddTraining() {
@@ -19,6 +21,8 @@ export default function UserAddTraining() {
   const [boolUserSelected, setBoolUserSelected] = useState(false);
   const [eventData, setEventData] = useState(null);
   const [trainingData, setTrainingData] = useState(null);
+
+  const { createTreningsToUserApi, error, loading } = useUserTraining();
 
   useEffect(() => {}, [boolUserSelected]);
 
@@ -37,23 +41,6 @@ export default function UserAddTraining() {
     alert("Dane poprawne! Możesz wysłać do API.");
   };
 
-  const sendTrainingToApi = async dataToSend => {
-    try {
-      const response = await fetch(`${API_URL}/training/create_training`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      });
-
-      if (!response.ok) throw new Error("Błąd wysyłania na serwer");
-      await response.json();
-      // successMessage("Trening utworzony pomyślnie!");
-    } catch (error) {
-      console.error(error);
-      // errorMessage("Nie udało się utworzyć treningu.");
-    }
-  };
-
   // Odbierasz dane z SingleTraining
   const handleTrainingChange = data => {
     setTrainingData(data);
@@ -64,14 +51,22 @@ export default function UserAddTraining() {
   };
 
   // zrobienie walidacji
-  const handleDataSend = () => {
-    console.log("eventData");
-    console.log(eventData);
-    console.log("trainingData");
-    console.log(trainingData);
-    console.log("selectedUser");
-    console.log(selectedUser);
-  };
+  // stwórz mi validacje przed wysłaniem
+  function handleDataSend() {
+    if (!selectedUser) {
+      alert("Wybierz użytkownika!");
+      return;
+    } else if (!eventData || eventData.length === 0) {
+      alert("Brak danych wydarzeń treningowych!");
+      return;
+    } else {
+      const dataToSend = {
+        idUser: selectedUser.id,
+        dates: eventData,
+      };
+      createTreningsToUserApi(dataToSend);
+    }
+  }
 
   return (
     <div>
@@ -88,7 +83,6 @@ export default function UserAddTraining() {
 
       <pre>{JSON.stringify(boolUserSelected, null, 2)}</pre>
       <pre>{JSON.stringify(eventData, null, 2)}</pre>
-      <pre>{JSON.stringify(trainingData, null, 2)}</pre>
     </div>
   );
 }
