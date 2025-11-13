@@ -15,6 +15,7 @@ import EditExercise from "../Exercise/EditExercise.jsx";
 import TrainingScreen from "../../Screens/Training/TrainingScreen.jsx";
 import CreateWorkout from "../Trening/CreateWorkout.jsx";
 import TrainerCalendar from "../Calendar/TrainerCalendar.jsx";
+import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
 import { useUserContext } from "../User/context.jsx";
 
 function Section() {
@@ -46,6 +47,7 @@ function Section() {
         {/* Tiles training */}
         <Route path="training/*" element={<TrainingScreen />}></Route>
         <Route path="schedule/" element={<TrainerCalendar />}></Route>
+        <Route path="training/details/:id" element={<WorkoutDetail />}></Route>
       </Routes>
     </div>
   );

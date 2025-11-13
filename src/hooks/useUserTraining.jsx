@@ -123,6 +123,96 @@ export default function useUserTraining() {
     }
   };
 
+  const updateTraining = async (trainingId, updatedData) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_URL}/training/${trainingId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(updatedData),
+      });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error || "Błąd aktualizacji treningu");
+      }
+      const result = await response.json();
+      setError(null);
+      return result;
+    } catch (error) {
+      console.error("❌ Błąd aktualizacji treningu:", error);
+      setError("Nie udało się zaktualizować treningu");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateExercise = async (exerciseId, updatedData) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_URL}/exercise/${exerciseId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(updatedData),
+      });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error || "Błąd aktualizacji ćwiczenia");
+      }
+      const result = await response.json();
+      setError(null);
+      return result;
+    } catch (error) {
+      console.error("❌ Błąd aktualizacji ćwiczenia:", error);
+      setError("Nie udało się zaktualizować ćwiczenia");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteExercise = async exerciseId => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_URL}/exercise/${exerciseId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error("Błąd usuwania ćwiczenia");
+      }
+      setError(null);
+      return true;
+    } catch (error) {
+      console.error("❌ Błąd usuwania ćwiczenia:", error);
+      setError("Nie udało się usunąć ćwiczenia");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getExerciseById = async exerciseId => {
+    try {
+      const response = await fetch(`${API_URL}/exercise/${exerciseId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error("Błąd pobierania ćwiczenia");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("❌ Błąd pobierania ćwiczenia:", error);
+      return null;
+    }
+  };
+
   return {
     loading,
     error,
@@ -131,5 +221,9 @@ export default function useUserTraining() {
     getUserAllDataTraining,
     createTreningsToUserApi,
     getUpcomingTrainerWorkouts,
+    updateTraining,
+    updateExercise,
+    deleteExercise,
+    getExerciseById,
   };
 }
