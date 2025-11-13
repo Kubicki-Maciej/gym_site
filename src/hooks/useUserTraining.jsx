@@ -8,7 +8,7 @@ export default function useUserTraining() {
 
   const getUserDataTraining = async id => {
     try {
-      const response = await fetch(`${API_URL}/training/user/${id}`, {
+      const response = await fetch(`${API_URL}training/user/${id}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -30,7 +30,7 @@ export default function useUserTraining() {
   const getUserDataUpcomingTrenings = async id => {
     try {
       const response = await fetch(
-        `${API_URL}/training/user/upcoming_trainigs/${id}`,
+        `${API_URL}training/user/upcoming_trainigs/${id}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -53,7 +53,7 @@ export default function useUserTraining() {
   const getUserAllDataTraining = async id => {
     try {
       const response = await fetch(
-        `${API_URL}/training/user/all_trainings/${id}`,
+        `${API_URL}training/user/all_trainings/${id}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -76,7 +76,7 @@ export default function useUserTraining() {
   const createTreningsToUserApi = async dataToSend => {
     try {
       const response = await fetch(
-        `${API_URL}/training/user/create_multiple_trainings`,
+        `${API_URL}training/user/create_multiple_trainings`,
         {
           method: "POST",
           headers: {
@@ -126,12 +126,17 @@ export default function useUserTraining() {
   const updateTraining = async (trainingId, updatedData) => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/training/${trainingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(updatedData),
-      });
+      console.log(trainingId, updatedData);
+      const response = await fetch(
+        `${API_URL}training/update_user_training/${trainingId}/`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(updatedData),
+        }
+      );
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
         throw new Error(errorData?.error || "Błąd aktualizacji treningu");
@@ -151,12 +156,15 @@ export default function useUserTraining() {
   const updateExercise = async (exerciseId, updatedData) => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/exercise/${exerciseId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(updatedData),
-      });
+      const response = await fetch(
+        `${API_URL}/exercise/workout/updateexercise/${exerciseId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(updatedData),
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
         throw new Error(errorData?.error || "Błąd aktualizacji ćwiczenia");

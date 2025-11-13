@@ -6,7 +6,6 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
-import { createRoot } from "react-dom/client";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../User/context";
 import useUserTraining from "../../hooks/useUserTraining";
@@ -114,16 +113,11 @@ export default function TrainerCalendar() {
         }}
         events={events}
         allDaySlot={false}
-        eventContent={renderEventContent}
+        eventContent={({ event, timeText }) => (
+          <TrainingCard event={event} timeText={timeText} />
+        )}
         eventClick={handleEventClick}
       />
     </Box>
   );
-}
-
-function renderEventContent(eventInfo) {
-  const container = document.createElement("div");
-  const root = createRoot(container);
-  root.render(<TrainingCard eventInfo={eventInfo} />);
-  return { domNodes: [container] };
 }

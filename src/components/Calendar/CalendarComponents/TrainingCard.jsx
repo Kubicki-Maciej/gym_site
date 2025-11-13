@@ -1,8 +1,7 @@
 import React from "react";
 import { Paper, Stack, Typography, Button, Chip, Box } from "@mui/material";
 
-export default function TrainingCard({ eventInfo }) {
-  const { event, timeText } = eventInfo;
+export default function TrainingCard({ event, timeText }) {
   const userId = event.extendedProps?.user_i;
   const duration = event.extendedProps?.duration;
   const trainingId = event.extendedProps?.training_id;
