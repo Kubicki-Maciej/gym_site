@@ -34,7 +34,8 @@ export default function WorkoutDetail() {
     getUserDataTraining,
     getAllExercises, // lub getAllExercises jeśli masz osobną metodę
     updateTraining,
-    deleteExercise,
+    deleteSingleExercise,
+    createSingleExercise,
   } = useUserTraining();
 
   const [training, setTraining] = useState(null);
@@ -142,12 +143,16 @@ export default function WorkoutDetail() {
     );
   };
 
-  const handleAddSerie = exerciseId => {
+  const handleAddSerie = async exerciseId => {
+    const returnedRep = await createSingleExercise({
+      idSeriesExercise: exerciseId,
+    });
+
     setExercises(prev =>
       prev.map(ex => {
         if (ex.userExerciseId === exerciseId) {
           const newSerie = {
-            id: `temp-${Date.now()}`,
+            id: returnedRep.id,
             repeats: 10,
             weight: 0,
           };
@@ -156,6 +161,8 @@ export default function WorkoutDetail() {
         return ex;
       })
     );
+    // console.log(exerciseId);
+    console.log(exerciseId);
   };
 
   const handleRemoveSerie = (exerciseId, serieId) => {
@@ -191,7 +198,7 @@ export default function WorkoutDetail() {
 
   const handleDeleteExercise = async exerciseId => {
     setIsSaving(true);
-    const result = await deleteExercise(exerciseId);
+    const result = await deleteSingleExercise(exerciseId);
     if (result) {
       setExercises(prev => prev.filter(ex => ex.userExerciseId !== exerciseId));
       StatusAlertService.showSuccess("Ćwiczenie usunięte");

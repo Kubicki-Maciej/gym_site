@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { API_URL } from "../config";
+import { DataArrayRounded } from "@mui/icons-material";
 
 export default function useUserTraining() {
   const [loading, setLoading] = useState(true);
@@ -217,7 +218,7 @@ export default function useUserTraining() {
     }
   };
 
-  const deleteExercise = async exerciseId => {
+  const deleteSingleExercise = async exerciseId => {
     try {
       setLoading(true);
       const response = await fetch(
@@ -242,6 +243,29 @@ export default function useUserTraining() {
     }
   };
 
+  const createSingleExercise = async dataToSend => {
+    try {
+      const response = await fetch(`${API_URL}exercise/add_rep`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error || "Błąd tworzenia ćwiczenia");
+      }
+      const data = await response.json();
+      setError("Ćwiczenie utworzone pomyślnie!");
+      return data;
+    } catch (error) {
+      console.error("❌ Błąd tworzenia ćwiczenia:", error);
+      setError("Nie udało się utworzyć ćwiczenia.");
+      return null;
+    }
+  };
+
   return {
     loading,
     error,
@@ -252,8 +276,9 @@ export default function useUserTraining() {
     getUpcomingTrainerWorkouts,
     updateTraining,
     updateExercise,
-    deleteExercise,
+    deleteSingleExercise,
     getExerciseById,
     getAllExercises,
+    createSingleExercise,
   };
 }
