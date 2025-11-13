@@ -181,25 +181,21 @@ export default function useUserTraining() {
     }
   };
 
-  const deleteExercise = async exerciseId => {
+  const getAllExercises = async () => {
     try {
-      setLoading(true);
-      const response = await fetch(`${API_URL}/exercise/${exerciseId}`, {
-        method: "DELETE",
+      const response = await fetch(`${API_URL}exercise/exercise/all`, {
+        method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
       if (!response.ok) {
-        throw new Error("Błąd usuwania ćwiczenia");
+        throw new Error("Błąd pobierania ćwiczeń");
       }
-      setError(null);
-      return true;
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error("❌ Błąd usuwania ćwiczenia:", error);
-      setError("Nie udało się usunąć ćwiczenia");
-      return false;
-    } finally {
-      setLoading(false);
+      console.error("❌ Błąd pobierania ćwiczeń:", error);
+      return [];
     }
   };
 
@@ -221,6 +217,31 @@ export default function useUserTraining() {
     }
   };
 
+  const deleteExercise = async exerciseId => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${API_URL}/exercise/delete/singleseries/${exerciseId}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Błąd usuwania ćwiczenia");
+      }
+      setError(null);
+      return true;
+    } catch (error) {
+      console.error("❌ Błąd usuwania ćwiczenia:", error);
+      setError("Nie udało się usunąć ćwiczenia");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error,
@@ -233,5 +254,6 @@ export default function useUserTraining() {
     updateExercise,
     deleteExercise,
     getExerciseById,
+    getAllExercises,
   };
 }

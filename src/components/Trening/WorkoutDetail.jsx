@@ -32,12 +32,9 @@ export default function WorkoutDetail() {
   const navigate = useNavigate();
   const {
     getUserDataTraining,
-    getExerciseById,
+    getAllExercises, // lub getAllExercises jeśli masz osobną metodę
     updateTraining,
-    updateExercise,
     deleteExercise,
-    loading: hookLoading,
-    error: hookError,
   } = useUserTraining();
 
   const [training, setTraining] = useState(null);
@@ -45,6 +42,9 @@ export default function WorkoutDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
+
+  const [isAddExerciseOpen, setIsAddExerciseOpen] = useState(false);
+  const [allExercises, setAllExercises] = useState([]);
 
   // Fetch training on mount
   useEffect(() => {
@@ -58,7 +58,6 @@ export default function WorkoutDetail() {
       try {
         setLoading(true);
         const trainingData = await getUserDataTraining(id);
-
         if (!trainingData) {
           setError("Nie udało się pobrać treningu");
           setLoading(false);
@@ -66,8 +65,6 @@ export default function WorkoutDetail() {
         }
 
         setTraining(trainingData);
-
-        // Map user_exercises - exercise is now an object with details
         if (
           trainingData.user_exercises &&
           Array.isArray(trainingData.user_exercises)
@@ -96,148 +93,144 @@ export default function WorkoutDetail() {
     fetchTraining();
   }, [id]);
 
-  // Handle series value change (repeats or weight)
+  // Fetch all available exercises for dialog
+  useEffect(() => {
+    const fetchAllExercises = async () => {
+      try {
+        const res = await getAllExercises(); // lub getAllExercises()
+        if (res) setAllExercises(res);
+      } catch (e) {
+        console.error("Błąd pobierania ćwiczeń:", e);
+      }
+    };
+    fetchAllExercises();
+  }, []);
+
+  // --- Serie logic ---
   const handleSerieChange = (exerciseId, serieId, field, value) => {
-    const updatedExercises = exercises.map(ex => {
-      if (ex.userExerciseId === exerciseId) {
-        return {
-          ...ex,
-          exerciseSeries: ex.exerciseSeries.map(serie =>
-            serie.id === serieId ? { ...serie, [field]: value } : serie
-          ),
-        };
-      }
-      return ex;
-    });
-    setExercises(updatedExercises);
+    setExercises(prev =>
+      prev.map(ex =>
+        ex.userExerciseId === exerciseId
+          ? {
+              ...ex,
+              exerciseSeries: ex.exerciseSeries.map(serie =>
+                serie.id === serieId ? { ...serie, [field]: value } : serie
+              ),
+            }
+          : ex
+      )
+    );
   };
 
-  // Handle +/- for repeats or weight
   const handleAdjustSerie = (exerciseId, serieId, field, delta) => {
-    const updatedExercises = exercises.map(ex => {
-      if (ex.userExerciseId === exerciseId) {
-        return {
-          ...ex,
-          exerciseSeries: ex.exerciseSeries.map(serie =>
-            serie.id === serieId
-              ? {
-                  ...serie,
-                  [field]: Math.max(0, (serie[field] || 0) + delta),
-                }
-              : serie
-          ),
-        };
-      }
-      return ex;
-    });
-    setExercises(updatedExercises);
+    setExercises(prev =>
+      prev.map(ex =>
+        ex.userExerciseId === exerciseId
+          ? {
+              ...ex,
+              exerciseSeries: ex.exerciseSeries.map(serie =>
+                serie.id === serieId
+                  ? {
+                      ...serie,
+                      [field]: Math.max(0, (serie[field] || 0) + delta),
+                    }
+                  : serie
+              ),
+            }
+          : ex
+      )
+    );
   };
 
-  // Handle delete
+  const handleAddSerie = exerciseId => {
+    setExercises(prev =>
+      prev.map(ex => {
+        if (ex.userExerciseId === exerciseId) {
+          const newSerie = {
+            id: `temp-${Date.now()}`,
+            repeats: 10,
+            weight: 0,
+          };
+          return { ...ex, exerciseSeries: [...ex.exerciseSeries, newSerie] };
+        }
+        return ex;
+      })
+    );
+  };
+
+  const handleRemoveSerie = (exerciseId, serieId) => {
+    console.log("tutaj dzieje sie magia");
+    console.log(serieId);
+    setExercises(prev =>
+      prev.map(ex =>
+        ex.userExerciseId === exerciseId
+          ? {
+              ...ex,
+              exerciseSeries: ex.exerciseSeries.filter(
+                serie => serie.id !== serieId
+              ),
+            }
+          : ex
+      )
+    );
+    handleDeleteExercise(serieId);
+  };
+
+  // --- Exercises logic ---
+  const handleAddExercise = exercise => {
+    const newExercise = {
+      userExerciseId: `temp-${Date.now()}`,
+      exerciseId: exercise.id,
+      name: exercise.name,
+      exerciseSeries: [
+        { id: `temp-serie-${Date.now()}`, repeats: 10, weight: 0 },
+      ],
+    };
+    setExercises(prev => [...prev, newExercise]);
+  };
+
   const handleDeleteExercise = async exerciseId => {
     setIsSaving(true);
     const result = await deleteExercise(exerciseId);
-
     if (result) {
-      const updatedExercises = exercises.filter(
-        ex => ex.userExerciseId !== exerciseId
-      );
-      setExercises(updatedExercises);
+      setExercises(prev => prev.filter(ex => ex.userExerciseId !== exerciseId));
       StatusAlertService.showSuccess("Ćwiczenie usunięte");
     } else {
       StatusAlertService.showError("Błąd usuwania ćwiczenia");
     }
-
     setIsSaving(false);
   };
 
-  // Handle save training changes
   const handleSaveChanges = async () => {
-    // 1. Walidacja danych
-    console.log("=== HANDLEAVE START ===");
-    console.log("training:", training);
-    console.log("exercises:", exercises);
-
     if (exercises.length === 0) {
-      console.log("Brak ćwiczeń w treningu");
       StatusAlertService.showError(
         "Trening musi zawierać co najmniej jedno ćwiczenie"
       );
       return;
     }
-    const przyklad = {
-      id: 28,
-      duration: 60,
-      user_exercises: [
-        {
-          id: 15,
-          exercises_series: [
-            { id: 24, repeats: 8, weight: 12.5 },
-            { id: 25, repeats: 10, weight: 15.0 },
-            { id: 26, repeats: 6, weight: 10.0 },
-          ],
-        },
-      ],
-    };
 
-    // const przyklad2 = {
-    //   "id": 28,
-    //   "user_exercises": [
-    //     {
-    //       "id": 15,
-    //       "exercises_series": [
-    //         {
-    //           "id": 24,
-    //           "repeats": 8,
-    //           "weight": 12.5,
-    //         },
-    //         {
-    //           "id": 25,
-    //           "repeats": 10,
-    //           "weight": 45,
-    //         },
-    //         {
-    //           "id": 26,
-    //           "repeats": 6,
-    //           "weight": 10,
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // };
-
-    // 2. Przygotowanie danych do wysłania
     const dataToSend = {
       id: training.id,
-      //   name: training.name.trim(),
       user_exercises: exercises.map(ex => ({
-        id: ex.userExerciseId,
+        id: ex.userExerciseId.toString().startsWith("temp")
+          ? null
+          : ex.userExerciseId,
         exercise: ex.exerciseId,
         exercises_series: ex.exerciseSeries.map(serie => ({
-          id: serie.id,
+          id: serie.id.toString().startsWith("temp") ? null : serie.id,
           repeats: Math.max(0, Number(serie.repeats) || 0),
           weight: Math.max(0, Number(serie.weight) || 0),
         })),
       })),
     };
 
-    console.log("=== DATA TO SEND ===");
-    console.log(dataToSend);
-    console.log("=== DATA TO SEND JSON ===");
-    console.log(JSON.stringify(dataToSend, null, 2));
+    console.log("=== DATA TO SEND ===", dataToSend);
 
-    // 3. Wysyłanie do backendu
     setIsSaving(true);
     try {
       const result = await updateTraining(id, dataToSend);
-
-      console.log("=== UPDATE RESULT ===", result);
-
       if (result) {
         StatusAlertService.showSuccess("✅ Trening został zapisany pomyślnie!");
-
-        // Opcjonalnie: redirect po zapisie
-        // setTimeout(() => navigate("/training/list"), 1000);
       } else {
         StatusAlertService.showError("❌ Nie udało się zapisać treningu");
       }
@@ -249,7 +242,7 @@ export default function WorkoutDetail() {
     }
   };
 
-  if (loading) {
+  if (loading)
     return (
       <Box
         sx={{
@@ -262,27 +255,23 @@ export default function WorkoutDetail() {
         <CircularProgress />
       </Box>
     );
-  }
 
-  if (error) {
+  if (error)
     return (
       <Box sx={{ p: 2 }}>
         <Alert severity="error">{error}</Alert>
       </Box>
     );
-  }
 
-  if (!training) {
+  if (!training)
     return (
       <Box sx={{ p: 2 }}>
         <Alert severity="warning">Trening nie został znaleziony</Alert>
       </Box>
     );
-  }
 
   return (
     <Box sx={{ p: 2 }}>
-      {/* Training Header */}
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Typography variant="h4" sx={{ mb: 1, fontWeight: 600 }}>
           {training.name}
@@ -299,11 +288,17 @@ export default function WorkoutDetail() {
           >
             {isSaving ? "Zapisywanie..." : "Zapisz zmiany"}
           </Button>
-          <Button variant="outlined" color="secondary">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => navigate(-1)}
+          >
             Anuluj
           </Button>
         </Stack>
       </Paper>
+
+      {/* Exercises */}
       <Box>
         <Stack
           direction="row"
@@ -314,7 +309,12 @@ export default function WorkoutDetail() {
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             Ćwiczenia ({exercises.length})
           </Typography>
-          <Button variant="contained" color="success" startIcon={<AddIcon />}>
+          <Button
+            variant="contained"
+            color="success"
+            startIcon={<AddIcon />}
+            onClick={() => setIsAddExerciseOpen(true)}
+          >
             Dodaj ćwiczenie
           </Button>
         </Stack>
@@ -330,172 +330,188 @@ export default function WorkoutDetail() {
                     {exercise.name}
                   </Typography>
 
-                  {/* Exercise Series with inline editing */}
-                  {exercise.exerciseSeries &&
-                    Array.isArray(exercise.exerciseSeries) &&
-                    exercise.exerciseSeries.length > 0 && (
-                      <Box
-                        sx={{
-                          mb: 2,
-                          p: 1.5,
-                          backgroundColor: "#f5f5f5",
-                          borderRadius: "8px",
-                        }}
+                  {exercise.exerciseSeries?.length > 0 && (
+                    <Box
+                      sx={{
+                        mb: 2,
+                        p: 1.5,
+                        backgroundColor: "#f5f5f5",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ fontWeight: 600, mb: 2 }}
                       >
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 600, mb: 2 }}
-                        >
-                          Serie treningowe:
-                        </Typography>
-                        <Stack spacing={2}>
-                          {exercise.exerciseSeries.map((serie, idx) => (
-                            <Stack
-                              key={serie.id}
-                              direction="row"
-                              alignItems="center"
-                              spacing={2}
+                        Serie treningowe:
+                      </Typography>
+                      <Stack spacing={2}>
+                        {exercise.exerciseSeries.map((serie, idx) => (
+                          <Stack
+                            key={serie.id}
+                            direction="row"
+                            alignItems="center"
+                            spacing={2}
+                            sx={{
+                              p: 1,
+                              backgroundColor: "white",
+                              borderRadius: "6px",
+                              border: "1px solid #e0e0e0",
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              sx={{ fontWeight: 600, minWidth: "60px" }}
+                            >
+                              Seria {idx + 1}
+                            </Typography>
+
+                            {/* Powtórzenia */}
+                            <Box
                               sx={{
-                                p: 1,
-                                backgroundColor: "white",
-                                borderRadius: "6px",
-                                border: "1px solid #e0e0e0",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
                               }}
                             >
-                              <Typography
-                                variant="caption"
-                                sx={{ fontWeight: 600, minWidth: "60px" }}
-                              >
-                                Seria {idx + 1}
+                              <Typography variant="caption">
+                                Powtórzenia:
                               </Typography>
-
-                              {/* Repeats section */}
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
-                                }}
+                              <IconButton
+                                size="small"
+                                onClick={() =>
+                                  handleAdjustSerie(
+                                    exercise.userExerciseId,
+                                    serie.id,
+                                    "repeats",
+                                    -1
+                                  )
+                                }
+                                sx={{ p: "4px" }}
                               >
-                                <Typography variant="caption">
-                                  Powtórzenia:
-                                </Typography>
-                                <IconButton
-                                  size="small"
-                                  onClick={() =>
-                                    handleAdjustSerie(
-                                      exercise.userExerciseId,
-                                      serie.id,
-                                      "repeats",
-                                      -1
-                                    )
-                                  }
-                                  sx={{ p: "4px" }}
-                                >
-                                  <RemoveCircleIcon fontSize="small" />
-                                </IconButton>
-                                <TextField
-                                  type="number"
-                                  value={serie.repeats}
-                                  onChange={e =>
-                                    handleSerieChange(
-                                      exercise.userExerciseId,
-                                      serie.id,
-                                      "repeats",
-                                      parseInt(e.target.value) || 0
-                                    )
-                                  }
-                                  sx={{
-                                    width: "60px",
-                                    "& input": {
-                                      textAlign: "center",
-                                      p: "4px",
-                                    },
-                                  }}
-                                  size="small"
-                                />
-                                <IconButton
-                                  size="small"
-                                  onClick={() =>
-                                    handleAdjustSerie(
-                                      exercise.userExerciseId,
-                                      serie.id,
-                                      "repeats",
-                                      1
-                                    )
-                                  }
-                                  sx={{ p: "4px" }}
-                                >
-                                  <AddCircleIcon fontSize="small" />
-                                </IconButton>
-                              </Box>
-
-                              {/* Weight section */}
-                              <Box
+                                <RemoveCircleIcon fontSize="small" />
+                              </IconButton>
+                              <TextField
+                                type="number"
+                                value={serie.repeats}
+                                onChange={e =>
+                                  handleSerieChange(
+                                    exercise.userExerciseId,
+                                    serie.id,
+                                    "repeats",
+                                    parseInt(e.target.value) || 0
+                                  )
+                                }
                                 sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
+                                  width: "60px",
+                                  "& input": { textAlign: "center", p: "4px" },
                                 }}
+                                size="small"
+                              />
+                              <IconButton
+                                size="small"
+                                onClick={() =>
+                                  handleAdjustSerie(
+                                    exercise.userExerciseId,
+                                    serie.id,
+                                    "repeats",
+                                    1
+                                  )
+                                }
+                                sx={{ p: "4px" }}
                               >
-                                <Typography variant="caption">
-                                  Waga (kg):
-                                </Typography>
-                                <IconButton
-                                  size="small"
-                                  onClick={() =>
-                                    handleAdjustSerie(
-                                      exercise.userExerciseId,
-                                      serie.id,
-                                      "weight",
-                                      -0.5
-                                    )
-                                  }
-                                  sx={{ p: "4px" }}
-                                >
-                                  <RemoveCircleIcon fontSize="small" />
-                                </IconButton>
-                                <TextField
-                                  type="number"
-                                  value={serie.weight}
-                                  onChange={e =>
-                                    handleSerieChange(
-                                      exercise.userExerciseId,
-                                      serie.id,
-                                      "weight",
-                                      parseFloat(e.target.value) || 0
-                                    )
-                                  }
-                                  sx={{
-                                    width: "70px",
-                                    "& input": {
-                                      textAlign: "center",
-                                      p: "4px",
-                                    },
-                                  }}
-                                  step="0.5"
-                                  size="small"
-                                />
-                                <IconButton
-                                  size="small"
-                                  onClick={() =>
-                                    handleAdjustSerie(
-                                      exercise.userExerciseId,
-                                      serie.id,
-                                      "weight",
-                                      0.5
-                                    )
-                                  }
-                                  sx={{ p: "4px" }}
-                                >
-                                  <AddCircleIcon fontSize="small" />
-                                </IconButton>
-                              </Box>
-                            </Stack>
-                          ))}
-                        </Stack>
-                      </Box>
-                    )}
+                                <AddCircleIcon fontSize="small" />
+                              </IconButton>
+                            </Box>
+
+                            {/* Waga */}
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                              }}
+                            >
+                              <Typography variant="caption">
+                                Waga (kg):
+                              </Typography>
+                              <IconButton
+                                size="small"
+                                onClick={() =>
+                                  handleAdjustSerie(
+                                    exercise.userExerciseId,
+                                    serie.id,
+                                    "weight",
+                                    -0.5
+                                  )
+                                }
+                                sx={{ p: "4px" }}
+                              >
+                                <RemoveCircleIcon fontSize="small" />
+                              </IconButton>
+                              <TextField
+                                type="number"
+                                value={serie.weight}
+                                onChange={e =>
+                                  handleSerieChange(
+                                    exercise.userExerciseId,
+                                    serie.id,
+                                    "weight",
+                                    parseFloat(e.target.value) || 0
+                                  )
+                                }
+                                sx={{
+                                  width: "70px",
+                                  "& input": { textAlign: "center", p: "4px" },
+                                }}
+                                step="0.5"
+                                size="small"
+                              />
+                              <IconButton
+                                size="small"
+                                onClick={() =>
+                                  handleAdjustSerie(
+                                    exercise.userExerciseId,
+                                    serie.id,
+                                    "weight",
+                                    0.5
+                                  )
+                                }
+                                sx={{ p: "4px" }}
+                              >
+                                <AddCircleIcon fontSize="small" />
+                              </IconButton>
+                            </Box>
+
+                            {/* Usuń serię */}
+                            <IconButton
+                              color="error"
+                              size="small"
+                              onClick={() =>
+                                handleRemoveSerie(
+                                  exercise.userExerciseId,
+                                  serie.id
+                                )
+                              }
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          </Stack>
+                        ))}
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          startIcon={<AddIcon />}
+                          onClick={() =>
+                            handleAddSerie(exercise.userExerciseId)
+                          }
+                          size="small"
+                        >
+                          Dodaj serię
+                        </Button>
+                      </Stack>
+                    </Box>
+                  )}
                 </CardContent>
                 <CardActions sx={{ justifyContent: "flex-end" }}>
                   <IconButton
@@ -514,6 +530,56 @@ export default function WorkoutDetail() {
           </Stack>
         )}
       </Box>
+
+      {/* Add exercise dialog */}
+      <AddExerciseDialog
+        open={isAddExerciseOpen}
+        onClose={() => setIsAddExerciseOpen(false)}
+        onAdd={handleAddExercise}
+        exercisesList={allExercises}
+      />
     </Box>
+  );
+}
+
+// --- Dialog component ---
+function AddExerciseDialog({ open, onClose, onAdd, exercisesList }) {
+  const [selectedId, setSelectedId] = useState("");
+
+  const handleAdd = () => {
+    const exercise = exercisesList.find(e => e.id === Number(selectedId));
+    if (exercise) onAdd(exercise);
+    setSelectedId("");
+    onClose();
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Dodaj nowe ćwiczenie</DialogTitle>
+      <DialogContent>
+        <TextField
+          select
+          label="Wybierz ćwiczenie"
+          fullWidth
+          value={selectedId}
+          onChange={e => setSelectedId(e.target.value)}
+          SelectProps={{ native: true }}
+          sx={{ mt: 2 }}
+        >
+          <option value="">-- wybierz --</option>
+          {exercisesList.map(exercise => (
+            <option key={exercise.id} value={exercise.id}>
+              {exercise.name}
+            </option>
+          ))}
+        </TextField>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Anuluj</Button>
+        <Button onClick={handleAdd} disabled={!selectedId} variant="contained">
+          Dodaj
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
