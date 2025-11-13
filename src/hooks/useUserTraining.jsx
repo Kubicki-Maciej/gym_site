@@ -100,6 +100,29 @@ export default function useUserTraining() {
     }
   };
 
+  const getUpcomingTrainerWorkouts = async id => {
+    try {
+      const response = await fetch(
+        `${API_URL}training/upcoming_trainings/${id}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      setError(error);
+      console.error("There was a problem with the fetch operation:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error,
@@ -107,5 +130,6 @@ export default function useUserTraining() {
     getUserDataUpcomingTrenings,
     getUserAllDataTraining,
     createTreningsToUserApi,
+    getUpcomingTrainerWorkouts,
   };
 }

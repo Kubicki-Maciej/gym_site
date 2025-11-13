@@ -4,13 +4,14 @@ import NavBarButtons from "../../../components/Layout/Navbar/NavbarComponents/Na
 // import NavBarButtons from "../Navbar/NavbarComponents/NavBarButtons";
 import { useUserContext } from "../../../components/User/context";
 import { redirect } from "react-router-dom";
+import { API_URL } from "../../../config";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
 
 const client = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: API_URL,
 });
 
 export default function Logout() {

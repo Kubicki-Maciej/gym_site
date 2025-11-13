@@ -23,6 +23,7 @@ import NavigateButton from "../Buttons/MainButton";
 
 import Poput from "../Popout/Poput";
 import { Create } from "@mui/icons-material";
+import { API_URL } from "../../config";
 
 export default function EditTrening() {
   const [popOutWindow, setPopOutWindow] = useState(false);
@@ -41,14 +42,11 @@ export default function EditTrening() {
 
   const sendTrainingToApi = async dataToSend => {
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/training/create_training",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataToSend),
-        }
-      );
+      const response = await fetch(`${API_URL}training/create_training`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataToSend),
+      });
 
       if (!response.ok) throw new Error("Błąd wysyłania na serwer");
       await response.json();
@@ -61,14 +59,11 @@ export default function EditTrening() {
 
   const updateTrainingToApi = async dataToSend => {
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/training/create_training",
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataToSend),
-        }
-      );
+      const response = await fetch(`${API_URL}training/create_training`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataToSend),
+      });
 
       if (!response.ok) throw new Error("Błąd aktualizacji na serwerze");
       await response.json();
@@ -153,7 +148,7 @@ export default function EditTrening() {
       <Searcher
         dataOutput={handleSelectTraining}
         labelName="Szukaj treningu"
-        apiAdress="http://127.0.0.1:8000/training/all"
+        apiAdress={`${API_URL}training/all`}
       />
       <TextField
         label="Komentarz do treningu"
@@ -178,7 +173,7 @@ export default function EditTrening() {
       <Searcher
         dataOutput={setExerciseObject}
         labelName="Szukaj ćwiczenia"
-        apiAdress="http://127.0.0.1:8000/exercise/exercise/all"
+        apiAdress={`${API_URL}exercise/exercise/all`}
       />
       <Button onClick={handleAddExercise}>Dodaj ćwiczenie</Button>
 

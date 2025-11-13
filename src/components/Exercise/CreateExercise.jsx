@@ -13,6 +13,7 @@ import {
 
 import Searcher from "../Core/Searcher";
 import StatusAlert, { StatusAlertService } from "react-status-alert";
+import { API_URL } from "../../config";
 
 export default function CreateExercise() {
   const errorMessage = text =>
@@ -34,9 +35,7 @@ export default function CreateExercise() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/exercise/muscles/all"
-      );
+      const response = await fetch(`${API_URL}exercise/muscles/all`);
       if (!response.ok) {
         throw new Error("Network error: Failed to download all muscles data");
       }
@@ -99,16 +98,13 @@ export default function CreateExercise() {
       console.log(object);
 
       try {
-        const response = await fetch(
-          "http://127.0.0.1:8000/exercise/exercise/create",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(object),
-          }
-        );
+        const response = await fetch(`${API_URL}exercise/exercise/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(object),
+        });
 
         if (!response.ok) {
           throw new Error("Nie udało się wysłać danych na serwer");

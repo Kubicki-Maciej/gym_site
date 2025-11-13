@@ -3,13 +3,14 @@ import axios from "axios";
 import NavBarButtons from "../../../components/Layout/Navbar/NavbarComponents/NavBarButtonBar";
 import { useUserContext } from "../../../components/User/context";
 import { Navigate, useNavigate } from "react-router-dom";
+import { API_URL } from "../../../config";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
 
 const client = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: API_URL,
 });
 
 export default function Login({ closeWindow }) {

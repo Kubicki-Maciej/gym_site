@@ -12,6 +12,7 @@ import {
   Paper,
   Container,
 } from "@mui/material";
+import { API_URL } from "../../config";
 
 export default function EditExercise() {
   const errorMessage = text =>
@@ -33,9 +34,7 @@ export default function EditExercise() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/exercise/muscles/all"
-      );
+      const response = await fetch(`${API_URL}exercise/muscles/all`);
       if (!response.ok) {
         throw new Error("Network error: Failed to download all muscles data");
       }
@@ -104,7 +103,7 @@ export default function EditExercise() {
 
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/exercise/exercise/update/${exerciseObject.id}`,
+          `${API_URL}exercise/exercise/update/${exerciseObject.id}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -137,7 +136,7 @@ export default function EditExercise() {
             <Searcher
               dataOutput={setExerciseObject}
               labelName="Szukaj ćwiczenia"
-              apiAdress="http://127.0.0.1:8000/exercise/exercise/all"
+              apiAdress={`${API_URL}exercise/exercise/all`}
             />
             <TextField
               label="Opis ćwiczenia"

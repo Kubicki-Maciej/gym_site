@@ -25,8 +25,12 @@ export default function ButtonsContainer() {
       // }}
     >
       <NavbarTwoButtons name={"EXERCISE"} icon={weight} srcPath={"/menu"} />
-      <NavbarTwoButtons name={"PROGRESS"} icon={ruler} />
-      <NavbarTwoButtons name={"SCHEDULE"} icon={schedule} />
+      <NavbarTwoButtons name={"PROGRESS"} icon={ruler} srcPath={"/training"} />
+      <NavbarTwoButtons
+        name={"SCHEDULE"}
+        icon={schedule}
+        srcPath={"/schedule"}
+      />
     </div>
   );
 }

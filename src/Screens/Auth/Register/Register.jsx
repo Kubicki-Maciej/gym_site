@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../../config";
 
 const client = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: API_URL,
 });
 
 export default function Register() {

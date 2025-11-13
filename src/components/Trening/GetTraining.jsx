@@ -7,6 +7,7 @@ import {
   Box,
 } from "@mui/material";
 import axios from "axios";
+import { API_URL } from "../../config";
 
 export default function GetTraining({ onTrainingSelect }) {
   const [training, setTraining] = useState([]);
@@ -18,7 +19,7 @@ export default function GetTraining({ onTrainingSelect }) {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/training/all");
+        const response = await axios.get(`${API_URL}training/all`);
 
         if (Array.isArray(response.data)) {
           setTraining(response.data);

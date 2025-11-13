@@ -12,6 +12,7 @@ import {
 import SnackbarAlert from "../../../components/Alerts/SnackbarAlert";
 
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../../config";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -39,7 +40,7 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8000/user/login", {
+      const res = await fetch(`${API_URL}user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
