@@ -218,11 +218,37 @@ export default function useUserTraining() {
     }
   };
 
+  const deleteSeriesExercise = async exerciseId => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${API_URL}exercise/delete/seriesexercise/${exerciseId}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Błąd usuwania ćwiczenia");
+      }
+
+      setError(null);
+      return true;
+    } catch (error) {
+      console.error("❌ Błąd usuwania ćwiczenia:", error);
+      setError("Nie udało się usunąć ćwiczenia");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const deleteSingleExercise = async exerciseId => {
     try {
       setLoading(true);
       const response = await fetch(
-        `${API_URL}/exercise/delete/singleseries/${exerciseId}`,
+        `${API_URL}exercise/delete/singleseries/${exerciseId}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -243,7 +269,7 @@ export default function useUserTraining() {
     }
   };
 
-  const createSingleExercise = async dataToSend => {
+  const createSingleRep = async dataToSend => {
     try {
       const response = await fetch(`${API_URL}exercise/add_rep`, {
         method: "POST",
@@ -266,6 +292,36 @@ export default function useUserTraining() {
     }
   };
 
+  const addExerciseToTraining = async (idUserTraining, idExercise) => {
+    const dataToSend = {
+      idUserTraining: idUserTraining,
+      idExercise: idExercise,
+      repeats: 3,
+    };
+
+    try {
+      const response = await fetch(`${API_URL}exercise/workout/addexercise`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(dataToSend),
+      });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(
+          errorData?.error || "Błąd dodawania ćwiczenia do treningu"
+        );
+      }
+      const result = await response.json();
+      setError(null);
+      return result;
+    } catch (error) {
+      console.error("❌ Błąd dodawania ćwiczenia do treningu:", error);
+      setError("Nie udało się dodać ćwiczenia do treningu");
+      return null;
+    }
+  };
+
   return {
     loading,
     error,
@@ -279,6 +335,8 @@ export default function useUserTraining() {
     deleteSingleExercise,
     getExerciseById,
     getAllExercises,
-    createSingleExercise,
+    createSingleRep,
+    addExerciseToTraining,
+    deleteSeriesExercise,
   };
 }

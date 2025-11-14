@@ -34,8 +34,8 @@ export default function WorkoutDetail() {
     getUserDataTraining,
     getAllExercises, // lub getAllExercises jeśli masz osobną metodę
     updateTraining,
-    deleteSingleExercise,
-    createSingleExercise,
+    createSingleRep,
+    deleteSeriesExercise,
   } = useUserTraining();
 
   const [training, setTraining] = useState(null);
@@ -144,25 +144,31 @@ export default function WorkoutDetail() {
   };
 
   const handleAddSerie = async exerciseId => {
-    const returnedRep = await createSingleExercise({
-      idSeriesExercise: exerciseId,
-    });
+    const exercise = exercises.find(ex => ex.userExerciseId === exerciseId);
+    const last = exercise?.exerciseSeries.at(-1);
 
+    const payload = {
+      idSeriesExercise: exerciseId,
+      weight: last?.weight ?? 0,
+      repeats: last?.repeats ?? 12,
+    };
+
+    const returnedRep = await createSingleRep(payload);
     setExercises(prev =>
       prev.map(ex => {
         if (ex.userExerciseId === exerciseId) {
+          const lastRep = ex.exerciseSeries.at(-1);
+
           const newSerie = {
             id: returnedRep.id,
-            repeats: 10,
-            weight: 0,
+            repeats: lastRep.repeats || 12,
+            weight: lastRep.weight || 0,
           };
           return { ...ex, exerciseSeries: [...ex.exerciseSeries, newSerie] };
         }
         return ex;
       })
     );
-    // console.log(exerciseId);
-    console.log(exerciseId);
   };
 
   const handleRemoveSerie = (exerciseId, serieId) => {
@@ -183,22 +189,40 @@ export default function WorkoutDetail() {
     handleDeleteExercise(serieId);
   };
 
-  // --- Exercises logic ---
-  const handleAddExercise = exercise => {
+  // // --- Exercises logic ---
+  // const handleAddExercise = exercise => {
+  //   console.log("--- Exercises logic ---");
+  //   console.log(exercise);
+
+  //   const newExercise = {
+  //     userExerciseId: `temp-${Date.now()}`,
+  //     exerciseId: exercise.id,
+  //     name: exercise.name,
+  //     exerciseSeries: [
+  //       { id: `temp-serie-${Date.now()}`, repeats: 10, weight: 0 },
+  //     ],
+  //   };
+  //   console.log(newExercise);
+  //   setExercises(prev => [...prev, newExercise]);
+  // };
+
+  const handleAddExercise = data => {
+    console.log("--- Exercises logic ---");
+    console.log(data);
+
     const newExercise = {
-      userExerciseId: `temp-${Date.now()}`,
-      exerciseId: exercise.id,
-      name: exercise.name,
-      exerciseSeries: [
-        { id: `temp-serie-${Date.now()}`, repeats: 10, weight: 0 },
-      ],
+      userExerciseId: data.id || `temp-${Date.now()}`,
+      exerciseId: data.exercise,
+      name: data.name,
+      exerciseSeries: data.exercises_series || [],
     };
+    console.log(newExercise);
     setExercises(prev => [...prev, newExercise]);
   };
 
   const handleDeleteExercise = async exerciseId => {
     setIsSaving(true);
-    const result = await deleteSingleExercise(exerciseId);
+    const result = await deleteSeriesExercise(exerciseId);
     if (result) {
       setExercises(prev => prev.filter(ex => ex.userExerciseId !== exerciseId));
       StatusAlertService.showSuccess("Ćwiczenie usunięte");
@@ -544,46 +568,106 @@ export default function WorkoutDetail() {
         onClose={() => setIsAddExerciseOpen(false)}
         onAdd={handleAddExercise}
         exercisesList={allExercises}
+        idUserTraining={id}
+        existingExercises={exercises} // Przekaż istniejące ćwiczenia
       />
     </Box>
   );
 }
 
 // --- Dialog component ---
-function AddExerciseDialog({ open, onClose, onAdd, exercisesList }) {
+// --- Dialog component ---
+function AddExerciseDialog({
+  open,
+  onClose,
+  onAdd,
+  exercisesList,
+  idUserTraining,
+  existingExercises = [], // Dodaj ten prop
+}) {
   const [selectedId, setSelectedId] = useState("");
+  const [error, setError] = useState("");
+  const { addExerciseToTraining } = useUserTraining();
 
-  const handleAdd = () => {
+  // Filtruj już istniejące ćwiczenia
+  const availableExercises = exercisesList.filter(
+    exercise => !existingExercises.some(ex => ex.exerciseId === exercise.id)
+  );
+
+  const handleAdd = async () => {
+    // Sprawdź czy ćwiczenie już istnieje
+    if (existingExercises.some(ex => ex.exerciseId === Number(selectedId))) {
+      setError("To ćwiczenie już zostało dodane do tego treningu");
+      return;
+    }
+
+    const result = await addExerciseToTraining(idUserTraining, selectedId);
+    console.log("result");
+    console.log(result);
+    if (!result) {
+      setError("Błąd przy dodawaniu ćwiczenia");
+      return;
+    }
+
     const exercise = exercisesList.find(e => e.id === Number(selectedId));
-    if (exercise) onAdd(exercise);
+    console.log("Adding exercise ID:", selectedId);
+    console.log("idUserTraining:", idUserTraining);
+    console.log(exercise);
+    if (exercise) onAdd(result);
     setSelectedId("");
+    setError("");
+    onClose();
+  };
+
+  const handleClose = () => {
+    setSelectedId("");
+    setError("");
     onClose();
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Dodaj nowe ćwiczenie</DialogTitle>
       <DialogContent>
-        <TextField
-          select
-          label="Wybierz ćwiczenie"
-          fullWidth
-          value={selectedId}
-          onChange={e => setSelectedId(e.target.value)}
-          SelectProps={{ native: true }}
-          sx={{ mt: 2 }}
-        >
-          <option value="">-- wybierz --</option>
-          {exercisesList.map(exercise => (
-            <option key={exercise.id} value={exercise.id}>
-              {exercise.name}
-            </option>
-          ))}
-        </TextField>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2, mt: 1 }}>
+            {error}
+          </Alert>
+        )}
+
+        {availableExercises.length === 0 ? (
+          <Alert severity="info" sx={{ mt: 2 }}>
+            Wszystkie dostępne ćwiczenia już zostały dodane do tego treningu
+          </Alert>
+        ) : (
+          <TextField
+            select
+            label="Wybierz ćwiczenie"
+            fullWidth
+            value={selectedId}
+            onChange={e => {
+              setSelectedId(e.target.value);
+              setError(""); // Wyczyść błąd gdy użytkownik zmieni wybór
+            }}
+            SelectProps={{ native: true }}
+            sx={{ mt: 2 }}
+          >
+            <option value="">-- Wybierz ćwiczenie --</option>
+            {availableExercises.map(exercise => (
+              <option key={exercise.id} value={exercise.id}>
+                {exercise.name}
+              </option>
+            ))}
+          </TextField>
+        )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Anuluj</Button>
-        <Button onClick={handleAdd} disabled={!selectedId} variant="contained">
+        <Button onClick={handleClose}>Anuluj</Button>
+        <Button
+          onClick={handleAdd}
+          disabled={!selectedId || availableExercises.length === 0}
+          variant="contained"
+        >
           Dodaj
         </Button>
       </DialogActions>
