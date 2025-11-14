@@ -575,8 +575,6 @@ export default function WorkoutDetail() {
   );
 }
 
-// --- Dialog component ---
-// --- Dialog component ---
 function AddExerciseDialog({
   open,
   onClose,
