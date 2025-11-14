@@ -1,6 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import { API_URL } from "../../config";
+import GetUsers from "../User/Component/GetUsers";
+import useUserTraining from "../../hooks/useUserTraining";
+import Searcher from "../Core/Searcher";
+
+import {
+  Delete as DeleteIcon,
+  Add as AddIcon,
+  AddCircleOutline as AddCircleIcon,
+  RemoveCircleOutline as RemoveCircleIcon,
+} from "@mui/icons-material";
 
 export default function CreateWorkout() {
-  return <div>CreateWorkout</div>;
+  const [user, setUser] = useState(null);
+  const [training, setTraining] = useState(null);
+  const { getUpcomingUserWorkouts } = useUserTraining();
+
+  const handleUserSelect = async user => {
+    console.log(user);
+    const workouts = await getUpcomingUserWorkouts(user.id);
+    console.log(workouts);
+    setUser(user);
+  };
+
+  const handleSelectTraining = data => {
+    setTraining(data);
+    console.log(data);
+  };
+
+  //show exercises from training
+
+  return (
+    <div>
+      <p>CreateWorkoutForUser</p>
+      <GetUsers onUserSelect={handleUserSelect} />
+
+      <Searcher
+        dataOutput={handleSelectTraining}
+        labelName="Szukaj treningu"
+        apiAdress={`${API_URL}training/all`}
+      />
+
+      {user && (
+        <div>
+          <h3>
+            Selected User: {user.spouse_name} {user.last_name}
+          </h3>
+        </div>
+      )}
+
+      <div>getUserTrening</div>
+      <div>selectExercises</div>
+      <button>createWorkout</button>
+    </div>
+  );
 }
