@@ -3,6 +3,9 @@ import { API_URL } from "../../config";
 import GetUsers from "../User/Component/GetUsers";
 import useUserTraining from "../../hooks/useUserTraining";
 import Searcher from "../Core/Searcher";
+// import UserList from "../../features/users/components/UserList";
+// import UserList from "../../features/users/components/UserList
+import UserList from "../../features/users/components/UserList";
 
 import {
   Delete as DeleteIcon,
@@ -33,7 +36,8 @@ export default function CreateWorkout() {
   return (
     <div>
       <p>CreateWorkoutForUser</p>
-      <GetUsers onUserSelect={handleUserSelect} />
+
+      <UserList />
 
       <Searcher
         dataOutput={handleSelectTraining}
