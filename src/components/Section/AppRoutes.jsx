@@ -23,6 +23,7 @@ function Section() {
   return (
     <div
       style={{
+        paddingTop: "2rem",
         position: "relative",
       }}
     >
@@ -32,7 +33,6 @@ function Section() {
         <Route path="login/*" element={<LoginPage />}></Route>
         <Route path="register/*" element={<RegisterPage />}></Route>
         <Route path="logout/*" element={<LoginPage />}></Route>
-        {/* Tiles Menu */}
         <Route
           path="menu/create/trening/*"
           element={<CreateNewTraining />}
@@ -44,7 +44,7 @@ function Section() {
         <Route path="menu/*" element={<ExerciseMenuList />}></Route>
         <Route path="menu/edit/trening" element={<EditTrening />}></Route>
         <Route path="menu/edit/exercise" element={<EditExercise />}></Route>
-        {/* Tiles training */}
+
         <Route path="training/*" element={<TrainingScreen />}></Route>
         <Route path="schedule/" element={<TrainerCalendar />}></Route>
         <Route path="training/details/:id" element={<WorkoutDetail />}></Route>

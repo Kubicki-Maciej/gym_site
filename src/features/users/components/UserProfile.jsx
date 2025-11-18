@@ -8,8 +8,7 @@ export default function UserProfile() {
   const [training, setTraining] = useState(null);
   return (
     <div>
-      dodaj trening do danego treningu 1 wybierz użytkownika 2 wybierz dzien 3
-      dodaj treing
+      dodaj trening do danego treningu 1 dodaj treing
       <Searcher
         dataOutput={setTraining}
         labelName={"Wybierz Trening"}
