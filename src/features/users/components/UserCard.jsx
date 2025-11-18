@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -10,12 +11,25 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import WeekdayInitialsStrip from "./WeekDayInitialsStrip";
+import useUserUpcomingTraining from "../hooks/useUserUpcomingTraining";
+import { useNavigate } from "react-router-dom";
 
 export default function UserCard({ id, spouse_name, last_name }) {
+  const { trainingList, loading, error } = useUserUpcomingTraining(id);
+  console.log(trainingList);
+  const navigate = useNavigate();
+  const goToNextTraining = () => {
+    if (trainingList) {
+      navigate(`/training/details/${trainingList[0].id}`);
+    }
+  };
+  if (!id) return;
+  if (loading) return <Typography variant="body2">Ładowanie…</Typography>;
+  if (error)
+    return <Typography variant="body2">Błąd ładowania treningów</Typography>;
   return (
     <Card
       sx={{
-        // width: ,
         borderRadius: 4,
         boxShadow: 3,
         padding: 1,
@@ -23,21 +37,16 @@ export default function UserCard({ id, spouse_name, last_name }) {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
-        <Avatar
-          // src=""
-          alt="Profile"
-          sx={{ width: 62, height: 62, marginRight: 2 }}
-        />
+        <Avatar alt="Profile" sx={{ width: 62, height: 62, marginRight: 2 }} />
         <Box>
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             {spouse_name}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 0.5 }}>
-            <WeekdayInitialsStrip />
+            <WeekdayInitialsStrip trainingList={trainingList} />
           </Box>
         </Box>
       </Box>
-
       <Box
         sx={{
           display: "flex",
@@ -51,7 +60,11 @@ export default function UserCard({ id, spouse_name, last_name }) {
           variant="outlined"
           color="success"
         />
-        <Button variant="text" sx={{ fontWeight: 600 }}>
+        <Button
+          variant="text"
+          sx={{ fontWeight: 600 }}
+          onClick={goToNextTraining}
+        >
           Najbliższy trening
         </Button>
       </Box>
