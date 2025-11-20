@@ -44,7 +44,6 @@ function App() {
           flexGrow: 1,
         }}
       >
-        {" "}
         <Section />
       </div>
 

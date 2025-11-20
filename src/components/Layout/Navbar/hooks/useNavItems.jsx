@@ -5,14 +5,16 @@ export const useNavItems = () => {
 
   if (logged) {
     return [
-      { label: "Home", href: "#home" },
+      { label: "Home", href: "/" },
       { label: "Menu", href: "/menu" },
+      { label: "Training", href: "/training" },
+      { label: "Schedule", href: "/schedule" },
       ,
     ];
   } else {
     return [
       { label: "Home", href: "" },
-      { label: "About", href: "about/*" },
+      { label: "About", href: "about/" },
       { label: "Contact", href: "#contact" },
     ];
   }
