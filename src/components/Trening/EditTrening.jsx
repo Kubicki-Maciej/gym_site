@@ -1,31 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
   Box,
   Chip,
   Stack,
+  CircularProgress,
 } from "@mui/material";
 
 import CreateExerciseForm from "../Exercise/CreateExercise";
-
-import DeleteIcon from "@mui/icons-material/Delete";
-import StatusAlert, { StatusAlertService } from "react-status-alert";
-import "react-status-alert/dist/status-alert.css";
-
 import Notification from "../Core/Messager";
 import Searcher from "../Core/Searcher";
-import NavigateButton from "../Buttons/MainButton";
 
+import SnackbarAlert from "../Alerts/SnackbarAlert";
 import Poput from "../Popout/Poput";
-import { Create } from "@mui/icons-material";
-import { API_URL } from "../../config";
+import useTraining from "./hooks/useTraining";
 
 export default function EditTrening() {
+  const { error, loading, updateMainTraining } = useTraining();
+
   const [popOutWindow, setPopOutWindow] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
   const [trainingName, setTrainingName] = useState("");
@@ -35,49 +28,42 @@ export default function EditTrening() {
   const [exerciseObject, setExerciseObject] = useState(null);
   const [selectedTraining, setSelectedTraining] = useState(null);
 
-  const errorMessage = text =>
-    StatusAlertService.showError(text || "Coś poszło nie tak!");
-  const successMessage = text =>
-    StatusAlertService.showSuccess(text || "Operacja zakończona sukcesem!");
+  const [statusAlert, setStatusAlert] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
-  const sendTrainingToApi = async dataToSend => {
-    try {
-      const response = await fetch(`${API_URL}training/create_training`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
+  // Obsługa błędów z hooka
+  useEffect(() => {
+    if (error) {
+      setStatusAlert({
+        open: true,
+        message: error,
+        severity: "error",
       });
-
-      if (!response.ok) throw new Error("Błąd wysyłania na serwer");
-      await response.json();
-      successMessage("Trening utworzony pomyślnie!");
-    } catch (error) {
-      console.error(error);
-      errorMessage("Nie udało się utworzyć treningu.");
     }
+  }, [error]);
+
+  const showAlert = (message, severity = "success") => {
+    setStatusAlert({
+      open: true,
+      message,
+      severity,
+    });
   };
 
-  const updateTrainingToApi = async dataToSend => {
-    try {
-      const response = await fetch(`${API_URL}training/create_training`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      });
-
-      if (!response.ok) throw new Error("Błąd aktualizacji na serwerze");
-      await response.json();
-      successMessage("Trening zaktualizowany pomyślnie!");
-    } catch (error) {
-      console.error(error);
-      errorMessage("Nie udało się zaktualizować treningu.");
-    }
+  const handleCloseAlert = () => {
+    setStatusAlert({ ...statusAlert, open: false });
   };
 
   const handleAddExercise = () => {
-    if (!exerciseObject) return;
+    if (!exerciseObject) {
+      showAlert("Wybierz ćwiczenie", "warning");
+      return;
+    }
     if (exercises.some(ex => ex.id === exerciseObject.id)) {
-      setOpenNotification(true);
+      showAlert("To ćwiczenie jest już na liście", "warning");
       return;
     }
     setExercises([...exercises, exerciseObject]);
@@ -88,112 +74,191 @@ export default function EditTrening() {
     setExercises(exercises.filter((_, idx) => idx !== index));
   };
 
-  const handleSaveTraining = () => {
-    if (!trainingName || !trainingComment || exercises.length === 0) {
-      errorMessage(
-        "Wprowadź nazwę, komentarz oraz dodaj przynajmniej jedno ćwiczenie."
-      );
-      return;
-    }
-
-    const payload = selectedTraining
-      ? {
-          user_training_id: trainingId,
-          description: trainingComment,
-          exercise_groups: exercises.map(ex => ex.id),
-        }
-      : {
-          name: trainingName,
-          description: trainingComment,
-          exercise_groups: exercises.map(ex => ex.id),
-        };
-
-    selectedTraining
-      ? updateTrainingToApi(payload)
-      : sendTrainingToApi(payload);
-  };
-
   const handleSelectTraining = training => {
     if (training) {
       setSelectedTraining(training);
       setTrainingName(training.name);
       setTrainingId(training.id);
       setTrainingComment(training.description);
-      setExercises(training.exercise_groups);
+      setExercises(training.exercise_groups || []);
     } else {
-      setSelectedTraining(null);
-      setTrainingName("");
-      setTrainingId("");
-      setTrainingComment("");
-      setExercises([]);
+      resetForm();
     }
   };
 
+  const handleSaveTraining = async () => {
+    if (!trainingComment || exercises.length === 0) {
+      showAlert(
+        "Wprowadź komentarz oraz dodaj przynajmniej jedno ćwiczenie.",
+        "error"
+      );
+      return;
+    }
+
+    if (!selectedTraining) {
+      showAlert("Wybierz trening do edycji", "error");
+      return;
+    }
+
+    try {
+      // console.log("TrainingId:", trainingId, typeof trainingId);
+      // console.log("Exercises:", exercises);
+      // console.log(
+      //   "Exercise groups IDs:",
+      //   exercises.map(ex => ex.id)
+      // );
+      await updateMainTraining({
+        trainingId: trainingId,
+        description: trainingComment,
+        exercise_groups: exercises.map(ex => ex.id),
+      });
+      showAlert("Trening zaktualizowany pomyślnie!", "success");
+      resetForm();
+    } catch (err) {
+      showAlert(err.message || "Nie udało się zaktualizować treningu", "error");
+    }
+  };
+
+  const resetForm = () => {
+    setSelectedTraining(null);
+    setTrainingName("");
+    setTrainingId("");
+    setTrainingComment("");
+    setExercises([]);
+    setExerciseObject(null);
+  };
+
   return (
-    <Box
-      sx={{
-        maxWidth: 500,
-        mx: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        p: 2,
-      }}
-    >
-      <Notification
-        text={"To ćwiczenie jest już na liście."}
-        openNotification={openNotification}
-        setOpenNotification={setOpenNotification}
-      />
-      <Searcher
-        dataOutput={handleSelectTraining}
-        labelName="Szukaj treningu"
-        apiAdress={`training/all`}
-      />
-      <TextField
-        label="Komentarz do treningu"
-        value={trainingComment}
-        onChange={e => setTrainingComment(e.target.value)}
-        fullWidth
-        multiline
-        rows={3}
-      />
-      <Stack direction="row" flexWrap="wrap">
-        {exercises.map((exercise, index) => (
-          <Chip
-            sx={{ mr: 1, mb: 1 }}
-            key={exercise.id || index}
-            label={exercise.name}
-            onDelete={() => handleDeleteExercise(index)}
-            color="primary"
-            size="small"
-          />
-        ))}
-      </Stack>
-      <Searcher
-        dataOutput={setExerciseObject}
-        labelName="Szukaj ćwiczenia"
-        apiAdress={`exercise/exercise/all`}
-      />
-      <Button onClick={handleAddExercise}>Dodaj ćwiczenie</Button>
-
-      <Button
-        variant="contained"
-        color={selectedTraining ? "secondary" : "primary"}
-        onClick={handleSaveTraining}
+    <>
+      <Box
+        sx={{
+          maxWidth: 500,
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          p: 2,
+        }}
       >
-        {selectedTraining ? "Zaktualizuj trening" : "Utwórz trening"}
-      </Button>
+        <Notification
+          text={"To ćwiczenie jest już na liście."}
+          openNotification={openNotification}
+          setOpenNotification={setOpenNotification}
+        />
 
-      <StatusAlert />
-      <Button variant="contained" onClick={() => setPopOutWindow(true)}>
-        Stwórz nowe ćwiczenie
-      </Button>
-      <Poput
-        component={<CreateExerciseForm />}
-        setWindowProperty={setPopOutWindow}
-        windowProperty={popOutWindow}
+        <Searcher
+          dataOutput={handleSelectTraining}
+          labelName="Szukaj treningu"
+          apiAdress="training/all"
+          disabled={loading}
+        />
+
+        {selectedTraining && (
+          <>
+            <TextField
+              label="Nazwa treningu"
+              value={trainingName}
+              disabled
+              fullWidth
+            />
+
+            <TextField
+              label="Komentarz do treningu"
+              value={trainingComment}
+              onChange={e => setTrainingComment(e.target.value)}
+              fullWidth
+              multiline
+              rows={3}
+              disabled={loading}
+            />
+
+            <Stack direction="row" flexWrap="wrap">
+              {exercises.map((exercise, index) => (
+                <Chip
+                  sx={{ mr: 1, mb: 1 }}
+                  key={exercise.id || index}
+                  label={exercise.name}
+                  onDelete={() => handleDeleteExercise(index)}
+                  color="primary"
+                  size="small"
+                  disabled={loading}
+                />
+              ))}
+            </Stack>
+
+            <Searcher
+              dataOutput={setExerciseObject}
+              labelName="Szukaj ćwiczenia"
+              apiAdress="exercise/exercise/all"
+              disabled={loading}
+            />
+
+            <Button
+              onClick={handleAddExercise}
+              disabled={loading}
+              variant="outlined"
+            >
+              Dodaj ćwiczenie
+            </Button>
+
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleSaveTraining}
+              disabled={loading}
+              sx={{ position: "relative" }}
+            >
+              {loading ? (
+                <>
+                  <CircularProgress
+                    size={20}
+                    sx={{
+                      position: "absolute",
+                      left: "50%",
+                      marginLeft: "-10px",
+                    }}
+                  />
+                  <span style={{ visibility: "hidden" }}>
+                    Zaktualizuj trening
+                  </span>
+                </>
+              ) : (
+                "Zaktualizuj trening"
+              )}
+            </Button>
+
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={resetForm}
+              disabled={loading}
+            >
+              Anuluj edycję
+            </Button>
+          </>
+        )}
+
+        <Button
+          variant="contained"
+          onClick={() => setPopOutWindow(true)}
+          disabled={loading}
+        >
+          Stwórz nowe ćwiczenie
+        </Button>
+
+        <Poput
+          component={<CreateExerciseForm />}
+          setWindowProperty={setPopOutWindow}
+          windowProperty={popOutWindow}
+        />
+      </Box>
+
+      <SnackbarAlert
+        open={statusAlert.open}
+        onClose={handleCloseAlert}
+        severity={statusAlert.severity}
+        message={statusAlert.message}
       />
-    </Box>
+    </>
   );
 }

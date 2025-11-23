@@ -74,6 +74,6 @@ export const trainingApi = {
   },
 
   updateMainTraining: async data => {
-    return api.post(`training/create_training`, data);
+    return api.put(`training/create_training`, data);
   },
 };

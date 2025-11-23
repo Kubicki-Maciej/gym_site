@@ -9,7 +9,7 @@ import { StudentsPage } from "../../features/students/pages/StudentPage";
 
 import EditTrening from "../Trening/EditTrening";
 import CreateExercise from "../Exercise/CreateExercise";
-import EditExercise from "../Exercise/EditExercise";
+
 import CreateNewTraining from "../Trening/CreateTrening";
 
 // import UserAddTraining from "./Forms/UserAddTraining";
@@ -24,7 +24,7 @@ export default function MenuSection() {
         <Route path="training/create" element={<CreateNewTraining />} />
         <Route path="training/edit" element={<EditTrening />} />
         <Route path="exercise/create" element={<CreateExercise />} />
-        <Route path="exercise/edit" element={<EditExercise />} />
+
         {/* my clients */}
         <Route path="plan/create" element={<UserAddTraining />} />
         <Route path="workout/create" element={<CreateWorkout />} />

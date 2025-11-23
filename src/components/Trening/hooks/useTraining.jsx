@@ -208,6 +208,7 @@ export default function useTraining() {
   }, []);
 
   const updateMainTraining = useCallback(async data => {
+    console.log(data);
     try {
       setLoading(true);
       await trainingApi.updateMainTraining(data);

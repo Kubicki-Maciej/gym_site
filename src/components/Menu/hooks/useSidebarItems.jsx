@@ -28,15 +28,9 @@ export const useSidebarItems = () => {
         },
         {
           id: "add-exercise",
-          name: "Dodaj ćwiczenie",
+          name: "Dodaj/Edytuj ćwiczenie",
           icon: AddIcon,
           path: "exercise/create",
-        },
-        {
-          id: "edit-exercise",
-          name: "Edytuj ćwiczenie",
-          icon: EditIcon,
-          path: "exercise/edit",
         },
       ],
     },

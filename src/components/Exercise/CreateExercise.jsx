@@ -5,123 +5,134 @@ import {
   Typography,
   Button,
   Autocomplete,
-  Chip,
   Stack,
   Paper,
   Container,
+  CircularProgress,
 } from "@mui/material";
 
+import SnackbarAlert from "../Alerts/SnackbarAlert";
 import Searcher from "../Core/Searcher";
-import StatusAlert, { StatusAlertService } from "react-status-alert";
-import { API_URL } from "../../config";
-import api from "../../api/client";
+import useGeneral from "../../hooks/useGeneral";
+import useExercise from "./hooks/useExercise";
 
 export default function CreateExercise() {
-  const errorMessage = text =>
-    StatusAlertService.showError(text || "Coś poszło nie tak!");
-  const successMessage = text =>
-    StatusAlertService.showSuccess(text || "Operacja zakończona sukcesem!");
+  const { createExercise, error, loading } = useExercise();
+  const { getAllMuscles, errorGeneral, loadingGeneral } = useGeneral();
+
   const [exerciseName, setExerciseName] = useState("");
   const [exerciseDescription, setExerciseDescription] = useState("");
-  const [selectedMuscles, setSelectedMuscles] = useState([]);
-
-  const [muscleGroupOptions, setMuscleGroupOptions] = useState([]);
-  const [exerciseObject, setExerciseObject] = useState({});
   const [muscleGroups, setMuscleGroups] = useState([]);
+  const [muscleGroupOptions, setMuscleGroupOptions] = useState([]);
+  const [exerciseObject, setExerciseObject] = useState(null);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [statusAlert, setStatusAlert] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+    autoHideDuration: 4000,
+  });
 
-  async function fetchMuscleGroups() {
-    console.log("halo ladujemy ?");
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await api.get(`exercise/muscles/all`);
-      console.log("Muscles response:", data);
-      const muscles = data.results || data || [];
-      setMuscleGroupOptions(muscles);
-    } catch (err) {
-      setError(err.message);
-      setMuscleGroupOptions([]);
-    } finally {
-      setLoading(false);
-    }
-  }
+  // Pobranie grup mięśniowych przy załadowaniu
+  useEffect(() => {
+    const loadMuscleGroups = async () => {
+      try {
+        const data = await getAllMuscles();
+        setMuscleGroupOptions(data);
+      } catch (err) {
+        showAlert("Nie udało się pobrać grup mięśniowych", "error");
+      }
+    };
+
+    loadMuscleGroups();
+  }, [getAllMuscles]);
 
   useEffect(() => {
-    fetchMuscleGroups();
-  }, []);
+    if (error) {
+      setStatusAlert({
+        open: true,
+        message: error,
+        severity: "error",
+        autoHideDuration: 5000,
+      });
+    }
+  }, [error]);
 
-  function getExerciseFromSercher(exercise) {
+  const showAlert = (
+    message,
+    severity = "success",
+    autoHideDuration = 4000
+  ) => {
+    setStatusAlert({
+      open: true,
+      message,
+      severity,
+      autoHideDuration,
+    });
+  };
+
+  const handleCloseAlert = () => {
+    setStatusAlert({ ...statusAlert, open: false });
+  };
+
+  const getExerciseFromSearcher = exercise => {
     if (exercise) {
-      console.log("exercise.muscle_group");
-      console.log(exercise.muscle_group);
       setExerciseObject(exercise);
       setExerciseName(exercise.name);
-      setExerciseDescription(exercise.description);
-      setMuscleGroups(
-        muscleGroupOptions.filter(group =>
-          exercise.muscle_group.includes(group.id)
-        )
+      setExerciseDescription(exercise.description || "");
+
+      // Filtruj grupy mięśniowe na podstawie ID
+      const selectedGroups = muscleGroupOptions.filter(group =>
+        exercise.muscle_group.includes(group.id)
       );
+      setMuscleGroups(selectedGroups);
+      showAlert(`Ćwiczenie: ${exercise.name} załadowane`, "info", 2000);
     } else {
-      setExerciseName("");
-      setExerciseDescription("");
-      setMuscleGroups([]);
+      resetForm();
     }
-  }
-
-  useEffect(() => {
-    console.log("Zaktualizowany obiekt ćwiczenia:", exerciseObject);
-  }, [exerciseObject]);
-
-  const handleNameChange = event => {
-    setExerciseName(event.target.value);
-  };
-  const handleDescriptionChange = event => {
-    setExerciseDescription(event.target.value);
   };
 
   const handleMuscleGroupsChange = (event, value) => {
-    console.log(muscleGroups);
-    setMuscleGroups(value);
+    setMuscleGroups(value || []);
   };
-  async function createNewExercise() {
-    if (exerciseName && muscleGroups.length > 0) {
-      const muscleGroupsOnlyId = array => array.every(Number.isInteger);
-      console.log(muscleGroups);
-      const object = {
+
+  const handleCreateNewExercise = async () => {
+    // Walidacja
+    if (!exerciseName.trim()) {
+      showAlert("Wprowadź nazwę ćwiczenia", "warning");
+      return;
+    }
+
+    if (muscleGroups.length === 0) {
+      showAlert("Wybierz przynajmniej jedną grupę mięśniową", "warning");
+      return;
+    }
+
+    try {
+      const exerciseData = {
         name: exerciseName,
         description: exerciseDescription,
         muscle_group: muscleGroups.map(group => group.id),
       };
-      console.log(object);
 
-      try {
-        const response = await api.post(`exercise/exercise/create`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(object),
-        });
-
-        if (!response.ok) {
-          throw new Error("Nie udało się wysłać danych na serwer");
-        }
-
-        const data = await response.json();
-        console.log("Dane wysłane pomyślnie:", data);
-        successMessage("Ćwiczenie utworzone pomyślnie!");
-      } catch (error) {
-        console.error("Błąd podczas wysyłania danych:", error);
-        errorMessage("Nie udało się utworzyć ćwiczenia.");
-      }
-    } else {
-      errorMessage("Proszę uzupełnić wszystkie wymagane pola.");
+      await createExercise(exerciseData);
+      showAlert("Ćwiczenie utworzone pomyślnie! ✓", "success");
+      resetForm();
+    } catch (err) {
+      showAlert(
+        err.message || "Nie udało się utworzyć ćwiczenia",
+        "error",
+        5000
+      );
     }
-  }
+  };
+
+  const resetForm = () => {
+    setExerciseName("");
+    setExerciseDescription("");
+    setMuscleGroups([]);
+    setExerciseObject(null);
+  };
 
   return (
     <Container maxWidth="sm">
@@ -131,12 +142,31 @@ export default function CreateExercise() {
             Dodaj nowe ćwiczenie
           </Typography>
 
+          {/* Wyszukiwanie istniejącego ćwiczenia */}
+          <Box sx={{ py: 2, borderBottom: "1px solid #e0e0e0" }}>
+            <Typography
+              variant="subtitle2"
+              sx={{ mb: 1, color: "text.secondary" }}
+            >
+              Lub załaduj istniejące:
+            </Typography>
+            <Searcher
+              dataOutput={getExerciseFromSearcher}
+              labelName="Szukaj ćwiczenia"
+              apiAdress="exercise/exercise/all"
+              disabled={loading}
+            />
+          </Box>
+
+          {/* Formularz tworzenia ćwiczenia */}
           <TextField
             label="Nazwa ćwiczenia"
             value={exerciseName}
             onChange={e => setExerciseName(e.target.value)}
             fullWidth
             required
+            disabled={loading}
+            placeholder="np. Wyciskanie sztangi leżąc"
           />
 
           <TextField
@@ -146,35 +176,78 @@ export default function CreateExercise() {
             fullWidth
             multiline
             minRows={3}
+            disabled={loading}
             helperText="Opcjonalnie opisz sprzęt, pozycję, itp."
+            placeholder="np. Leż na ławce, weź sztangę na wysokości klatki piersiowej..."
           />
 
           <Autocomplete
             multiple
             onChange={handleMuscleGroupsChange}
             options={muscleGroupOptions}
-            getOptionLabel={option => option.name}
+            getOptionLabel={option => option.name || ""}
             value={muscleGroups}
             isOptionEqualToValue={(option, value) => option.id === value.id}
+            disabled={loading}
             renderInput={params => (
               <TextField
                 {...params}
                 label="Rodzaj partii mięśniowe"
                 variant="outlined"
-                placeholder="Wybierz ..."
+                placeholder="Wybierz grupy mięśniowe..."
+                required
               />
             )}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={createNewExercise}
-            size="large"
-          >
-            Zapisz ćwiczenie
-          </Button>
+
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCreateNewExercise}
+              disabled={loading}
+              size="large"
+              sx={{ flex: 1, position: "relative" }}
+            >
+              {loading ? (
+                <>
+                  <CircularProgress
+                    size={20}
+                    sx={{
+                      position: "absolute",
+                      left: "50%",
+                      marginLeft: "-10px",
+                      color: "inherit",
+                    }}
+                  />
+                  <span style={{ visibility: "hidden" }}>Zapisz ćwiczenie</span>
+                </>
+              ) : (
+                "Zapisz ćwiczenie"
+              )}
+            </Button>
+
+            {exerciseObject && (
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={resetForm}
+                disabled={loading}
+              >
+                Czyść
+              </Button>
+            )}
+          </Stack>
         </Stack>
       </Paper>
+
+      <SnackbarAlert
+        open={statusAlert.open}
+        onClose={handleCloseAlert}
+        severity={statusAlert.severity}
+        message={statusAlert.message}
+        autoHideDuration={statusAlert.autoHideDuration}
+      />
     </Container>
   );
 }

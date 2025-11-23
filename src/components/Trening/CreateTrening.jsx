@@ -21,6 +21,7 @@ import useTraining from "./hooks/useTraining";
 
 export default function CreateNewTraining() {
   const { error, loading, createTraining, updateMainTraining } = useTraining();
+
   const [popOutWindow, setPopOutWindow] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
   const [trainingName, setTrainingName] = useState("");
