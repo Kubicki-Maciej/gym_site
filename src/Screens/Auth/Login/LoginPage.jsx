@@ -40,14 +40,20 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
+      const payload = {
+        email: username,
+        password: password,
+      };
       const res = await fetch(`${API_URL}user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
 
       if (res.ok) {
+        console.log("data.access");
+        console.log(data.access);
         localStorage.setItem("access", data.access);
         setAlert({
           open: true,

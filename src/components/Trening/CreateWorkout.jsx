@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { API_URL } from "../../config";
 import GetUsers from "../User/Component/GetUsers";
-import useUserTraining from "../../hooks/useUserTraining";
+// import useUserTraining from "../../hooks/useUserTraining";
+import useUserTraining from "./hooks/useTraining";
 import Searcher from "../Core/Searcher";
 // import UserList from "../../features/users/components/UserList";
 // import UserList from "../../features/users/components/UserList
@@ -42,7 +43,7 @@ export default function CreateWorkout() {
       <Searcher
         dataOutput={handleSelectTraining}
         labelName="Szukaj treningu"
-        apiAdress={`${API_URL}training/all`}
+        apiAdress={`training/all`}
       />
 
       {user && (

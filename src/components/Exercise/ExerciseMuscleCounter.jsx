@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Chip } from "@mui/material";
 import axios from "axios";
-import { API_URL } from "../../config";
+import api from "../../api/client";
 
 export default function ExerciseMuscleCounter({ exercises }) {
   const [muscles, setMuscles] = useState([]);
   useEffect(() => {
+    console.log("echo");
     const fetchMuscles = async () => {
       try {
-        const res = await axios.get(`${API_URL}exercise/muscles/all`);
+        const res = await api.get(`exercise/muscles/all`);
+        // const res = await axios.get();
         setMuscles(res.data);
       } catch (err) {
         console.error("Błąd pobierania mięśni:", err);

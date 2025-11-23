@@ -14,6 +14,7 @@ import {
 import Searcher from "../Core/Searcher";
 import StatusAlert, { StatusAlertService } from "react-status-alert";
 import { API_URL } from "../../config";
+import api from "../../api/client";
 
 export default function CreateExercise() {
   const errorMessage = text =>
@@ -32,17 +33,17 @@ export default function CreateExercise() {
   const [error, setError] = useState(null);
 
   async function fetchMuscleGroups() {
+    console.log("halo ladujemy ?");
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_URL}exercise/muscles/all`);
-      if (!response.ok) {
-        throw new Error("Network error: Failed to download all muscles data");
-      }
-      const data = await response.json();
-      setMuscleGroupOptions(data);
+      const data = await api.get(`exercise/muscles/all`);
+      console.log("Muscles response:", data);
+      const muscles = data.results || data || [];
+      setMuscleGroupOptions(muscles);
     } catch (err) {
       setError(err.message);
+      setMuscleGroupOptions([]);
     } finally {
       setLoading(false);
     }
@@ -98,7 +99,7 @@ export default function CreateExercise() {
       console.log(object);
 
       try {
-        const response = await fetch(`${API_URL}exercise/exercise/create`, {
+        const response = await api.post(`exercise/exercise/create`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

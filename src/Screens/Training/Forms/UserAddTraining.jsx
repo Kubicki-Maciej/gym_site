@@ -11,7 +11,8 @@ import { API_URL } from "../../../config";
 import EventCalendar from "../../../components/Calendar/EventCalendar";
 import { Button } from "@mui/material";
 import { el } from "date-fns/locale";
-import useUserTraining from "../../../hooks/useUserTraining";
+// import useUserTraining from "../../../hooks/useUserTraining";
+import useUserTraining from "../../../components/Trening/hooks/useTraining";
 
 // dodajesz trening/i użytkownikowi
 export default function UserAddTraining() {
@@ -69,8 +70,7 @@ export default function UserAddTraining() {
   }
 
   return (
-    <div>
-      <ExerciseMuscleCounter exercises={exercises} />
+    <>
       <GetUsers onUserSelect={handleUserSelect} />
       <PlanTraining
         userSelected={boolUserSelected}
@@ -79,10 +79,7 @@ export default function UserAddTraining() {
       />
       <Button onClick={handleDataSend}>Wyślij trening</Button>
 
-      <EventCalendar />
-
-      <pre>{JSON.stringify(boolUserSelected, null, 2)}</pre>
-      <pre>{JSON.stringify(eventData, null, 2)}</pre>
-    </div>
+      {/* <EventCalendar /> */}
+    </>
   );
 }

@@ -3,13 +3,8 @@ import { useEffect, useState } from "react";
 
 import Footer from "./components/Layout/Footer/Footer";
 import Section from "./components/Section/AppRoutes.jsx";
-import NavBarTwo from "./components/Layout/NavBarTwo/NavBarTwo.jsx";
-import Navbar from "./components/Layout/Navbar/Navbar.jsx";
-import NavbarMobile from "./components/Layout/Navbar/NavbarMobile.jsx";
-import { useUserContext } from "./components/User/context.jsx";
 
-// new components
-// import { NewNavbar } from "./components/Layout/Navbar/NewNavBar.jsx";
+import { useUserContext } from "./components/User/context.jsx";
 import { NewNavBar } from "./components/Layout/Navbar/NewNavBar.jsx";
 
 function App() {
@@ -37,8 +32,7 @@ function App() {
       }}
     >
       <NewNavBar />
-      {/* <Navbar /> */}
-      {logged ? <NavBarTwo /> : <div style={{ height: "50px" }}></div>}
+
       <div
         style={{
           flexGrow: 1,

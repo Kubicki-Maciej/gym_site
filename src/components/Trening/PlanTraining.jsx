@@ -23,13 +23,6 @@ export default function PlanTraining({
   }
   return (
     <div>
-      <pre>{JSON.stringify(trainingType, null, 2)}</pre>
-      <pre>{JSON.stringify(userSelected, null, 2)}</pre>
-      {trainingType === "single" ? (
-        <div>jest to single event</div>
-      ) : (
-        <div>jest to event cykliczny</div>
-      )}
       <EventTypeSelector
         onChange={onEventDataChange}
         setTrainigType={setTrainingType}

@@ -23,7 +23,7 @@ export const LoginButton = ({ onNavClick }) => {
 
   const handleLogout = () => {
     logout();
-    onNavClick?.();
+    onNavClick?.("");
   };
 
   if (user) {

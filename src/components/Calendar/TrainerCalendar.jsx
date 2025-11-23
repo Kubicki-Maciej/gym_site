@@ -8,7 +8,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../User/context";
-import useUserTraining from "../../hooks/useUserTraining";
+import useUserTraining from "../Trening/hooks/useTraining";
 
 export default function TrainerCalendar() {
   const navigate = useNavigate();

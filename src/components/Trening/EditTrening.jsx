@@ -148,7 +148,7 @@ export default function EditTrening() {
       <Searcher
         dataOutput={handleSelectTraining}
         labelName="Szukaj treningu"
-        apiAdress={`${API_URL}training/all`}
+        apiAdress={`training/all`}
       />
       <TextField
         label="Komentarz do treningu"
@@ -173,7 +173,7 @@ export default function EditTrening() {
       <Searcher
         dataOutput={setExerciseObject}
         labelName="Szukaj ćwiczenia"
-        apiAdress={`${API_URL}exercise/exercise/all`}
+        apiAdress={`exercise/exercise/all`}
       />
       <Button onClick={handleAddExercise}>Dodaj ćwiczenie</Button>
 

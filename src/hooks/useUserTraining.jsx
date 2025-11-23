@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { API_URL } from "../config";
-import { DataArrayRounded } from "@mui/icons-material";
 
 export default function useUserTraining() {
   const [loading, setLoading] = useState(true);

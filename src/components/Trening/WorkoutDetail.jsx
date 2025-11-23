@@ -25,7 +25,8 @@ import {
   AddCircleOutline as AddCircleIcon,
   RemoveCircleOutline as RemoveCircleIcon,
 } from "@mui/icons-material";
-import useUserTraining from "../../hooks/useUserTraining";
+// import useUserTraining from "../../hooks/useUserTraining";
+import useUserTraining from "./hooks/useTraining";
 import { StatusAlertService } from "react-status-alert";
 
 export default function WorkoutDetail() {

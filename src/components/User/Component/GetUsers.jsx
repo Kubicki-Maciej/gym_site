@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { API_URL } from "../../../config";
+import api from "../../../api/client";
 
 export default function GetUsers({ onUserSelect }) {
   const [users, setUsers] = useState([]);
@@ -19,13 +20,13 @@ export default function GetUsers({ onUserSelect }) {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${API_URL}user/all_users`);
-
-        if (Array.isArray(response.data)) {
-          setUsers(response.data);
+        const response = await api.get(`user/users`);
+        setUsers(response);
+        if (Array.isArray(response)) {
+          setUsers(response);
         } else {
-          console.error("Dane z API nie są tablicą:", response.data);
-          console.log(response.data);
+          console.error("Dane z API nie są tablicą:", response);
+          console.log(response);
           setUsers([]);
           setError("Błąd formatu danych z serwera");
         }

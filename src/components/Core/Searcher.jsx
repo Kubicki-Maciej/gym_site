@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Autocomplete } from "@mui/material";
+import api from "../../api/client";
 
 export default function Searcher({ dataOutput, apiAdress, labelName }) {
   const [exercises, setExercises] = useState([]);
@@ -11,21 +12,19 @@ export default function Searcher({ dataOutput, apiAdress, labelName }) {
     setError(null);
 
     try {
-      const response = await fetch(apiAdress);
-      if (!response.ok) {
-        throw new Error("Network error: Failed to download all exercise data");
-      }
-      const data = await response.json();
-      setExercises(data);
+      // 👇 Zastąp fetch na api.get
+      const data = await api.get(apiAdress);
+      setExercises(data || []);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Błąd pobierania danych");
     } finally {
       setLoading(false);
     }
   }
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [apiAdress]); // 👈 Dodaj apiAdress do dependency array
 
   function handleChange(event, value) {
     dataOutput(value);

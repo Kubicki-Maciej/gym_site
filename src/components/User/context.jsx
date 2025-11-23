@@ -1,5 +1,3 @@
-import { createContext, useContext, useState } from "react";
-
 /**
  * UserContext - przechowuje informacje o zalogowanym użytkowniku
  *
@@ -12,13 +10,6 @@ import { createContext, useContext, useState } from "react";
  *   updateUser: function - funkcja do aktualizacji danych użytkownika
  * }
  */
-export const UserContext = createContext({
-  logged: false,
-  user: null,
-  login: () => {},
-  logout: () => {},
-  updateUser: () => {},
-});
 
 /**
  * UserProvider - komponent dostawcy contextu
@@ -57,39 +48,81 @@ export const UserContext = createContext({
  *        updateUser(updatedData);
  *      };
  *    }
- */
+ */ // src/context/UserContext.jsx
+import { createContext, useContext, useState, useEffect } from "react";
+
+export const UserContext = createContext({
+  logged: false,
+  user: null,
+  login: () => {},
+  logout: () => {},
+  updateUser: () => {},
+  accessToken: null,
+  refreshToken: null,
+});
+
 export function UserProvider({ children }) {
-  const [logged, setLogged] = useState(!!localStorage.getItem("userLogged"));
-  const [user, setUser] = useState(() => {
-    const userStr = localStorage.getItem("user");
-    if (!userStr) return null;
+  const [logged, setLogged] = useState(false);
+  const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [refreshToken, setRefreshToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    try {
-      return JSON.parse(userStr);
-    } catch (error) {
-      console.error(
-        "Błąd przy parsowaniu danych użytkownika z localStorage:",
-        error
-      );
-      // Jeśli JSON jest nieprawidłowy, wyczyść localStorage
-      localStorage.removeItem("user");
-      localStorage.removeItem("userLogged");
-      return null;
+  // ✅ Inicjalizuj state z localStorage przy montowaniu
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const refresh = localStorage.getItem("refresh");
+    const userData = localStorage.getItem("user");
+
+    if (token && refresh && userData) {
+      try {
+        setAccessToken(token);
+        setRefreshToken(refresh);
+        setUser(JSON.parse(userData));
+        setLogged(true);
+      } catch (error) {
+        console.error("Błąd przy wczytywaniu danych z localStorage:", error);
+        // Wyczyść nieprawidłowe dane
+        localStorage.removeItem("token");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+      }
     }
-  });
+    setLoading(false);
+  }, []);
 
-  const login = userData => {
-    setLogged(true);
-    setUser(userData);
-    localStorage.setItem("userLogged", "true");
+  const login = response => {
+    // ✅ response zawiera: { access, refresh, user }
+    const { access, refresh, user: userData } = response;
+
+    // Zapisz tokeny
+    localStorage.setItem("token", access);
+    localStorage.setItem("refresh", refresh);
+
+    // Zapisz dane użytkownika
     localStorage.setItem("user", JSON.stringify(userData));
+
+    // Zaktualizuj state
+    setAccessToken(access);
+    setRefreshToken(refresh);
+    setUser(userData);
+    setLogged(true);
   };
 
   const logout = () => {
-    setLogged(false);
-    setUser(null);
-    localStorage.removeItem("userLogged");
+    // Wyczyść localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("refresh");
     localStorage.removeItem("user");
+
+    // Wyczyść state
+    setAccessToken(null);
+    setRefreshToken(null);
+    setUser(null);
+    setLogged(false);
+
+    // Przekieruj na login
+    // window.location.href = "/login";
   };
 
   const updateUser = updatedData => {
@@ -98,23 +131,31 @@ export function UserProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(newUserData));
   };
 
+  // ✅ Funkcja do aktualizacji access tokena
+  const setNewAccessToken = token => {
+    setAccessToken(token);
+    localStorage.setItem("token", token);
+  };
+
   const value = {
     logged,
     user,
+    accessToken,
+    refreshToken,
+    loading,
     login,
     logout,
     updateUser,
+    setNewAccessToken,
   };
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={value}>
+      {!loading && children}
+    </UserContext.Provider>
+  );
 }
 
-/**
- * Hook do pobierania contextu użytkownika
- *
- * PRZYKŁAD UŻYCIA:
- * const { logged, user, login, logout, updateUser } = useUserContext();
- */
 export function useUserContext() {
   const context = useContext(UserContext);
 
@@ -123,9 +164,13 @@ export function useUserContext() {
     return {
       logged: false,
       user: null,
+      accessToken: null,
+      refreshToken: null,
+      loading: false,
       login: () => {},
       logout: () => {},
       updateUser: () => {},
+      setNewAccessToken: () => {},
     };
   }
 

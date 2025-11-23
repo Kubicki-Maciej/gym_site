@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function UserCard({ id, spouse_name, last_name }) {
   const { trainingList, loading, error } = useUserUpcomingTraining(id);
-  console.log(trainingList);
+  // console.log(trainingList);
   const navigate = useNavigate();
   const goToNextTraining = () => {
     if (trainingList) {
@@ -26,7 +26,9 @@ export default function UserCard({ id, spouse_name, last_name }) {
   if (!id) return;
   if (loading) return <Typography variant="body2">Ładowanie…</Typography>;
   if (error)
-    return <Typography variant="body2">Błąd ładowania treningów</Typography>;
+    return (
+      <Typography variant="body2">Błąd ładowania treningów {error}</Typography>
+    );
   return (
     <Card
       sx={{
@@ -64,6 +66,7 @@ export default function UserCard({ id, spouse_name, last_name }) {
           variant="text"
           sx={{ fontWeight: 600 }}
           onClick={goToNextTraining}
+          disabled={!trainingList || trainingList.length === 0}
         >
           Najbliższy trening
         </Button>

@@ -1,33 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
   Box,
   Chip,
   Stack,
+  CircularProgress,
 } from "@mui/material";
+import SnackbarAlert from "../Alerts/SnackbarAlert";
 
 import CreateExerciseForm from "../Exercise/CreateExercise";
 
-import DeleteIcon from "@mui/icons-material/Delete";
-
-import StatusAlert, { StatusAlertService } from "react-status-alert";
 import "react-status-alert/dist/status-alert.css";
 
 import Searcher from "../Core/Searcher";
 import Notification from "../Core/Messager";
-import NavigateButton from "../Buttons/MainButton";
 
 import Poput from "../Popout/Poput";
-
-import { Create } from "@mui/icons-material";
-import { API_URL } from "../../config";
+import useTraining from "./hooks/useTraining";
 
 export default function CreateNewTraining() {
+  const { error, loading, createTraining, updateMainTraining } = useTraining();
   const [popOutWindow, setPopOutWindow] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
   const [trainingName, setTrainingName] = useState("");
@@ -37,49 +30,40 @@ export default function CreateNewTraining() {
   const [exerciseObject, setExerciseObject] = useState(null);
   const [selectedTraining, setSelectedTraining] = useState(null);
 
-  const errorMessage = text =>
-    StatusAlertService.showError(text || "Coś poszło nie tak!");
-  const successMessage = text =>
-    StatusAlertService.showSuccess(text || "Operacja zakończona sukcesem!");
+  const [statusAlert, setStatusAlert] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
-  const sendTrainingToApi = async dataToSend => {
-    try {
-      const response = await fetch(`${API_URL}training/create_training`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      });
-
-      if (!response.ok) throw new Error("Błąd wysyłania na serwer");
-      await response.json();
-      successMessage("Trening utworzony pomyślnie!");
-    } catch (error) {
-      console.error(error);
-      errorMessage("Nie udało się utworzyć treningu.");
-    }
+  const showAlert = (message, severity = "success") => {
+    setStatusAlert({
+      open: true,
+      message,
+      severity,
+    });
+  };
+  const handleCloseAlert = () => {
+    setStatusAlert({ ...statusAlert, open: false });
   };
 
-  const updateTrainingToApi = async dataToSend => {
-    try {
-      const response = await fetch(`${API_URL}training/create_training`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
+  useEffect(() => {
+    if (error) {
+      setStatusAlert({
+        open: true,
+        message: error,
+        severity: "error",
       });
-
-      if (!response.ok) throw new Error("Błąd aktualizacji na serwerze");
-      await response.json();
-      successMessage("Trening zaktualizowany pomyślnie!");
-    } catch (error) {
-      console.error(error);
-      errorMessage("Nie udało się zaktualizować treningu.");
     }
-  };
+  }, [error]);
 
   const handleAddExercise = () => {
-    if (!exerciseObject) return;
+    if (!exerciseObject) {
+      showAlert("Wybierz ćwiczenie", "warning");
+      return;
+    }
     if (exercises.some(ex => ex.id === exerciseObject.id)) {
-      setOpenNotification(true);
+      showAlert("To ćwiczenie jest już na liście", "warning");
       return;
     }
     setExercises([...exercises, exerciseObject]);
@@ -90,98 +74,162 @@ export default function CreateNewTraining() {
     setExercises(exercises.filter((_, idx) => idx !== index));
   };
 
-  const handleSaveTraining = () => {
+  const handleSaveTraining = async () => {
     if (!trainingName || !trainingComment || exercises.length === 0) {
-      errorMessage(
-        "Wprowadź nazwę, komentarz oraz dodaj przynajmniej jedno ćwiczenie."
+      showAlert(
+        "Wprowadź nazwę, komentarz oraz dodaj przynajmniej jedno ćwiczenie.",
+        "error"
       );
       return;
     }
 
-    const payload = selectedTraining
-      ? {
-          user_training_id: trainingId,
+    try {
+      if (selectedTraining) {
+        // Aktualizacja treningu
+        await updateMainTraining(trainingId, {
           description: trainingComment,
           exercise_groups: exercises.map(ex => ex.id),
-        }
-      : {
+        });
+        showAlert("Trening zaktualizowany pomyślnie!", "success");
+      } else {
+        // Tworzenie nowego treningu
+        await createTraining({
           name: trainingName,
           description: trainingComment,
           exercise_groups: exercises.map(ex => ex.id),
-        };
+        });
+        showAlert("Trening utworzony pomyślnie!", "success");
+      }
 
-    selectedTraining
-      ? updateTrainingToApi(payload)
-      : sendTrainingToApi(payload);
+      // Resetowanie formularza
+      resetForm();
+    } catch (err) {
+      showAlert(err.message || "Coś poszło nie tak!", "error");
+    }
+  };
+
+  const resetForm = () => {
+    setTrainingName("");
+    setTrainingComment("");
+    setExercises([]);
+    setTrainingId("");
+    setSelectedTraining(null);
   };
 
   return (
-    <Box
-      sx={{
-        maxWidth: 500,
-        mx: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        p: 2,
-      }}
-    >
-      <Notification
-        text={"To ćwiczenie jest już na liście."}
-        openNotification={openNotification}
-        setOpenNotification={setOpenNotification}
-      />
-
-      <TextField
-        label="Nazwa treningu"
-        value={trainingName}
-        onChange={e => setTrainingName(e.target.value)}
-        fullWidth
-      />
-      <TextField
-        label="Komentarz do treningu"
-        value={trainingComment}
-        onChange={e => setTrainingComment(e.target.value)}
-        fullWidth
-        multiline
-        rows={3}
-      />
-      <Stack direction="row" flexWrap="wrap">
-        {exercises.map((exercise, index) => (
-          <Chip
-            sx={{ mr: 1, mb: 1 }}
-            key={exercise.id || index}
-            label={exercise.name}
-            onDelete={() => handleDeleteExercise(index)}
-            color="primary"
-            size="small"
-          />
-        ))}
-      </Stack>
-      <Searcher
-        dataOutput={setExerciseObject}
-        labelName="Szukaj ćwiczenia"
-        apiAdress={`${API_URL}exercise/exercise/all`}
-      />
-      <Button onClick={handleAddExercise}>Dodaj ćwiczenie</Button>
-
-      <Button
-        variant="contained"
-        color={selectedTraining ? "secondary" : "primary"}
-        onClick={handleSaveTraining}
+    <>
+      <Box
+        sx={{
+          maxWidth: 500,
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          p: 2,
+        }}
       >
-        {selectedTraining ? "Zaktualizuj trening" : "Utwórz trening"}
-      </Button>
+        <Notification
+          text={"To ćwiczenie jest już na liście."}
+          openNotification={openNotification}
+          setOpenNotification={setOpenNotification}
+        />
 
-      <StatusAlert />
-      <Button variant="contained" onClick={() => setPopOutWindow(true)}>
-        Stwórz nowe ćwiczenie
-      </Button>
-      <Poput
-        component={<CreateExerciseForm />}
-        setWindowProperty={setPopOutWindow}
-        windowProperty={popOutWindow}
+        <TextField
+          label="Nazwa treningu"
+          value={trainingName}
+          onChange={e => setTrainingName(e.target.value)}
+          fullWidth
+          disabled={loading}
+        />
+
+        <TextField
+          label="Komentarz do treningu"
+          value={trainingComment}
+          onChange={e => setTrainingComment(e.target.value)}
+          fullWidth
+          multiline
+          rows={3}
+          disabled={loading}
+        />
+
+        <Stack direction="row" flexWrap="wrap">
+          {exercises.map((exercise, index) => (
+            <Chip
+              sx={{ mr: 1, mb: 1 }}
+              key={exercise.id || index}
+              label={exercise.name}
+              onDelete={() => handleDeleteExercise(index)}
+              color="primary"
+              size="small"
+              disabled={loading}
+            />
+          ))}
+        </Stack>
+
+        <Searcher
+          dataOutput={setExerciseObject}
+          labelName="Szukaj ćwiczenia"
+          apiAdress="exercise/exercise/all"
+          disabled={loading}
+        />
+
+        <Button
+          onClick={handleAddExercise}
+          disabled={loading}
+          variant="outlined"
+        >
+          Dodaj ćwiczenie
+        </Button>
+
+        <Button
+          variant="contained"
+          color={selectedTraining ? "secondary" : "primary"}
+          onClick={handleSaveTraining}
+          disabled={loading}
+          sx={{ position: "relative" }}
+        >
+          {loading ? (
+            <>
+              <CircularProgress
+                size={20}
+                sx={{
+                  position: "absolute",
+                  left: "50%",
+                  marginLeft: "-10px",
+                }}
+              />
+              <span style={{ visibility: "hidden" }}>
+                {selectedTraining ? "Zaktualizuj trening" : "Utwórz trening"}
+              </span>
+            </>
+          ) : selectedTraining ? (
+            "Zaktualizuj trening"
+          ) : (
+            "Utwórz trening"
+          )}
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => setPopOutWindow(true)}
+          disabled={loading}
+        >
+          Stwórz nowe ćwiczenie
+        </Button>
+
+        <Poput
+          component={<CreateExerciseForm />}
+          setWindowProperty={setPopOutWindow}
+          windowProperty={popOutWindow}
+        />
+      </Box>
+
+      <SnackbarAlert
+        open={statusAlert.open}
+        onClose={handleCloseAlert}
+        severity={statusAlert.severity}
+        message={statusAlert.message}
       />
-    </Box>
+    </>
   );
 }
