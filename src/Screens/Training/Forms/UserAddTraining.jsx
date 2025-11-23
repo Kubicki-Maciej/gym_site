@@ -17,8 +17,6 @@ import useUserTraining from "../../../components/Trening/hooks/useTraining";
 // dodajesz trening/i użytkownikowi
 export default function UserAddTraining() {
   const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedTraining, setSelectedTraining] = useState(null);
-  const [exercises, setExercises] = useState([]);
   const [boolUserSelected, setBoolUserSelected] = useState(false);
   const [eventData, setEventData] = useState(null);
   const [trainingData, setTrainingData] = useState(null);

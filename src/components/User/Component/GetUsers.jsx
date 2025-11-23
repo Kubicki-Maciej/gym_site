@@ -9,38 +9,71 @@ import {
 import axios from "axios";
 import { API_URL } from "../../../config";
 import api from "../../../api/client";
+import SnackbarAlert from "../../Alerts/SnackbarAlert";
+import useSnackbarAlerts from "../../Alerts/hooks/useSnackbarAlerts";
+import { useUserContext } from "../context";
+import useUser from "../hooks/useUser";
 
 export default function GetUsers({ onUserSelect }) {
+  const { error, loading, getTrainerStudents } = useUser();
+  const userId = localStorage.getItem("user");
+  const { user } = useUserContext();
+  const { statusAlert, showAlert, handleCloseAlert } = useSnackbarAlerts();
   const [users, setUsers] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log("use efekt wczytuje");
+    console.log(user.id);
     const fetchUsers = async () => {
       try {
-        const response = await api.get(`user/users`);
-        setUsers(response);
-        if (Array.isArray(response)) {
-          setUsers(response);
+        let fetchedUsers = await getTrainerStudents(user.id);
+        if (Array.isArray(fetchedUsers.students)) {
+          setUsers(fetchedUsers.students);
+          showAlert(
+            `Załadowano ${fetchedUsers.length} użytkowników`,
+            "success",
+            2000
+          );
         } else {
-          console.error("Dane z API nie są tablicą:", response);
-          console.log(response);
+          console.warn("Dane z API nie są tablicą:", fetchedUsers);
           setUsers([]);
-          setError("Błąd formatu danych z serwera");
+          showAlert("Błąd formatu danych z serwera", "warning");
         }
       } catch (err) {
         console.error("Błąd pobierania użytkowników:", err);
-        setError("Nie udało się pobrać użytkowników.");
+        showAlert("Nie udało się pobrać użytkowników", "error", 5000);
         setUsers([]);
-      } finally {
-        setLoading(false);
       }
     };
-
-    fetchUsers();
+    if (user) {
+      fetchUsers();
+    }
   }, []);
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const response = await api.get(`user/users`);
+  //       setUsers(response);
+  //       if (Array.isArray(response)) {
+  //         setUsers(response);
+  //       } else {
+  //         console.error("Dane z API nie są tablicą:", response);
+  //         console.log(response);
+  //         setUsers([]);
+  //       }
+  //     } catch (err) {
+  //       console.error("Błąd pobierania użytkowników:", err);
+
+  //       setUsers([]);
+  //     } finally {
+  //     }
+  //   };
+
+  //   fetchUsers();
+  // }, []);
 
   const handleChange = (event, newValue) => {
     setSelectedUser(newValue);
@@ -58,6 +91,9 @@ export default function GetUsers({ onUserSelect }) {
       return first.includes(input) || last.includes(input);
     });
   };
+  if (loading) {
+    return <CircularProgress size={20} />;
+  }
 
   return (
     <Box>

@@ -137,6 +137,12 @@ export function UserProvider({ children }) {
     localStorage.setItem("token", token);
   };
 
+  const getUserId = () => {
+    if (user) {
+      return user.id;
+    }
+  };
+
   const value = {
     logged,
     user,
@@ -147,6 +153,7 @@ export function UserProvider({ children }) {
     logout,
     updateUser,
     setNewAccessToken,
+    getUserId,
   };
 
   return (
@@ -171,6 +178,7 @@ export function useUserContext() {
       logout: () => {},
       updateUser: () => {},
       setNewAccessToken: () => {},
+      getUserId: () => {},
     };
   }
 

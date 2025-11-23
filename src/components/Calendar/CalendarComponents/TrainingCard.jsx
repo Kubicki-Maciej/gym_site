@@ -36,16 +36,16 @@ export default function TrainingCard({ event, timeText }) {
     <Box elevation={1} sx={{ p: 1, display: "flex", alignItems: "center" }}>
       <Stack direction="row" spacing={1} sx={{ flex: 1, alignItems: "center" }}>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography variant="caption" color="text.secondary">
-            {timeText}
-          </Typography>
+          {/* <Typography variant="caption" color="text.secondary"> */}
+          {timeText}
+          {/* </Typography> */}
           <Typography variant="body2" sx={{ fontWeight: 600 }}>
             {event.title}
           </Typography>
-          <Button size="small" variant="outlined" onClick={handleGoToTraining}>
-            Przejdź
-          </Button>
         </Box>
+        <Button size="small" color="white" onClick={handleGoToTraining}>
+          Przejdź
+        </Button>
       </Stack>
     </Box>
   );

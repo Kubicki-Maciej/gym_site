@@ -27,7 +27,6 @@ export default function TrainerCalendar() {
 
     async function fetchUpcoming() {
       if (!logged || !user?.id) {
-        // not logged — keep default events
         return;
       }
 
