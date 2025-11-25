@@ -9,7 +9,8 @@ import {
   Alert,
 } from "@mui/material";
 import { StatusAlertService } from "react-status-alert";
-import useUserTraining from "../../hooks/useUserTraining";
+import useTraining from "../Trening/hooks/useTraining";
+// import useUserTraining from "../../hooks/useUserTraining";
 
 export default function AddExerciseDialog({
   open,
@@ -21,7 +22,7 @@ export default function AddExerciseDialog({
 }) {
   const [selectedId, setSelectedId] = useState("");
   const [error, setError] = useState("");
-  const { addExerciseToTraining } = useUserTraining();
+  const { addExerciseToTraining } = useTraining();
 
   const availableExercises = exercisesList.filter(
     exercise => !existingExercises.some(ex => ex.exerciseId === exercise.id)
@@ -34,6 +35,9 @@ export default function AddExerciseDialog({
     }
 
     try {
+      console.log("id user / selected id");
+      console.log(idUserTraining);
+      console.log(selectedId);
       const result = await addExerciseToTraining(idUserTraining, selectedId);
 
       if (!result) {
@@ -78,7 +82,6 @@ export default function AddExerciseDialog({
             value={selectedId}
             onChange={e => {
               setSelectedId(e.target.value);
-              console.log(e.target.value);
               setError("");
             }}
             SelectProps={{ native: true }}
