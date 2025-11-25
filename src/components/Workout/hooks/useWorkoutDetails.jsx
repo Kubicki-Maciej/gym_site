@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { StatusAlertService } from "react-status-alert";
 import useUserTraining from "../../../hooks/useUserTraining";
+import useTraining from "../../Trening/hooks/useTraining";
 
 export default function useWorkoutDetail(
   trainingId,
@@ -17,6 +18,8 @@ export default function useWorkoutDetail(
   const [allTrainings, setAllTrainings] = useState([]); // Nowy state
   const [isAddExerciseOpen, setIsAddExerciseOpen] = useState(false);
   const [isAddTrainingOpen, setIsAddTrainingOpen] = useState(false);
+
+  const { deleteSingleExercise } = useTraining();
 
   const {
     updateTraining,
@@ -213,7 +216,7 @@ export default function useWorkoutDetail(
             : ex
         )
       );
-      deleteSeriesExercise(serieId)
+      deleteSingleExercise(serieId)
         .then(result => {
           if (result) {
             StatusAlertService.showSuccess("✅ Seria usunięta");
@@ -226,7 +229,7 @@ export default function useWorkoutDetail(
           StatusAlertService.showError("❌ Błąd usuwania serii");
         });
     },
-    [deleteSeriesExercise]
+    [deleteSingleExercise]
   );
 
   const handleAddExercise = useCallback(data => {
