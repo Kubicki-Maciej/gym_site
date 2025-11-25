@@ -236,7 +236,9 @@ export default function useWorkoutDetail(
     console.log(data);
     const newExercise = {
       id: data.id,
-      user: data.user,
+      name: data.name,
+      exerciseId: data.exercise,
+      userExerciseId: data.id,
       exerciseSeries: data.exercises_series || [],
     };
     console.log(newExercise);

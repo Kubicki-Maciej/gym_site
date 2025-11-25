@@ -20,6 +20,8 @@ export default function ExerciseCard({
   onRemoveSerie,
   onDeleteExercise,
 }) {
+  console.log("exercise");
+  console.log(exercise);
   return (
     <Card elevation={1}>
       <CardContent>
@@ -41,7 +43,10 @@ export default function ExerciseCard({
         <IconButton
           size="small"
           color="error"
-          onClick={() => onDeleteExercise(exercise.userExerciseId)}
+          onClick={() => {
+            console.log(" tutaj dzialamy");
+            onDeleteExercise(exercise.userExerciseId);
+          }}
           title="Usuń ćwiczenie"
         >
           <DeleteIcon />
