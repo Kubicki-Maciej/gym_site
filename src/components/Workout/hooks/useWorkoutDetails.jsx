@@ -181,6 +181,9 @@ export default function useWorkoutDetail(
 
   const handleDeleteExercise = useCallback(
     async exerciseId => {
+      console.log(" jestesmy tutaj przy usuwaniu");
+      console.log(exerciseId);
+      setExercises(prev => prev.filter(ex => ex.id !== exerciseId));
       setIsSaving(true);
       try {
         const result = await deleteSeriesExercise(exerciseId);
