@@ -2,6 +2,7 @@ import React from "react";
 import { Snackbar, Alert } from "@mui/material";
 
 export default function SnackbarAlert({ open, onClose, severity, message }) {
+  console.log(" bar ");
   return (
     <Snackbar
       open={open}

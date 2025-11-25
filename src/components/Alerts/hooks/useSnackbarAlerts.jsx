@@ -7,6 +7,7 @@ export default function useSnackbarAlerts() {
     severity: "success",
     autoHideDuration: 4000,
   });
+
   const showAlert = (
     message,
     severity = "success",

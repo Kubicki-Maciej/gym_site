@@ -8,10 +8,11 @@ import Article from "./Article.jsx";
 import TrainingScreen from "../../Screens/Training/TrainingScreen.jsx";
 
 import TrainerCalendar from "../Calendar/TrainerCalendar.jsx";
-import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
+// import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
 import { useUserContext } from "../User/context.jsx";
 import MenuScreen from "../Menu/MenuScreen.jsx";
-
+// import WorkoutDetail from "../Workout/WorkoutDetail.jsx";
+import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
 // import Calendar from "../Calendar/Calendar.jsx";
 
 // import Login from "../../Screens/Auth/Login/Login.jsx";
@@ -35,6 +36,7 @@ function Section() {
         <Route path="training/*" element={<TrainingScreen />}></Route>
         <Route path="schedule/" element={<TrainerCalendar />}></Route>
         <Route path="training/details/:id" element={<WorkoutDetail />}></Route>
+        {/* <Route path="training/details/:id" element={<WorkoutDetail />}></Route> */}
         <Route
           path="trainingmenu/*"
           element={<MenuScreen sideBarName={"training"} />}

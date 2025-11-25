@@ -1,9 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import userApi from "../api/userApi";
 import UserCard from "./UserCard";
 import { useCarousel } from "../../../hooks/useCarousel";
-import useGetTrainerUsers from "../hooks/useGetTrainerUsers";
+
+import useUser from "../../../components/User/hooks/useUser";
 
 // MUI imports
 import {
@@ -17,9 +17,29 @@ import {
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 export default function UserList() {
-  const { trainer, users, loading, error } = useGetTrainerUsers(10);
+  const [users, setUsers] = useState([]);
+  const { loading, error, getTrainerStudents } = useUser();
 
-  const carousel = useCarousel(users, 3);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const trainerId = user?.id;
+
+  useEffect(() => {
+    const fetchUser = async id => {
+      const result = await getTrainerStudents(id);
+      if (result) {
+        setUsers(result.students);
+      }
+    };
+    if (trainerId) {
+      fetchUser(trainerId);
+    }
+    if (!trainerId) {
+      console.warn("TrainerId nie znaleziony w localStorage");
+      return;
+    }
+  }, [getTrainerStudents]);
+
+  const carousel = useCarousel(users, 2);
 
   if (loading) return <CircularProgress />;
   if (error) return <Alert severity="error">Błąd: {error}</Alert>;

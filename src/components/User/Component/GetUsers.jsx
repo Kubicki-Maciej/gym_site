@@ -9,8 +9,7 @@ import {
 import axios from "axios";
 import { API_URL } from "../../../config";
 import api from "../../../api/client";
-import SnackbarAlert from "../../Alerts/SnackbarAlert";
-import useSnackbarAlerts from "../../Alerts/hooks/useSnackbarAlerts";
+
 import { useUserContext } from "../context";
 import useUser from "../hooks/useUser";
 
@@ -18,7 +17,7 @@ export default function GetUsers({ onUserSelect }) {
   const { error, loading, getTrainerStudents } = useUser();
   const userId = localStorage.getItem("user");
   const { user } = useUserContext();
-  const { statusAlert, showAlert, handleCloseAlert } = useSnackbarAlerts();
+
   const [users, setUsers] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
@@ -31,19 +30,13 @@ export default function GetUsers({ onUserSelect }) {
         let fetchedUsers = await getTrainerStudents(user.id);
         if (Array.isArray(fetchedUsers.students)) {
           setUsers(fetchedUsers.students);
-          showAlert(
-            `Załadowano ${fetchedUsers.length} użytkowników`,
-            "success",
-            2000
-          );
         } else {
           console.warn("Dane z API nie są tablicą:", fetchedUsers);
           setUsers([]);
-          showAlert("Błąd formatu danych z serwera", "warning");
         }
       } catch (err) {
         console.error("Błąd pobierania użytkowników:", err);
-        showAlert("Nie udało się pobrać użytkowników", "error", 5000);
+
         setUsers([]);
       }
     };

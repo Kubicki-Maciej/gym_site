@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import FullCalendar from "@fullcalendar/react";
 import { Box } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import TrainingCard from "./CalendarComponents/TrainingCard";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import FullCalendar from "@fullcalendar/react";
+
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import { useNavigate } from "react-router-dom";

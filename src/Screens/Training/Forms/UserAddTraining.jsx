@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import GetUsers from "../../../components/User/Component/GetUsers";
-import GetTraining from "../../../components/Trening/GetTraining";
-import ExerciseList from "../../../components/Exercise/ExerciseList";
-import ExerciseMuscleCounter from "../../../components/Exercise/ExerciseMuscleCounter";
-import EventTypeSelector from "../../../components/Calendar/EventTypeSelector";
-import SingleTraining from "../../../components/Trening/SingleTraining";
 import PlanTraining from "../../../components/Trening/PlanTraining";
-import { API_URL } from "../../../config";
-import EventCalendar from "../../../components/Calendar/EventCalendar";
 import { Button } from "@mui/material";
-import { el } from "date-fns/locale";
-// import useUserTraining from "../../../hooks/useUserTraining";
 import useUserTraining from "../../../components/Trening/hooks/useTraining";
+import SnackbarAlert from "../../../components/Alerts/SnackbarAlert";
+import useSnackbarAlerts from "../../../components/Alerts/hooks/useSnackbarAlerts";
 
 // dodajesz trening/i użytkownikowi
 export default function UserAddTraining() {
+  const { statusAlert, showAlert, handleCloseAlert } = useSnackbarAlerts();
+
   const [selectedUser, setSelectedUser] = useState(null);
   const [boolUserSelected, setBoolUserSelected] = useState(false);
   const [eventData, setEventData] = useState(null);
   const [trainingData, setTrainingData] = useState(null);
 
-  const { createTreningsToUserApi, error, loading } = useUserTraining();
+  const { createMultipleTrainings, error, loading } = useUserTraining();
 
   useEffect(() => {}, [boolUserSelected]);
 
@@ -63,7 +57,8 @@ export default function UserAddTraining() {
         idUser: selectedUser.id,
         dates: eventData,
       };
-      createTreningsToUserApi(dataToSend);
+
+      createMultipleTrainings(dataToSend);
     }
   }
 
@@ -76,7 +71,12 @@ export default function UserAddTraining() {
         onEventDataChange={handleEventDataChange}
       />
       <Button onClick={handleDataSend}>Wyślij trening</Button>
-
+      <SnackbarAlert
+        open={statusAlert.open}
+        onClose={handleCloseAlert}
+        statusAlert={statusAlert.severity}
+        message={statusAlert.message}
+      />
       {/* <EventCalendar /> */}
     </>
   );

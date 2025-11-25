@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { API_URL } from "../../config";
 import GetUsers from "../User/Component/GetUsers";
-// import useUserTraining from "../../hooks/useUserTraining";
-import useUserTraining from "./hooks/useTraining";
+
+import useUser from "../User/hooks/useUser";
+
 import Searcher from "../Core/Searcher";
-// import UserList from "../../features/users/components/UserList";
-// import UserList from "../../features/users/components/UserList
+
 import UserList from "../../features/users/components/UserList";
 
 import {
@@ -18,11 +18,12 @@ import {
 export default function CreateWorkout() {
   const [user, setUser] = useState(null);
   const [training, setTraining] = useState(null);
-  const { getUpcomingUserWorkouts } = useUserTraining();
+  // const { getUpcomingUserWorkouts } = useUserTraining();
+  const { error, loading, getTrainerStudents } = useUser();
 
   const handleUserSelect = async user => {
     console.log(user);
-    const workouts = await getUpcomingUserWorkouts(user.id);
+    const workouts = await getTrainerStudents(user.id);
     console.log(workouts);
     setUser(user);
   };
