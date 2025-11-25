@@ -78,6 +78,7 @@ export default function AddExerciseDialog({
             value={selectedId}
             onChange={e => {
               setSelectedId(e.target.value);
+              console.log(e.target.value);
               setError("");
             }}
             SelectProps={{ native: true }}

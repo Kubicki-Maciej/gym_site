@@ -5,7 +5,8 @@ import useUserTraining from "../../../hooks/useUserTraining";
 export default function useWorkoutDetail(
   trainingId,
   getUserDataTraining,
-  getAllExercises
+  getAllExercises,
+  getAllTrainings // Dodaj ten parametr
 ) {
   const [training, setTraining] = useState(null);
   const [exercises, setExercises] = useState([]);
@@ -13,10 +14,16 @@ export default function useWorkoutDetail(
   const [error, setError] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [allExercises, setAllExercises] = useState([]);
+  const [allTrainings, setAllTrainings] = useState([]); // Nowy state
   const [isAddExerciseOpen, setIsAddExerciseOpen] = useState(false);
+  const [isAddTrainingOpen, setIsAddTrainingOpen] = useState(false);
 
-  const { updateTraining, createSingleRep, deleteSeriesExercise } =
-    useUserTraining();
+  const {
+    updateTraining,
+    createSingleRep,
+    deleteSeriesExercise,
+    addTrainingExercises,
+  } = useUserTraining();
 
   // Fetch training data na start
   useEffect(() => {
@@ -80,6 +87,20 @@ export default function useWorkoutDetail(
 
     fetchAllExercises();
   }, [getAllExercises]);
+
+  // Fetch all trainings
+  useEffect(() => {
+    const fetchAllTrainings = async () => {
+      try {
+        const res = await getAllTrainings();
+        if (res) setAllTrainings(res);
+      } catch (e) {
+        console.error("Błąd pobierania treningów:", e);
+      }
+    };
+
+    fetchAllTrainings();
+  }, [getAllTrainings]);
 
   const handleSerieChange = useCallback((exerciseId, serieId, field, value) => {
     setExercises(prev =>
@@ -155,7 +176,6 @@ export default function useWorkoutDetail(
     [exercises, createSingleRep]
   );
 
-  // handleDeleteExercise - definicja PRZED handleRemoveSerie
   const handleDeleteExercise = useCallback(
     async exerciseId => {
       setIsSaving(true);
@@ -193,7 +213,6 @@ export default function useWorkoutDetail(
             : ex
         )
       );
-      // Wołaj funkcję asynchronicznie
       deleteSeriesExercise(serieId)
         .then(result => {
           if (result) {
@@ -211,14 +230,59 @@ export default function useWorkoutDetail(
   );
 
   const handleAddExercise = useCallback(data => {
+    console.log(data);
     const newExercise = {
-      userExerciseId: data.id || `temp-${Date.now()}`,
-      exerciseId: data.exercise,
-      name: data.name,
+      id: data.id,
+      user: data.user,
       exerciseSeries: data.exercises_series || [],
     };
+    console.log(newExercise);
     setExercises(prev => [...prev, newExercise]);
   }, []);
+
+  // NOWA FUNKCJA - Dodawanie treningu
+  const handleAddTraining = useCallback(
+    async selectedTrainingId => {
+      setIsSaving(true);
+      try {
+        const result = await addTrainingExercises(
+          trainingId,
+          selectedTrainingId
+        );
+
+        if (result && result.user_exercises) {
+          // Aktualizuj exercises z nowymi ćwiczeniami z treningu
+          const newExercises = result.user_exercises.map(userExercise => ({
+            id: userExercise.id,
+            userExerciseId: userExercise.id,
+            exerciseId: userExercise.exercise.id,
+            exerciseSeries: userExercise.exercises_series || [],
+            name: userExercise.exercise.name,
+            muscleGroupIds: userExercise.exercise.muscle_group || [],
+          }));
+
+          setExercises(newExercises);
+
+          // Zaktualizuj training z usedTraining
+          setTraining(prev => ({
+            ...prev,
+            usedTraining: selectedTrainingId,
+          }));
+
+          StatusAlertService.showSuccess("✅ Trening dodany pomyślnie!");
+          setIsAddTrainingOpen(false);
+        } else {
+          StatusAlertService.showError("❌ Błąd przy dodawaniu treningu");
+        }
+      } catch (err) {
+        console.error("Błąd dodawania treningu:", err);
+        StatusAlertService.showError("❌ Błąd serwera. Spróbuj ponownie.");
+      } finally {
+        setIsSaving(false);
+      }
+    },
+    [trainingId, addTrainingExercises]
+  );
 
   const handleSaveChanges = useCallback(async () => {
     if (exercises.length === 0) {
@@ -266,14 +330,18 @@ export default function useWorkoutDetail(
     error,
     isSaving,
     allExercises,
+    allTrainings,
     isAddExerciseOpen,
+    isAddTrainingOpen,
     handleSerieChange,
     handleAdjustSerie,
     handleAddSerie,
     handleRemoveSerie,
     handleAddExercise,
+    handleAddTraining,
     handleDeleteExercise,
     handleSaveChanges,
     setIsAddExerciseOpen,
+    setIsAddTrainingOpen,
   };
 }

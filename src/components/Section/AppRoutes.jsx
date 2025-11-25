@@ -8,16 +8,13 @@ import Article from "./Article.jsx";
 import TrainingScreen from "../../Screens/Training/TrainingScreen.jsx";
 
 import TrainerCalendar from "../Calendar/TrainerCalendar.jsx";
-// import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
+
 import { useUserContext } from "../User/context.jsx";
 import MenuScreen from "../Menu/MenuScreen.jsx";
-// import WorkoutDetail from "../Workout/WorkoutDetail.jsx";
-import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
-// import Calendar from "../Calendar/Calendar.jsx";
 
-// import Login from "../../Screens/Auth/Login/Login.jsx";
-// import Register from "../../Screens/Auth/Register/Register.jsx";
-// import CreateWorkout from "../Trening/CreateWorkout.jsx";
+import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
+// import WorkoutDetail from "../Workout/WorkoutDetail.jsx";
+
 function Section() {
   const { logged } = useUserContext();
   return (
@@ -35,8 +32,8 @@ function Section() {
 
         <Route path="training/*" element={<TrainingScreen />}></Route>
         <Route path="schedule/" element={<TrainerCalendar />}></Route>
-        <Route path="training/details/:id" element={<WorkoutDetail />}></Route>
         {/* <Route path="training/details/:id" element={<WorkoutDetail />}></Route> */}
+        <Route path="training/details/:id" element={<WorkoutDetail />}></Route>
         <Route
           path="trainingmenu/*"
           element={<MenuScreen sideBarName={"training"} />}
