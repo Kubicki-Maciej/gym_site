@@ -19,10 +19,10 @@ export default function useWorkoutDetail(
   const [isAddExerciseOpen, setIsAddExerciseOpen] = useState(false);
   const [isAddTrainingOpen, setIsAddTrainingOpen] = useState(false);
 
-  const { deleteSingleExercise } = useTraining();
+  const { deleteSingleExercise, updateTraining } = useTraining();
 
   const {
-    updateTraining,
+    // updateTraining,
     createSingleRep,
     deleteSeriesExercise,
     addTrainingExercises,
