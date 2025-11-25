@@ -13,6 +13,9 @@ import {
   Alert,
 } from "@mui/material";
 import { Delete as DeleteIcon } from "@mui/icons-material";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import { FitnessCenter } from "@mui/icons-material";
+import SingleStudent from "../../users/components/SingleStudent";
 
 export const StudentList = ({
   students,
@@ -21,11 +24,7 @@ export const StudentList = ({
   onRemoveStudent,
 }) => {
   if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" p={4}>
-        <CircularProgress />
-      </Box>
-    );
+    return <CircularProgress />;
   }
 
   if (error) {
@@ -46,28 +45,13 @@ export const StudentList = ({
     <Paper>
       <List>
         {students.map((student, index) => (
-          <ListItem
+          <SingleStudent
             key={student.id}
-            secondaryAction={
-              <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => onRemoveStudent(student.id)}
-                color="error"
-              >
-                <DeleteIcon />
-              </IconButton>
-            }
-            divider={index !== students.length - 1}
-          >
-            <ListItemText
-              primary={
-                `${student.first_name} ${student.last_name}`.trim() ||
-                student.email
-              }
-              secondary={student.email}
-            />
-          </ListItem>
+            student={student}
+            index={index}
+            onRemoveStudent={onRemoveStudent}
+            totalStudents={students.length}
+          />
         ))}
       </List>
     </Paper>

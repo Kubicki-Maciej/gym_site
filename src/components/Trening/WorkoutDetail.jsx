@@ -34,10 +34,11 @@ export default function WorkoutDetail() {
   const navigate = useNavigate();
   const {
     getUserDataTraining,
-    getAllExercises, // lub getAllExercises jeśli masz osobną metodę
+    getAllExercises,
     updateTraining,
     createSingleRep,
     deleteSeriesExercise,
+    deleteSingleExercise,
   } = useUserTraining();
 
   const [training, setTraining] = useState(null);
@@ -188,7 +189,7 @@ export default function WorkoutDetail() {
           : ex
       )
     );
-    handleDeleteExercise(serieId);
+    deleteSingleExercise(serieId);
   };
 
   // // --- Exercises logic ---
@@ -224,6 +225,7 @@ export default function WorkoutDetail() {
 
   const handleDeleteExercise = async exerciseId => {
     setIsSaving(true);
+    console.log("usuwamy cwiczenie ");
     const result = await deleteSeriesExercise(exerciseId);
     if (result) {
       setExercises(prev => prev.filter(ex => ex.userExerciseId !== exerciseId));

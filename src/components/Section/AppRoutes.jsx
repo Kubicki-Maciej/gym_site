@@ -12,8 +12,8 @@ import TrainerCalendar from "../Calendar/TrainerCalendar.jsx";
 import { useUserContext } from "../User/context.jsx";
 import MenuScreen from "../Menu/MenuScreen.jsx";
 
-import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
-// import WorkoutDetail from "../Workout/WorkoutDetail.jsx";
+// import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
+import WorkoutDetail from "../Workout/WorkoutDetail.jsx";
 
 function Section() {
   const { logged } = useUserContext();

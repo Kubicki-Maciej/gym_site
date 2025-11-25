@@ -21,7 +21,8 @@ export const workoutApi = {
   },
 
   addTrainingToTraining: async (userTrainingId, trainingId) => {
-    return api.post(`training/${userTrainingId}/workoutId/${trainingId}`);
+    // return api.put(`training/${userTrainingId}/workout/26/add`);
+    return api.put(`training/${userTrainingId}/workout/${trainingId}/add`);
   },
 
   createSingleRep: async payload => {
@@ -29,7 +30,8 @@ export const workoutApi = {
   },
 
   deleteSeries: async seriesId => {
-    return api.del(`exercise/delete/singleseries/${seriesId}`);
+    console.log(" ping");
+    return api.del(`exercise/delete/seriesexercise/${seriesId}`);
   },
 
   deleteExercise: async exerciseId => {
