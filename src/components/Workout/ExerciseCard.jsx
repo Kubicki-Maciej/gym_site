@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import SeriesEditor from "./SeriesEditor";
+import { flex } from "@mui/system";
 
 export default function ExerciseCard({
   exercise,
@@ -20,23 +21,42 @@ export default function ExerciseCard({
   onRemoveSerie,
   onDeleteExercise,
 }) {
+  const [collapsed, setCollapsed] = useState(true);
+  const handleToggleCollapse = () => {
+    console.log("zwin");
+    setCollapsed(prev => !prev);
+  };
+
   console.log("exercise");
   console.log(exercise);
   return (
     <Card elevation={1}>
       <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-          {exercise.name}
-        </Typography>
-
-        {exercise.exerciseSeries?.length > 0 && (
-          <SeriesEditor
-            exercise={exercise}
-            onSerieChange={onSerieChange}
-            onAdjustSerie={onAdjustSerie}
-            onAddSerie={onAddSerie}
-            onRemoveSerie={onRemoveSerie}
-          />
+        {/* header */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+            {exercise.name}
+          </Typography>
+          <Button onClick={handleToggleCollapse}>hide</Button>
+        </Box>
+        {collapsed && (
+          <>
+            {exercise.exerciseSeries?.length > 0 && (
+              <SeriesEditor
+                exercise={exercise}
+                onSerieChange={onSerieChange}
+                onAdjustSerie={onAdjustSerie}
+                onAddSerie={onAddSerie}
+                onRemoveSerie={onRemoveSerie}
+              />
+            )}
+          </>
         )}
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>
