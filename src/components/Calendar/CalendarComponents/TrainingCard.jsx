@@ -1,52 +1,90 @@
 import React from "react";
-import { Paper, Stack, Typography, Button, Chip, Box } from "@mui/material";
+import { Card, CardContent, Typography, Box, Chip } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-export default function TrainingCard({ event, timeText }) {
-  const userId = event.extendedProps?.user_i;
-  const duration = event.extendedProps?.duration;
-  const trainingId = event.extendedProps?.training_id;
+export default function TrainingCard({ event, timeText, view }) {
+  const navigate = useNavigate();
 
-  function handleGoToTraining() {
-    const publicId =
-      event.extendedProps?.public_id ??
-      event.extendedProps?.publicId ??
-      event.extendedProps?.public ??
-      event._def?.publicId ??
-      event.id ??
-      trainingId;
+  const handleCardClick = () => {
+    // Użyj window.location.href lub navigate
+    window.location.href = `/training/details/${event.id}`;
+    // Lub jeśli preferujesz navigate:
+    // navigate(`/training/details/${event.id}`);
+  };
 
-    if (!publicId) {
-      console.warn("Brak publicId dla tego wydarzenia");
-      return;
+  // Formatowanie daty
+  const getFormattedTime = () => {
+    if (timeText) return timeText;
+    if (event.start) {
+      return new Date(event.start).toLocaleTimeString("pl-PL", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
+    return "";
+  };
 
-    // prefer a navigation handler passed via event.extendedProps
-    const go = event.extendedProps?.goToTraining;
-    if (go && typeof go === "function") {
-      go(publicId);
-      return;
-    }
-
-    // fallback to simple redirect
-    if (typeof window !== "undefined") {
-      window.location.href = `/training/details/${publicId}`;
-    }
-  }
   return (
-    <Box elevation={1} sx={{ p: 1, display: "flex", alignItems: "center" }}>
-      <Stack direction="row" spacing={1} sx={{ flex: 1, alignItems: "center" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          {/* <Typography variant="caption" color="text.secondary"> */}
-          {timeText}
-          {/* </Typography> */}
-          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            {event.title}
-          </Typography>
-        </Box>
-        <Button size="small" color="white" onClick={handleGoToTraining}>
-          Przejdź
-        </Button>
-      </Stack>
-    </Box>
+    <Card
+      onClick={handleCardClick}
+      sx={{
+        cursor: "pointer",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#1976d2",
+        color: "white",
+        transition: "all 0.3s ease",
+        "&:hover": {
+          backgroundColor: "#1565c0",
+          boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
+          transform: "translateY(-2px)",
+        },
+        userSelect: "none",
+      }}
+    >
+      <CardContent sx={{ padding: 1, flex: 1, "&:last-child": { pb: 1 } }}>
+        {/* Czas */}
+        <Typography
+          variant="caption"
+          sx={{
+            display: "block",
+            opacity: 0.9,
+            marginBottom: 0.5,
+            fontWeight: 500,
+          }}
+        >
+          {getFormattedTime()}
+        </Typography>
+
+        {/* Tytuł (imię/nazwisko trenera) */}
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: "bold",
+            marginBottom: 0.5,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {event.title}
+        </Typography>
+
+        {/* Czas trwania */}
+        {event.extendedProps?.duration && (
+          <Chip
+            label={`${event.extendedProps.duration} min`}
+            size="small"
+            sx={{
+              backgroundColor: "rgba(255,255,255,0.3)",
+              color: "white",
+              height: 20,
+              fontSize: "0.7rem",
+            }}
+          />
+        )}
+      </CardContent>
+    </Card>
   );
 }

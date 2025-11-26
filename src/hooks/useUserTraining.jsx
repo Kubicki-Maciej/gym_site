@@ -63,10 +63,10 @@ export default function useUserTraining() {
   const addTrainingExercises = useCallback(
     async (userTrainingId, trainingId) => {
       try {
-        const result = await workoutApi.addTrainingToTraining(
-          userTrainingId,
-          trainingId
-        );
+        const result = await workoutApi.addTrainingToTraining({
+          trainingId: trainingId,
+          workoutId: userTrainingId,
+        });
         return result;
       } catch (error) {
         console.error("Error adding training:", error);

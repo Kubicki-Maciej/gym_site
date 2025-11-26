@@ -19,14 +19,10 @@ export default function useWorkoutDetail(
   const [isAddExerciseOpen, setIsAddExerciseOpen] = useState(false);
   const [isAddTrainingOpen, setIsAddTrainingOpen] = useState(false);
 
-  const { deleteSingleExercise, updateTraining } = useTraining();
+  const { deleteSingleExercise, updateTraining, createSingleRep } =
+    useTraining();
 
-  const {
-    // updateTraining,
-    createSingleRep,
-    deleteSeriesExercise,
-    addTrainingExercises,
-  } = useUserTraining();
+  const { deleteSeriesExercise, addTrainingExercises } = useUserTraining();
 
   // Fetch training data na start
   useEffect(() => {
@@ -141,6 +137,7 @@ export default function useWorkoutDetail(
   }, []);
 
   const handleAddSerie = useCallback(
+    // working here
     async exerciseId => {
       const exercise = exercises.find(ex => ex.userExerciseId === exerciseId);
       const last = exercise?.exerciseSeries.at(-1);

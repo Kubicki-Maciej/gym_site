@@ -20,9 +20,9 @@ export const workoutApi = {
     });
   },
 
-  addTrainingToTraining: async (userTrainingId, trainingId) => {
+  addTrainingToTraining: async payload => {
     // return api.put(`training/${userTrainingId}/workout/26/add`);
-    return api.put(`training/${userTrainingId}/workout/${trainingId}/add`);
+    return api.put(`training/add_to/workout`, payload);
   },
 
   createSingleRep: async payload => {

@@ -74,14 +74,6 @@ export default function WorkoutDetail() {
 
   return (
     <Box sx={{ p: 2 }}>
-      <WorkoutHeader
-        training={training}
-        isSaving={isSaving}
-        onSave={handleSaveChanges}
-        onCancel={() => navigate(-1)}
-      />
-
-      {/* Nowy przycisk do dodawania treningu */}
       <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
         <Button
           variant="outlined"
@@ -117,6 +109,12 @@ export default function WorkoutDetail() {
         onAdd={handleAddTraining}
         trainingsList={allTrainings}
         existingTraining={training?.id}
+      />
+      <WorkoutHeader
+        training={training}
+        isSaving={isSaving}
+        onSave={handleSaveChanges}
+        onCancel={() => navigate(-1)}
       />
     </Box>
   );

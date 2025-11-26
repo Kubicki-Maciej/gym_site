@@ -23,14 +23,6 @@ export default function ExerciseList({
         <Typography variant="h5" sx={{ fontWeight: 600 }}>
           Ćwiczenia ({exercises.length})
         </Typography>
-        <Button
-          variant="contained"
-          color="success"
-          startIcon={<AddIcon />}
-          onClick={onAddExercise}
-        >
-          Dodaj ćwiczenie
-        </Button>
       </Stack>
 
       {exercises.length === 0 ? (
@@ -50,6 +42,22 @@ export default function ExerciseList({
           ))}
         </Stack>
       )}
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ mb: 2 }}
+      >
+        <Typography variant="h5" sx={{ fontWeight: 600 }}></Typography>
+        <Button
+          variant="contained"
+          color="success"
+          startIcon={<AddIcon />}
+          onClick={onAddExercise}
+        >
+          Dodaj ćwiczenie
+        </Button>
+      </Stack>
     </Box>
   );
 }
