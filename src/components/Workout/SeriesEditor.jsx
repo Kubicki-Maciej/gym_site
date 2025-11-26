@@ -7,7 +7,7 @@ export default function SeriesEditor({
   exercise,
   onSerieChange,
   onAdjustSerie,
-  onAddSerie,
+
   onRemoveSerie,
 }) {
   return (
@@ -19,9 +19,6 @@ export default function SeriesEditor({
         borderRadius: "8px",
       }}
     >
-      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2 }}>
-        Serie treningowe:
-      </Typography>
       <Stack spacing={2}>
         {exercise.exerciseSeries.map((serie, idx) => (
           <SerieRow
@@ -34,15 +31,6 @@ export default function SeriesEditor({
             onRemoveSerie={onRemoveSerie}
           />
         ))}
-        <Button
-          variant="outlined"
-          color="primary"
-          startIcon={<AddIcon />}
-          onClick={() => onAddSerie(exercise.userExerciseId)}
-          size="small"
-        >
-          Dodaj serię
-        </Button>
       </Stack>
     </Box>
   );

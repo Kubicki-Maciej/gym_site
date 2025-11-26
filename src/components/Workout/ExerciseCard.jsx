@@ -60,6 +60,15 @@ export default function ExerciseCard({
         )}
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={() => onAddSerie(exercise.userExerciseId)}
+          size="small"
+        >
+          Dodaj serię
+        </Button>
         <IconButton
           size="small"
           color="error"
