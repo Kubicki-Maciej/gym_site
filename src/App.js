@@ -7,6 +7,20 @@ import Section from "./components/Section/AppRoutes.jsx";
 import { useUserContext } from "./components/User/context.jsx";
 import { NewNavBar } from "./components/Layout/Navbar/NewNavBar.jsx";
 
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1200,
+      xl: 1920,
+    },
+  },
+});
+
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
   const { logged } = useUserContext();
@@ -22,27 +36,29 @@ function App() {
   }, []);
 
   return (
-    <div
-      className="App"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        justifyContent: "space-between",
-      }}
-    >
-      <NewNavBar />
-
+    <ThemeProvider theme={theme}>
       <div
+        className="App"
         style={{
-          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          justifyContent: "space-between",
         }}
       >
-        <Section />
-      </div>
+        <NewNavBar />
 
-      <Footer />
-    </div>
+        <div
+          style={{
+            flexGrow: 1,
+          }}
+        >
+          <Section />
+        </div>
+
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 export default App;
