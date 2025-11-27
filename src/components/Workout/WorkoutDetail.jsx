@@ -75,12 +75,8 @@ export default function WorkoutDetail() {
   return (
     <Box sx={{ p: 2 }}>
       <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => setIsAddTrainingOpen(true)}
-        >
-          Dodaj trening
+        <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
+          back
         </Button>
       </Stack>
 
@@ -113,8 +109,9 @@ export default function WorkoutDetail() {
       <WorkoutHeader
         training={training}
         isSaving={isSaving}
+        onAddTraining={() => setIsAddTrainingOpen(true)}
+        onAddExercise={() => setIsAddExerciseOpen(true)}
         onSave={handleSaveChanges}
-        onCancel={() => navigate(-1)}
       />
     </Box>
   );

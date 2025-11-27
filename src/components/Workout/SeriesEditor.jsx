@@ -13,7 +13,6 @@ export default function SeriesEditor({
   return (
     <Box
       sx={{
-        mb: 2,
         p: 1.5,
         backgroundColor: "#f5f5f5",
         borderRadius: "8px",

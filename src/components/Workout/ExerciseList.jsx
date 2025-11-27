@@ -3,6 +3,7 @@ import { Box, Stack, Typography, Button, Alert } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import ExerciseCard from "./ExerciseCard";
 
+
 export default function ExerciseList({
   exercises,
   onAddExercise,
@@ -49,14 +50,6 @@ export default function ExerciseList({
         sx={{ mb: 2 }}
       >
         <Typography variant="h5" sx={{ fontWeight: 600 }}></Typography>
-        <Button
-          variant="contained"
-          color="success"
-          startIcon={<AddIcon />}
-          onClick={onAddExercise}
-        >
-          Dodaj ćwiczenie
-        </Button>
       </Stack>
     </Box>
   );

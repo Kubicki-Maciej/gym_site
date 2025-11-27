@@ -1,17 +1,44 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
   CardActions,
   Typography,
   Box,
-  Stack,
-  Button,
   IconButton,
 } from "@mui/material";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import SeriesEditor from "./SeriesEditor";
-import { flex } from "@mui/system";
+import { Fab } from "@mui/material";
+import { keyframes } from "@mui/system";
+
+const slideDown = keyframes`
+  from {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+    margin-top: 16px;
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    opacity: 1;
+    max-height: 1000px;
+    margin-top: 16px;
+  }
+  to {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0;
+  }
+`;
 
 export default function ExerciseCard({
   exercise,
@@ -21,17 +48,15 @@ export default function ExerciseCard({
   onRemoveSerie,
   onDeleteExercise,
 }) {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
+
   const handleToggleCollapse = () => {
-    console.log("zwin");
     setCollapsed(prev => !prev);
   };
 
-  console.log("exercise");
-  console.log(exercise);
   return (
     <Card elevation={1}>
-      <CardContent>
+      <CardContent sx={{ pb: 1 }}>
         {/* header */}
         <Box
           sx={{
@@ -43,43 +68,75 @@ export default function ExerciseCard({
           <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
             {exercise.name}
           </Typography>
-          <Button onClick={handleToggleCollapse}>hide</Button>
+          <IconButton
+            size="medium"
+            onClick={handleToggleCollapse}
+            title={collapsed ? "Rozwiń" : "Zwiń"}
+            sx={{
+              transform: collapsed ? "rotate(0deg)" : "rotate(180deg)",
+              transition: "transform 0.3s ease-in-out",
+            }}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
         </Box>
-        {collapsed && (
-          <>
-            {exercise.exerciseSeries?.length > 0 && (
-              <SeriesEditor
-                exercise={exercise}
-                onSerieChange={onSerieChange}
-                onAdjustSerie={onAdjustSerie}
-                onAddSerie={onAddSerie}
-                onRemoveSerie={onRemoveSerie}
-              />
-            )}
-          </>
-        )}
-      </CardContent>
-      <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button
-          variant="outlined"
-          color="primary"
-          startIcon={<AddIcon />}
-          onClick={() => onAddSerie(exercise.userExerciseId)}
-          size="small"
+
+        {/* Animowana zawartość */}
+        <Box
+          sx={{
+            animation: !collapsed
+              ? `${slideDown} 0.4s ease-in-out`
+              : `${slideUp} 0.4s ease-in-out`,
+            overflow: "hidden",
+          }}
         >
-          Dodaj serię
-        </Button>
+          {!collapsed && (
+            <>
+              {exercise.exerciseSeries?.length > 0 && (
+                <SeriesEditor
+                  exercise={exercise}
+                  onSerieChange={onSerieChange}
+                  onAdjustSerie={onAdjustSerie}
+                  onRemoveSerie={onRemoveSerie}
+                />
+              )}
+            </>
+          )}
+        </Box>
+      </CardContent>
+
+      <CardActions
+        sx={{
+          justifyContent: "space-between",
+          pt: 0,
+          px: 2,
+        }}
+      >
         <IconButton
           size="small"
           color="error"
           onClick={() => {
-            console.log(" tutaj dzialamy");
             onDeleteExercise(exercise.userExerciseId);
           }}
           title="Usuń ćwiczenie"
         >
           <DeleteIcon />
         </IconButton>
+
+        <Fab
+          size="small"
+          color="success"
+          aria-label="add"
+          sx={{
+            "&:hover": {
+              transform: "scale(1.15)",
+              transition: "transform 0.2s ease-in-out",
+            },
+          }}
+          onClick={() => onAddSerie(exercise.userExerciseId)}
+        >
+          <AddIcon />
+        </Fab>
       </CardActions>
     </Card>
   );
