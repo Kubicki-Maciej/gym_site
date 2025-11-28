@@ -5,6 +5,12 @@ import AddIcon from "@mui/icons-material/Add";
 import PeopleIcon from "@mui/icons-material/People";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import EventRepeatIcon from "@mui/icons-material/EventRepeat";
+import Groups2Icon from "@mui/icons-material/Groups2";
+import FormatListBulletedAddIcon from "@mui/icons-material/FormatListBulletedAdd";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import EditCalendarOutlinedIcon from "@mui/icons-material/EditCalendarOutlined";
+import MovingOutlinedIcon from "@mui/icons-material/MovingOutlined";
 
 export const useSidebarItems = () => {
   const sidebarItems = [
@@ -35,6 +41,39 @@ export const useSidebarItems = () => {
       ],
     },
     {
+      id: "student",
+      name: "Student",
+      icon: AccountCircleIcon,
+      path: "/student",
+      submenu: [
+        {
+          id: "student-profile",
+          name: "Profil Użytkownika",
+          icon: AccountCircleIcon,
+          path: "profile",
+        },
+        {
+          id: "next-workout",
+          name: "Najbliższy trening",
+          icon: EventRepeatIcon,
+          path: "nextworkout",
+        },
+        {
+          id: "meetings-list",
+          name: "Lista spotkań",
+          icon: FormatListBulletedAddIcon,
+          path: "meetings",
+        },
+        {
+          id: "data-student",
+          name: "Progres użytkownika",
+          icon: MovingOutlinedIcon,
+          path: "data",
+        },
+      ],
+    },
+
+    {
       id: "clients",
       name: "Moi klienci",
       icon: PeopleIcon,
@@ -42,28 +81,27 @@ export const useSidebarItems = () => {
       submenu: [
         {
           id: "calendar",
-          name: "Test Student Page",
-          // name: "Kalendarz spotkań",
-          icon: CalendarTodayIcon,
-          path: "student",
+          name: "Zarządzaj studentami",
+          icon: Groups2Icon,
+          path: "students",
         },
-        {
-          id: "create-meeting",
-          name: "Test user Profile",
-          // name: "Stwórz spotkanie",
-          icon: AddIcon,
-          path: "userprofile",
-        },
-        {
-          id: "add-client",
-          name: "Dodaj klienta",
-          icon: PersonAddIcon,
-          path: "workout/create",
-        },
+        // {
+        //   id: "create-meeting",
+        //   name: "Test user Profile",
+        //   // name: "Stwórz spotkanie",
+        //   icon: AddIcon,
+        //   path: "userprofile",
+        // },
+        // {
+        //   id: "add-client",
+        //   name: "Dodaj klienta",
+        //   icon: PersonAddIcon,
+        //   path: "workout/create",
+        // },
         {
           id: "add-client-cyclic-trainings",
           name: "Dodaj Plan Użytkownikowi",
-          icon: PersonAddIcon,
+          icon: EditCalendarOutlinedIcon,
           path: "plan/create",
         },
       ],

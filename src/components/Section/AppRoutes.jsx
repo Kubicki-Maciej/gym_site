@@ -1,18 +1,14 @@
 import { Route, Routes } from "react-router-dom";
+import { useUserContext } from "../User/context.jsx";
 
 import LoginPage from "../../Screens/Auth/Login/LoginPage.jsx";
 import RegisterPage from "../../Screens/Auth/Register/RegisterPage.jsx";
-
 import Article from "./Article.jsx";
-
 import TrainingScreen from "../../Screens/Training/TrainingScreen.jsx";
-
 import TrainerCalendar from "../Calendar/TrainerCalendar.jsx";
-
-import { useUserContext } from "../User/context.jsx";
 import MenuScreen from "../Menu/MenuScreen.jsx";
 
-// import WorkoutDetail from "../Trening/WorkoutDetail.jsx";
+import StudentProfileScreen from "../../Screens/StudentProfileScreen.jsx";
 import WorkoutDetail from "../Workout/WorkoutDetail.jsx";
 
 function Section() {
@@ -41,6 +37,10 @@ function Section() {
         <Route
           path="clientsmenu/*"
           element={<MenuScreen sideBarName={"clients"} />}
+        />
+        <Route
+          path="student/*"
+          element={<MenuScreen sideBarName={"student"} />}
         />
       </Routes>
     </div>

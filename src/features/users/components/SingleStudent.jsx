@@ -16,16 +16,45 @@ import {
 import { Delete as DeleteIcon } from "@mui/icons-material";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import { FitnessCenter } from "@mui/icons-material";
+import PersonIcon from "@mui/icons-material/Person";
+import ConfirmDeleteDialog from "../../../components/Dialog/ConfirmDeleteDialog";
+import useConfirmDialog from "../../../components/Dialog/hooks/useConfirmDialog";
 
 export default function SingleStudent({
   student,
   index,
   onRemoveStudent,
-  totalStudents, // ✅ Przyjmij
+  totalStudents,
 }) {
-  console.log(student);
-  const { loading, trainingList } = useUserUpcomingTraining(student.id);
   const navigate = useNavigate();
+  const { open, dialogData, openDialog, closeDialog, handleConfirm } =
+    useConfirmDialog();
+
+  const { loading, trainingList } = useUserUpcomingTraining(student.id);
+
+  //
+
+  const handleRemoveClick = () => {
+    const studentName = `${student.first_name} ${student.last_name}`.trim();
+    openDialog(
+      "Potwierdzenie usunięcia",
+      `Czy na pewno chcesz usunąć studenta ${studentName}? Ta akcja nie może być cofnięta.`,
+      () => onRemoveStudent(student.id)
+    );
+  };
+
+  const handleViewProfile = () => {
+    console.log();
+    navigate(`/student/profile`, {
+      state: { student: student },
+    });
+  };
+
+  const handleViewTraining = () => {
+    if (trainingList && trainingList.length > 0) {
+      navigate(`/training/details/${trainingList[0].id}`);
+    }
+  };
 
   if (loading) {
     return (
@@ -36,41 +65,65 @@ export default function SingleStudent({
   }
 
   return (
-    <ListItem
-      secondaryAction={
-        <Box>
-          <IconButton
-            edge="end"
-            aria-label="delete"
-            onClick={() => onRemoveStudent(student.id)} // ✅ To powinno działać
-            color="error"
-          >
-            <PersonRemoveIcon />
-          </IconButton>
-          {trainingList && trainingList.length > 0 ? (
-            <IconButton
-              color="success"
-              onClick={() =>
-                navigate(`/training/details/${trainingList[0].id}`)
-              }
-            >
-              <FitnessCenter />
-            </IconButton>
-          ) : (
-            <IconButton disabled={true} color="">
-              <FitnessCenter />
-            </IconButton>
-          )}
-        </Box>
-      }
-      divider={index !== totalStudents - 1} // ✅ Poprawka
-    >
-      <ListItemText
-        primary={
-          `${student.first_name} ${student.last_name}`.trim() || student.email
+    <>
+      <ListItem
+        secondaryAction={
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+            <Box sx={{ display: "flex", gap: 0.5 }}>
+              <IconButton
+                size="small"
+                color="primary"
+                onClick={handleViewProfile}
+                title="Wyświetl profil"
+              >
+                <PersonIcon />
+              </IconButton>
+              {trainingList && trainingList.length > 0 ? (
+                <IconButton
+                  size="small"
+                  color="success"
+                  onClick={handleViewTraining}
+                  title="Wyświetl trening"
+                >
+                  <FitnessCenter />
+                </IconButton>
+              ) : (
+                <IconButton size="small" disabled={true} title="Brak treningów">
+                  <FitnessCenter />
+                </IconButton>
+              )}
+            </Box>
+          </Box>
         }
-        secondary={student.email}
+        divider={index !== totalStudents - 1}
+      >
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={handleRemoveClick}
+          color="error"
+          title="Usuń studenta"
+        >
+          <PersonRemoveIcon />
+        </IconButton>
+        <ListItemText
+          sx={{
+            marginLeft: "16px",
+          }}
+          primary={
+            `${student.first_name} ${student.last_name}`.trim() || student.email
+          }
+          secondary={student.supose_name}
+        />
+      </ListItem>
+
+      <ConfirmDeleteDialog
+        open={open}
+        title={dialogData.title}
+        message={dialogData.message}
+        onConfirm={handleConfirm}
+        onCancel={closeDialog}
       />
-    </ListItem>
+    </>
   );
 }

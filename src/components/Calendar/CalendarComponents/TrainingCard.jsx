@@ -44,20 +44,6 @@ export default function TrainingCard({ event, timeText, view }) {
       }}
     >
       <CardContent sx={{ padding: 1, flex: 1, "&:last-child": { pb: 1 } }}>
-        {/* Czas */}
-        <Typography
-          variant="caption"
-          sx={{
-            display: "block",
-            opacity: 0.9,
-            marginBottom: 0.5,
-            fontWeight: 500,
-          }}
-        >
-          {getFormattedTime()}
-        </Typography>
-
-        {/* Tytuł (imię/nazwisko trenera) */}
         <Typography
           variant="body2"
           sx={{
@@ -68,22 +54,8 @@ export default function TrainingCard({ event, timeText, view }) {
             whiteSpace: "nowrap",
           }}
         >
-          {event.title}
+          {event.title} {getFormattedTime()}
         </Typography>
-
-        {/* Czas trwania */}
-        {event.extendedProps?.duration && (
-          <Chip
-            label={`${event.extendedProps.duration} min`}
-            size="small"
-            sx={{
-              backgroundColor: "rgba(255,255,255,0.3)",
-              color: "white",
-              height: 20,
-              fontSize: "0.7rem",
-            }}
-          />
-        )}
       </CardContent>
     </Card>
   );
