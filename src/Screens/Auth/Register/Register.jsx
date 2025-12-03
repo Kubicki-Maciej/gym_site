@@ -13,13 +13,16 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleRegister = async e => {
-    e.preventDefault();
-    client
-      .post("user/register", {
+    const payload = {
         email: email,
         password: password,
         name: username,
-      })
+        password_confirm:confirmPassword
+    }
+    console.log(payload)
+    e.preventDefault();
+    client
+      .post("user/register", payload)
       .then(function (res) {
         // add here validation for used emails
         console.log("zarejestrowany");

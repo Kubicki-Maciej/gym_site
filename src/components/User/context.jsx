@@ -54,9 +54,11 @@ import { createContext, useContext, useState, useEffect } from "react";
 export const UserContext = createContext({
   logged: false,
   user: null,
+  selectedUser: null,
   login: () => {},
   logout: () => {},
   updateUser: () => {},
+  setSelectedUser: () => {},
   accessToken: null,
   refreshToken: null,
 });
@@ -64,11 +66,11 @@ export const UserContext = createContext({
 export function UserProvider({ children }) {
   const [logged, setLogged] = useState(false);
   const [user, setUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Inicjalizuj state z localStorage przy montowaniu
   useEffect(() => {
     const token = localStorage.getItem("token");
     const refresh = localStorage.getItem("refresh");
@@ -82,7 +84,6 @@ export function UserProvider({ children }) {
         setLogged(true);
       } catch (error) {
         console.error("Błąd przy wczytywaniu danych z localStorage:", error);
-        // Wyczyść nieprawidłowe dane
         localStorage.removeItem("token");
         localStorage.removeItem("refresh");
         localStorage.removeItem("user");
@@ -92,17 +93,12 @@ export function UserProvider({ children }) {
   }, []);
 
   const login = response => {
-    // ✅ response zawiera: { access, refresh, user }
     const { access, refresh, user: userData } = response;
 
-    // Zapisz tokeny
     localStorage.setItem("token", access);
     localStorage.setItem("refresh", refresh);
-
-    // Zapisz dane użytkownika
     localStorage.setItem("user", JSON.stringify(userData));
 
-    // Zaktualizuj state
     setAccessToken(access);
     setRefreshToken(refresh);
     setUser(userData);
@@ -110,19 +106,15 @@ export function UserProvider({ children }) {
   };
 
   const logout = () => {
-    // Wyczyść localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("refresh");
     localStorage.removeItem("user");
 
-    // Wyczyść state
     setAccessToken(null);
     setRefreshToken(null);
     setUser(null);
+    setSelectedUser(null); // ✅ Wyczyść selectedUser przy logout
     setLogged(false);
-
-    // Przekieruj na login
-    // window.location.href = "/login";
   };
 
   const updateUser = updatedData => {
@@ -131,27 +123,31 @@ export function UserProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(newUserData));
   };
 
-  // ✅ Funkcja do aktualizacji access tokena
+  // ✅ Nowa funkcja do wyboru użytkownika
+  const setSelectedUserData = userData => {
+    setSelectedUser(userData);
+  };
+
   const setNewAccessToken = token => {
     setAccessToken(token);
     localStorage.setItem("token", token);
   };
 
   const getUserId = () => {
-    if (user) {
-      return user.id;
-    }
+    return user?.id;
   };
 
   const value = {
     logged,
     user,
+    selectedUser,
     accessToken,
     refreshToken,
     loading,
     login,
     logout,
     updateUser,
+    setSelectedUserData,
     setNewAccessToken,
     getUserId,
   };
@@ -171,12 +167,14 @@ export function useUserContext() {
     return {
       logged: false,
       user: null,
+      selectedUser: null,
       accessToken: null,
       refreshToken: null,
       loading: false,
       login: () => {},
       logout: () => {},
       updateUser: () => {},
+      setSelectedUserData: () => {},
       setNewAccessToken: () => {},
       getUserId: () => {},
     };

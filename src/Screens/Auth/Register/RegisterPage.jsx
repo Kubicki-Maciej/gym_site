@@ -104,10 +104,16 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
+      const payload = {
+        name:name, password:password, email:email, password_confirm:confirm
+      }
+      // console.log(payload)
       const res = await fetch("http://localhost:8000/user/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name, password, email }),
+        body: JSON.stringify(
+          payload
+        ),
       });
       const data = await res.json();
 

@@ -2,21 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import useUserUpcomingTraining from "../hooks/useUserUpcomingTraining";
 import {
-  List,
   ListItem,
   ListItemText,
-  ListItemButton,
   IconButton,
-  Typography,
   Box,
-  Paper,
   CircularProgress,
-  Alert,
 } from "@mui/material";
+import StudentButton from "../../../components/Buttons/StudentButton";
 import { Delete as DeleteIcon } from "@mui/icons-material";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import { FitnessCenter } from "@mui/icons-material";
-import PersonIcon from "@mui/icons-material/Person";
+
 import ConfirmDeleteDialog from "../../../components/Dialog/ConfirmDeleteDialog";
 import useConfirmDialog from "../../../components/Dialog/hooks/useConfirmDialog";
 
@@ -43,12 +39,7 @@ export default function SingleStudent({
     );
   };
 
-  const handleViewProfile = () => {
-    console.log();
-    navigate(`/student/profile`, {
-      state: { student: student },
-    });
-  };
+
 
   const handleViewTraining = () => {
     if (trainingList && trainingList.length > 0) {
@@ -70,14 +61,15 @@ export default function SingleStudent({
         secondaryAction={
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <IconButton
+              {/* <IconButton
                 size="small"
                 color="primary"
                 onClick={handleViewProfile}
                 title="Wyświetl profil"
               >
                 <PersonIcon />
-              </IconButton>
+              </IconButton> */}
+              <StudentButton/>
               {trainingList && trainingList.length > 0 ? (
                 <IconButton
                   size="small"
