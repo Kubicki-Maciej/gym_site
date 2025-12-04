@@ -58,7 +58,7 @@ export const UserContext = createContext({
   login: () => {},
   logout: () => {},
   updateUser: () => {},
-  setSelectedUser: () => {},
+  setSelectedUserData: () => {},
   accessToken: null,
   refreshToken: null,
 });
@@ -113,7 +113,7 @@ export function UserProvider({ children }) {
     setAccessToken(null);
     setRefreshToken(null);
     setUser(null);
-    setSelectedUser(null); // ✅ Wyczyść selectedUser przy logout
+    setSelectedUser(null); 
     setLogged(false);
   };
 
@@ -123,7 +123,6 @@ export function UserProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(newUserData));
   };
 
-  // ✅ Nowa funkcja do wyboru użytkownika
   const setSelectedUserData = userData => {
     setSelectedUser(userData);
   };

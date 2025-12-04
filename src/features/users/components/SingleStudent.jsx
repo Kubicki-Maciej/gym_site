@@ -61,15 +61,7 @@ export default function SingleStudent({
         secondaryAction={
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              {/* <IconButton
-                size="small"
-                color="primary"
-                onClick={handleViewProfile}
-                title="Wyświetl profil"
-              >
-                <PersonIcon />
-              </IconButton> */}
-              <StudentButton/>
+              <StudentButton student={student}/>
               {trainingList && trainingList.length > 0 ? (
                 <IconButton
                   size="small"

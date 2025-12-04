@@ -23,8 +23,8 @@ export default function GetUsers({ onUserSelect }) {
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    console.log("use efekt wczytuje");
-    console.log(user.id);
+
+    
     const fetchUsers = async () => {
       try {
         let fetchedUsers = await getTrainerStudents(user.id);
@@ -45,28 +45,6 @@ export default function GetUsers({ onUserSelect }) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const response = await api.get(`user/users`);
-  //       setUsers(response);
-  //       if (Array.isArray(response)) {
-  //         setUsers(response);
-  //       } else {
-  //         console.error("Dane z API nie są tablicą:", response);
-  //         console.log(response);
-  //         setUsers([]);
-  //       }
-  //     } catch (err) {
-  //       console.error("Błąd pobierania użytkowników:", err);
-
-  //       setUsers([]);
-  //     } finally {
-  //     }
-  //   };
-
-  //   fetchUsers();
-  // }, []);
 
   const handleChange = (event, newValue) => {
     setSelectedUser(newValue);
