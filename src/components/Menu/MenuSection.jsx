@@ -10,6 +10,9 @@ import CreateExercise from "../Exercise/CreateExercise";
 import CreateNewTraining from "../Trening/CreateTrening";
 
 import StudentProfileScreen from "../../Screens/StudentProfileScreen";
+import StudentNextTraining from "../Student/StudentNextTraining";
+import StudentTrainingsScreen from "../Student/StudentTrainingsScreen";
+
 
 export default function MenuSection() {
   return (
@@ -28,6 +31,8 @@ export default function MenuSection() {
 
         {/* my student */}
         <Route path="profile" element={<StudentProfileScreen />} />
+        <Route path="nextworkout" element={<StudentNextTraining />}/>
+        <Route path="meetings" element={<StudentTrainingsScreen/>}/>
       </Routes>
     </>
   );

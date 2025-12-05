@@ -38,15 +38,11 @@ export default function SingleStudent({
       () => onRemoveStudent(student.id)
     );
   };
-
-
-
   const handleViewTraining = () => {
     if (trainingList && trainingList.length > 0) {
       navigate(`/training/details/${trainingList[0].id}`);
     }
   };
-
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" p={4}>
@@ -54,7 +50,6 @@ export default function SingleStudent({
       </Box>
     );
   }
-
   return (
     <>
       <ListItem

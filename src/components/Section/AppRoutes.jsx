@@ -12,6 +12,8 @@ import StudentProfileScreen from "../../Screens/StudentProfileScreen.jsx";
 import WorkoutDetail from "../Workout/WorkoutDetail.jsx";
 import ExercisesPage from "../../Screens/ExercisePage.jsx";
 
+
+
 import { useState } from 'react';
 // import CardContainer from "../Cards/CardContainer"
 import CardContainer from "../Cards/CardContainer.jsx";

@@ -222,6 +222,19 @@ export default function useTraining() {
     }
   }, []);
 
+    const getUserTrainingsInDateRange = useCallback(async (id, data) => {
+    try {
+      setLoading(true);
+      const data = await trainingApi.userTrainingsInDateRange(id, data);
+      setError(null);
+      return data;
+    } catch (err) {
+      return handleError(err, "Błąd pobierania treningu");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return {
     loading,
     error,
@@ -241,5 +254,6 @@ export default function useTraining() {
     deleteSeriesExercise,
     createTraining,
     updateMainTraining,
+    getUserTrainingsInDateRange,
   };
 }

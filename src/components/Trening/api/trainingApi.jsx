@@ -76,4 +76,8 @@ export const trainingApi = {
   updateMainTraining: async data => {
     return api.put(`training/create_training`, data);
   },
+
+  userTrainingsInDateRange: async (userId, data) =>{
+    return api.get(`training/user/trainings_in_date_range/${userId}`)
+  }
 };
