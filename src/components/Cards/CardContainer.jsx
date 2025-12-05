@@ -1,17 +1,16 @@
-import { Grid, Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { motion } from 'framer-motion';
 
-const MotionGrid = motion(Grid);
+const MotionBox = motion(Box);
 
 export default function CardContainer({ 
   items = [],
   spacing = 2, 
   columns = 3,
   renderCard,
+  isOneColumn = false, 
   sx = {}
 }){
-  const mdValue = 12 / columns;
-
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -27,29 +26,61 @@ export default function CardContainer({
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const spacingValue = spacing * 8;
+
+  // Dynamiczny gridTemplateColumns
+  const getGridColumns = () => {
+    if (isOneColumn) {
+      return '1fr'; // ← Zawsze 1 kolumna
+    }
+    return {
+      xs: '1fr',
+      sm: 'repeat(2, 1fr)',
+      md: `repeat(${columns}, 1fr)`,
+    };
+  };
+
   return (
-    <MotionGrid 
-      container 
-      spacing={spacing}
-      variants={container}
-      initial="hidden"
-      animate="show"
-      sx={{ p: 2, ...sx }}
-    >
-      {items.map((data, index) => (
-        <MotionGrid 
-          item 
-          xs={12} 
-          sm={6} 
-          md={mdValue}
-          key={data.id || index}
-          variants={item}
-        >
-          <Box sx={{ height: '100%' }}>
-            {renderCard?.(data)}
-          </Box>
-        </MotionGrid>
-      ))}
-    </MotionGrid>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <MotionBox
+        variants={container}
+        initial="hidden"
+        animate="show"
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: getGridColumns(),
+          gap: `${spacingValue}px`,
+          alignItems: 'start',
+          justifyItems: 'center',
+          ...sx
+        }}
+      >
+        {items.map((data, index) => (
+          <motion.div
+            key={data.id || index}
+            variants={item}
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            <Box sx={{ 
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              maxWidth: isOneColumn ? '600px' : {
+                xs: '100%',
+                sm: '350px',
+                md: '100%'
+              },
+              margin: '0 auto'
+            }}>
+              {renderCard(data)}
+            </Box>
+          </motion.div>
+        ))}
+      </MotionBox>
+    </Container>
   );
 }
