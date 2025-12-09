@@ -222,10 +222,10 @@ export default function useTraining() {
     }
   }, []);
 
-    const getUserTrainingsInDateRange = useCallback(async (id, data) => {
+  const getUserTrainingsInDateRange = useCallback(async (id, payload) => {
     try {
       setLoading(true);
-      const data = await trainingApi.userTrainingsInDateRange(id, data);
+      const data = await trainingApi.userTrainingsInDateRange(id, payload);
       setError(null);
       return data;
     } catch (err) {

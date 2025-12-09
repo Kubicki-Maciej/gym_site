@@ -77,7 +77,9 @@ export const trainingApi = {
     return api.put(`training/create_training`, data);
   },
 
-  userTrainingsInDateRange: async (userId, data) =>{
-    return api.get(`training/user/trainings_in_date_range/${userId}`)
-  }
+  userTrainingsInDateRange: async (userId, data) => {
+    return api.get(
+      `training/user/trainings_in_date_range/${userId}/?start_date=${data.start_date}&end_date=${data.end_date}`
+    );
+  },
 };
