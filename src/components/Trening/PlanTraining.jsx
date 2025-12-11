@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import SingleTraining from "./SingleTraining";
-// import TrainingSchedulePicker from "../Calendar/TrainingScheduleConfigurator";
+
 import TrainingSchedulePicker from "../trainingSchedule/TrainingSchedulePicker";
 
 export default function PlanTraining({ onEventDataChange }) {
   const handleScheduleChange = schedule => {
-    console.log("schedule:", schedule);
+    onEventDataChange(schedule);
   };
 
   const handleTrainingType = type => {
@@ -13,13 +13,8 @@ export default function PlanTraining({ onEventDataChange }) {
   };
 
   return (
-    // <TrainingSchedulePicker
-    //   onChange={onEventDataChange}
-    //   setTrainigType={setTrainingType}
-    // />
     <TrainingSchedulePicker
       onChange={handleScheduleChange}
-      setTrainigType={handleTrainingType}
       viewMode="auto" // lub "desktop" / "mobile"
     />
   );
