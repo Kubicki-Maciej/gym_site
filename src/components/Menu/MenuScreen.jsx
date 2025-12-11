@@ -14,7 +14,7 @@ export default function MenuScreen({ sideBarName }) {
         <MenuSidebar sideBarName={sideBarName} />
       </Box>
       <Box sx={{ flexGrow: 1, padding: 3 }}>
-        <MenuSection />
+        <MenuSection sideBarName={sideBarName} />
       </Box>
     </Box>
   );

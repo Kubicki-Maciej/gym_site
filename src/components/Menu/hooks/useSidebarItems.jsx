@@ -77,7 +77,7 @@ export const useSidebarItems = () => {
       id: "clients",
       name: "Moi klienci",
       icon: PeopleIcon,
-      path: "/clients",
+      path: "/clientsmenu",
       submenu: [
         {
           id: "calendar",
@@ -85,19 +85,6 @@ export const useSidebarItems = () => {
           icon: Groups2Icon,
           path: "students",
         },
-        // {
-        //   id: "create-meeting",
-        //   name: "Test user Profile",
-        //   // name: "Stwórz spotkanie",
-        //   icon: AddIcon,
-        //   path: "userprofile",
-        // },
-        // {
-        //   id: "add-client",
-        //   name: "Dodaj klienta",
-        //   icon: PersonAddIcon,
-        //   path: "workout/create",
-        // },
         {
           id: "add-client-cyclic-trainings",
           name: "Dodaj Plan Użytkownikowi",

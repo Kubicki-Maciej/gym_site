@@ -13,8 +13,7 @@ import StudentProfileScreen from "../../Screens/StudentProfileScreen";
 import StudentNextTraining from "../Student/StudentNextTraining";
 import StudentTrainingsScreen from "../Student/StudentTrainingsScreen";
 
-
-export default function MenuSection() {
+export default function MenuSection({ sideBarName }) {
   return (
     <>
       <Routes>
@@ -27,12 +26,16 @@ export default function MenuSection() {
         <Route path="plan/create" element={<UserAddTraining />} />
         <Route path="workout/create" element={<CreateWorkout />} />
         <Route path="students" element={<StudentsPage />} />
+
+        {sideBarName === "clients" && (
+          <Route path="" element={<StudentsPage />} />
+        )}
         <Route path="userprofile" element={<UserProfile />} />
 
         {/* my student */}
         <Route path="profile" element={<StudentProfileScreen />} />
-        <Route path="nextworkout" element={<StudentNextTraining />}/>
-        <Route path="meetings" element={<StudentTrainingsScreen/>}/>
+        <Route path="nextworkout" element={<StudentNextTraining />} />
+        <Route path="meetings" element={<StudentTrainingsScreen />} />
       </Routes>
     </>
   );

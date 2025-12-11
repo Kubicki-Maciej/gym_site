@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Box, CircularProgress, Alert, Button, Stack } from "@mui/material";
 import { StatusAlertService } from "react-status-alert";
 import useUserTraining from "../../hooks/useUserTraining";
@@ -13,8 +13,19 @@ import AddTrainingDialog from "./AddTrainingDialog"; // Nowy import
 export default function WorkoutDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { getUserDataTraining, getAllExercises, getAllTrainings } =
     useUserTraining();
+
+  const handleGoBack = () => {
+    const source = searchParams.get("source");
+
+    if (source === "profileUser") {
+      navigate("/student/profile");
+    } else {
+      navigate(-1);
+    }
+  };
 
   const {
     training,
@@ -75,7 +86,7 @@ export default function WorkoutDetail() {
   return (
     <Box sx={{ p: 2 }}>
       <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
-        <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
+        <Button variant="outlined" color="primary" onClick={handleGoBack}>
           back
         </Button>
       </Stack>

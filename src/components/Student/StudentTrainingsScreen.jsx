@@ -8,23 +8,40 @@ import {
   CircularProgress,
   Alert,
   List,
-  ListItem,
-  ListItemText,
   Typography,
   Paper,
   Grid,
+  Stack,
+  useMediaQuery,
+  useTheme,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
-// import StudentTrainingListItem
+import {
+  ChevronLeft,
+  ChevronRight,
+  NavigateBefore,
+  NavigateNext,
+} from "@mui/icons-material";
 import StudentTrainingListItem from "./StudentTrainingListItem";
 
-// ✅ FORMAT HELPER
 function formatDate(date) {
   return date.toISOString().split("T")[0];
+}
+
+// Helper do wyświetlania nazwy miesiąca
+function getMonthName(dateString) {
+  const date = new Date(dateString + "T00:00:00");
+  return date.toLocaleDateString("pl-PL", { month: "long", year: "numeric" });
 }
 
 export default function StudentTrainingsScreen() {
   const { selectedUser } = useUserContext();
   const { loading, error, getUserTrainingsInDateRange } = useTraining();
+
+  // Hook do sprawdzania rozmiaru ekranu
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -34,7 +51,6 @@ export default function StudentTrainingsScreen() {
   const [endDate, setEndDate] = useState(formatDate(lastDayOfMonth));
   const [trainings, setTrainings] = useState([]);
 
-  // ✅ LOAD TRAININGS
   useEffect(() => {
     if (!selectedUser?.id || !startDate || !endDate) {
       return;
@@ -54,14 +70,8 @@ export default function StudentTrainingsScreen() {
     }
   };
 
-  const handleDateChange = () => {
-    if (startDate && endDate && startDate <= endDate) {
-      loadTrainings();
-    }
-  };
-
   const handlePreviousMonth = () => {
-    const firstOfCurrentMonth = new Date(startDate + "T00:00:00");
+    const firstOfCurrentMonth = new Date(endDate + "T00:00:00");
     firstOfCurrentMonth.setDate(1);
 
     const lastOfPrevMonth = new Date(firstOfCurrentMonth);
@@ -73,11 +83,8 @@ export default function StudentTrainingsScreen() {
       1
     );
 
-    const newStart = formatDate(firstOfPrevMonth);
-    const newEnd = formatDate(lastOfPrevMonth);
-
-    setStartDate(newStart);
-    setEndDate(newEnd);
+    setStartDate(formatDate(firstOfPrevMonth));
+    setEndDate(formatDate(lastOfPrevMonth));
   };
 
   const handleNextMonth = () => {
@@ -94,112 +101,216 @@ export default function StudentTrainingsScreen() {
       0
     );
 
-    const newStart = formatDate(firstOfNextMonth);
-    const newEnd = formatDate(lastOfNextMonth);
-
-    setStartDate(newStart);
-    setEndDate(newEnd);
+    setStartDate(formatDate(firstOfNextMonth));
+    setEndDate(formatDate(lastOfNextMonth));
   };
 
   const handleStartDateChange = e => {
     const newStart = e.target.value;
     setStartDate(newStart);
-
     if (newStart > endDate) {
-      setEndDate(newStart); // Ustaw końcową na tę samą
+      setEndDate(newStart);
     }
   };
 
   const handleEndDateChange = e => {
     const newEnd = e.target.value;
-
-    if (newEnd < startDate) {
-      return; // Nic nie rób
+    if (newEnd >= startDate) {
+      setEndDate(newEnd);
     }
-
-    setEndDate(newEnd);
   };
 
   if (!selectedUser) {
     return (
-      <Alert severity="info">
+      <Alert severity="info" sx={{ m: 1 }}>
         Wybierz studenta, aby zobaczyć jego treningi
       </Alert>
     );
   }
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold", mb: 2 }}>
+    <Paper
+      sx={{
+        p: { xs: 1.5, sm: 2, md: 3 }, // Responsywny padding
+        mx: { xs: 0.5, sm: 1 },
+        my: 1,
+      }}
+    >
+      {/* Nagłówek */}
+      <Typography
+        variant={isMobile ? "subtitle1" : "h6"}
+        gutterBottom
+        sx={{
+          fontWeight: "bold",
+          mb: 2,
+          fontSize: { xs: "1rem", sm: "1.25rem" },
+          textAlign: { xs: "center", sm: "left" },
+        }}
+      >
         📅 Treningi - {selectedUser.name}
       </Typography>
 
-      <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={5}>
-          <TextField
-            label="Data początkowa"
-            type="date"
-            value={startDate}
-            onChange={handleStartDateChange}
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-        </Grid>
+      {/* Nawigacja miesiącami - kompaktowa na mobile */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: { xs: 1, sm: 2 },
+          mb: 2,
+          flexWrap: "wrap",
+        }}
+      >
+        {isMobile ? (
+          // Mobile: ikony + nazwa miesiąca
+          <>
+            <IconButton
+              onClick={handlePreviousMonth}
+              color="primary"
+              size="large"
+              sx={{
+                border: 1,
+                borderColor: "primary.main",
+              }}
+            >
+              <NavigateBefore />
+            </IconButton>
 
-        <Grid item xs={12} sm={5}>
-          <TextField
-            label="Data końcowa"
-            type="date"
-            value={endDate}
-            onChange={handleEndDateChange}
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            inputProps={{
-              min: startDate,
-            }}
-          />
-        </Grid>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "medium",
+                minWidth: 140,
+                textAlign: "center",
+                textTransform: "capitalize",
+              }}
+            >
+              {getMonthName(startDate)}
+            </Typography>
 
-        <Grid item xs={12} sm={2}>
-          <Button
-            variant="contained"
-            onClick={handleDateChange}
-            fullWidth
-            sx={{ height: "56px" }}
-          >
-            Szukaj
-          </Button>
-        </Grid>
-      </Grid>
+            <IconButton
+              onClick={handleNextMonth}
+              color="primary"
+              size="large"
+              sx={{
+                border: 1,
+                borderColor: "primary.main",
+              }}
+            >
+              <NavigateNext />
+            </IconButton>
+          </>
+        ) : (
+          // Desktop: pełne przyciski
+          <>
+            <Button
+              variant="outlined"
+              onClick={handlePreviousMonth}
+              startIcon={<ChevronLeft />}
+            >
+              Poprzedni miesiąc
+            </Button>
 
-      <Box sx={{ display: "flex", gap: 2, mb: 3, justifyContent: "center" }}>
-        <Button variant="outlined" onClick={handlePreviousMonth}>
-          ← Poprzedni miesiąc
-        </Button>
-        <Button variant="outlined" onClick={handleNextMonth}>
-          Następny miesiąc →
-        </Button>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "medium",
+                px: 2,
+                textTransform: "capitalize",
+              }}
+            >
+              {getMonthName(startDate)}
+            </Typography>
+
+            <Button
+              variant="outlined"
+              onClick={handleNextMonth}
+              endIcon={<ChevronRight />}
+            >
+              Następny miesiąc
+            </Button>
+          </>
+        )}
       </Box>
 
+      {/* Pola dat - stack na mobile, grid na desktop */}
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1.5, sm: 2 }}
+        sx={{ mb: 2 }}
+        justifyContent="center"
+      >
+        <TextField
+          label="Od"
+          type="date"
+          value={startDate}
+          onChange={handleStartDateChange}
+          InputLabelProps={{ shrink: true }}
+          size={isMobile ? "small" : "medium"}
+          sx={{
+            minWidth: { xs: "100%", sm: 180 },
+            maxWidth: { sm: 200 },
+          }}
+        />
+
+        <TextField
+          label="Do"
+          type="date"
+          value={endDate}
+          onChange={handleEndDateChange}
+          InputLabelProps={{ shrink: true }}
+          size={isMobile ? "small" : "medium"}
+          inputProps={{ min: startDate }}
+          sx={{
+            minWidth: { xs: "100%", sm: 180 },
+            maxWidth: { sm: 200 },
+          }}
+        />
+      </Stack>
+
+      {/* Loading */}
       {loading && (
         <Box sx={{ display: "flex", justifyContent: "center", p: 3 }}>
-          <CircularProgress />
+          <CircularProgress size={isMobile ? 30 : 40} />
         </Box>
       )}
 
+      {/* Error */}
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert
+          severity="error"
+          sx={{
+            mb: 2,
+            fontSize: { xs: "0.8rem", sm: "0.875rem" },
+          }}
+        >
           {error}
         </Alert>
       )}
 
+      {/* Lista treningów */}
       {!loading && trainings.length > 0 ? (
         <Box>
-          <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{
+              mb: 1.5,
+              textAlign: { xs: "center", sm: "left" },
+              fontSize: { xs: "0.75rem", sm: "0.875rem" },
+            }}
+          >
             Znaleziono {trainings.length} treningów
           </Typography>
 
-          <List>
+          <List
+            sx={{
+              p: 0,
+              "& .MuiListItem-root": {
+                px: { xs: 0.5, sm: 2 },
+              },
+            }}
+          >
             {trainings.map(training => (
               <StudentTrainingListItem key={training.id} training={training} />
             ))}
@@ -207,7 +318,14 @@ export default function StudentTrainingsScreen() {
         </Box>
       ) : (
         !loading && (
-          <Alert severity="info">Brak treningów w wybranym zakresie</Alert>
+          <Alert
+            severity="info"
+            sx={{
+              fontSize: { xs: "0.8rem", sm: "0.875rem" },
+            }}
+          >
+            Brak treningów w wybranym zakresie
+          </Alert>
         )
       )}
     </Paper>
