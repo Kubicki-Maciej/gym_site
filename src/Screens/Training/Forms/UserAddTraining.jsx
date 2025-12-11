@@ -6,7 +6,7 @@ import useUserTraining from "../../../components/Trening/hooks/useTraining";
 import SnackbarAlert from "../../../components/Alerts/SnackbarAlert";
 import useSnackbarAlerts from "../../../components/Alerts/hooks/useSnackbarAlerts";
 
-// dodajesz trening/i użytkownikowi
+// TrainingScheduleConfigurator
 export default function UserAddTraining() {
   const { statusAlert, showAlert, handleCloseAlert } = useSnackbarAlerts();
 
@@ -28,12 +28,6 @@ export default function UserAddTraining() {
     }
   };
 
-  // Odbierasz dane z PlanTraining po walidacji i kliknięciu "Zapisz trening"
-  const handlePlanSave = data => {
-    // Tu możesz wysłać dane do API
-    alert("Dane poprawne! Możesz wysłać do API.");
-  };
-
   // Odbierasz dane z SingleTraining
   const handleTrainingChange = data => {
     setTrainingData(data);
@@ -43,8 +37,6 @@ export default function UserAddTraining() {
     setEventData(data);
   };
 
-  // zrobienie walidacji
-  // stwórz mi validacje przed wysłaniem
   function handleDataSend() {
     if (!selectedUser) {
       alert("Wybierz użytkownika!");
@@ -57,7 +49,7 @@ export default function UserAddTraining() {
         idUser: selectedUser.id,
         dates: eventData,
       };
-
+      showAlert("Trening dodany");
       createMultipleTrainings(dataToSend);
     }
   }
@@ -77,7 +69,6 @@ export default function UserAddTraining() {
         statusAlert={statusAlert.severity}
         message={statusAlert.message}
       />
-      {/* <EventCalendar /> */}
     </>
   );
 }

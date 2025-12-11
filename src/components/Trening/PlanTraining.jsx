@@ -1,32 +1,26 @@
 import React, { useState } from "react";
 import SingleTraining from "./SingleTraining";
-import EventTypeSelector from "../Calendar/EventTypeSelector";
+// import TrainingSchedulePicker from "../Calendar/TrainingScheduleConfigurator";
+import TrainingSchedulePicker from "../trainingSchedule/TrainingSchedulePicker";
 
-export default function PlanTraining({
-  userSelected,
-  onTrainingChange,
-  onEventDataChange,
-}) {
-  const [trainingData, setTrainingData] = useState([]);
-  const [trainingType, setTrainingType] = useState("single");
+export default function PlanTraining({ onEventDataChange }) {
+  const handleScheduleChange = schedule => {
+    console.log("schedule:", schedule);
+  };
 
-  {
-    /* Połaczenie event type seletor z single training  
-      a) dla pojedynczego tylko jeden trening format danych 
-        -> user, data_training, training or new training jeżeli zostałe dodane ćwiczenia których wcześniej nie było wtedy nazwa treningu to training_user_data
-      b) dla formatu tygodnia wybranie danych dni, ustawienie godziny rozpoczecia treningu w danych dniach.
-        -> user, wybrane dni 
-        opcja:
-          - dodanie treningu w konkretny dzień
-          - dodanie cykliczne treningow czyli 2 dni wybrane a treningów 3 ...
-      */
-  }
+  const handleTrainingType = type => {
+    console.log("typ treningu:", type); // "cycle" | "single"
+  };
+
   return (
-    <div>
-      <EventTypeSelector
-        onChange={onEventDataChange}
-        setTrainigType={setTrainingType}
-      />
-    </div>
+    // <TrainingSchedulePicker
+    //   onChange={onEventDataChange}
+    //   setTrainigType={setTrainingType}
+    // />
+    <TrainingSchedulePicker
+      onChange={handleScheduleChange}
+      setTrainigType={handleTrainingType}
+      viewMode="auto" // lub "desktop" / "mobile"
+    />
   );
 }

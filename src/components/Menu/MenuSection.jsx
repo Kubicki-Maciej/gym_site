@@ -32,7 +32,6 @@ export default function MenuSection({ sideBarName }) {
         )}
         <Route path="userprofile" element={<UserProfile />} />
 
-        {/* my student */}
         <Route path="profile" element={<StudentProfileScreen />} />
         <Route path="nextworkout" element={<StudentNextTraining />} />
         <Route path="meetings" element={<StudentTrainingsScreen />} />

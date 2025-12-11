@@ -42,7 +42,6 @@ export default function Section() {
           path="student/*"
           element={<MenuScreen sideBarName={"student"} />}
         />
-        {/* <exerciseRoute/> */}
         <Route path="test/" element={<ExercisesPage />} />
       </Routes>
     </div>
