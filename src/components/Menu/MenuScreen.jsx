@@ -1,8 +1,10 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, useTheme, useMediaQuery } from "@mui/material";
 import MenuSidebar from "./MenuSidebar";
 import MenuSection from "./MenuSection";
 export default function MenuScreen({ sideBarName }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Box sx={{ display: "flex", height: "100%" }}>
       <Box
@@ -13,7 +15,7 @@ export default function MenuScreen({ sideBarName }) {
       >
         <MenuSidebar sideBarName={sideBarName} />
       </Box>
-      <Box sx={{ flexGrow: 1, padding: 3 }}>
+      <Box sx={{ flexGrow: 1, padding: isMobile ? 2 : 2 }} className="Section">
         <MenuSection sideBarName={sideBarName} />
       </Box>
     </Box>
