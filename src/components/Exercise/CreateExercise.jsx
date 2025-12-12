@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   TextField,
@@ -9,6 +9,8 @@ import {
   Paper,
   Container,
   CircularProgress,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import SnackbarAlert from "../Alerts/SnackbarAlert";
@@ -17,6 +19,10 @@ import useGeneral from "../../hooks/useGeneral";
 import useExercise from "./hooks/useExercise";
 
 export default function CreateExercise() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
   const { createExercise, error, loading } = useExercise();
   const { getAllMuscles, errorGeneral, loadingGeneral } = useGeneral();
 
@@ -81,7 +87,6 @@ export default function CreateExercise() {
       setExerciseName(exercise.name);
       setExerciseDescription(exercise.description || "");
 
-      // Filtruj grupy mięśniowe na podstawie ID
       const selectedGroups = muscleGroupOptions.filter(group =>
         exercise.muscle_group.includes(group.id)
       );
@@ -97,7 +102,6 @@ export default function CreateExercise() {
   };
 
   const handleCreateNewExercise = async () => {
-    // Walidacja
     if (!exerciseName.trim()) {
       showAlert("Wprowadź nazwę ćwiczenia", "warning");
       return;
@@ -135,18 +139,45 @@ export default function CreateExercise() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ p: 4, mt: 4, borderRadius: 3 }}>
-        <Stack spacing={3}>
-          <Typography variant="h5" fontWeight={600}>
+    <Container
+      maxWidth="sm"
+      sx={{
+        px: { xs: 2, sm: 3, md: 4 },
+      }}
+    >
+      <Paper
+        elevation={isMobile ? 1 : 3}
+        sx={{
+          p: { xs: 2, sm: 3, md: 4 },
+          mt: { xs: 2, sm: 3, md: 4 },
+          borderRadius: { xs: 2, md: 3 },
+          mb: 3,
+        }}
+      >
+        <Stack spacing={{ xs: 2, sm: 2.5, md: 3 }}>
+          <Typography
+            variant={isMobile ? "h6" : "h5"}
+            fontWeight={600}
+            sx={{ mb: { xs: 1, sm: 0 } }}
+          >
             Dodaj nowe ćwiczenie
           </Typography>
 
           {/* Wyszukiwanie istniejącego ćwiczenia */}
-          <Box sx={{ py: 2, borderBottom: "1px solid #e0e0e0" }}>
+          <Box
+            sx={{
+              py: { xs: 1.5, sm: 2 },
+              borderBottom: "1px solid #e0e0e0",
+              mb: { xs: 1, sm: 0 },
+            }}
+          >
             <Typography
               variant="subtitle2"
-              sx={{ mb: 1, color: "text.secondary" }}
+              sx={{
+                mb: 1,
+                color: "text.secondary",
+                fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              }}
             >
               Lub załaduj istniejące:
             </Typography>
@@ -167,6 +198,8 @@ export default function CreateExercise() {
             required
             disabled={loading}
             placeholder="np. Wyciskanie sztangi leżąc"
+            size={isMobile ? "small" : "medium"}
+            variant="outlined"
           />
 
           <TextField
@@ -175,10 +208,12 @@ export default function CreateExercise() {
             onChange={e => setExerciseDescription(e.target.value)}
             fullWidth
             multiline
-            minRows={3}
+            minRows={isMobile ? 2 : 3}
             disabled={loading}
             helperText="Opcjonalnie opisz sprzęt, pozycję, itp."
             placeholder="np. Leż na ławce, weź sztangę na wysokości klatki piersiowej..."
+            size={isMobile ? "small" : "medium"}
+            variant="outlined"
           />
 
           <Autocomplete
@@ -189,6 +224,7 @@ export default function CreateExercise() {
             value={muscleGroups}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             disabled={loading}
+            size={isMobile ? "small" : "medium"}
             renderInput={params => (
               <TextField
                 {...params}
@@ -198,25 +234,41 @@ export default function CreateExercise() {
                 required
               />
             )}
+            componentsProps={{
+              paper: {
+                sx: {
+                  maxHeight: { xs: 200, sm: 300 },
+                },
+              },
+            }}
           />
 
-          <Stack direction="row" spacing={2}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 1, sm: 2 }}
+            sx={{ mt: { xs: 1, sm: 0 } }}
+          >
             <Button
               variant="contained"
               color="primary"
               onClick={handleCreateNewExercise}
               disabled={loading}
-              size="large"
-              sx={{ flex: 1, position: "relative" }}
+              size={isMobile ? "medium" : "large"}
+              fullWidth={isMobile}
+              sx={{
+                position: "relative",
+                minHeight: { xs: 40, sm: 44 },
+                flex: isMobile ? "auto" : 1,
+              }}
             >
               {loading ? (
                 <>
                   <CircularProgress
-                    size={20}
+                    size={isMobile ? 16 : 20}
                     sx={{
                       position: "absolute",
                       left: "50%",
-                      marginLeft: "-10px",
+                      marginLeft: isMobile ? "-8px" : "-10px",
                       color: "inherit",
                     }}
                   />
@@ -233,8 +285,14 @@ export default function CreateExercise() {
                 color="error"
                 onClick={resetForm}
                 disabled={loading}
+                size={isMobile ? "medium" : "large"}
+                fullWidth={isMobile}
+                sx={{
+                  minHeight: { xs: 40, sm: 44 },
+                  flex: isMobile ? "auto" : undefined,
+                }}
               >
-                Czyść
+                {isMobile ? "Wyczyść" : "Czyść"}
               </Button>
             )}
           </Stack>
