@@ -48,7 +48,7 @@
 //     </div>
 //   );
 // }
-
+import { API_URL } from "../../../config";
 import React, { useState } from "react";
 import {
   Box,
@@ -105,15 +105,16 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       const payload = {
-        name:name, password:password, email:email, password_confirm:confirm
-      }
+        name: name,
+        password: password,
+        email: email,
+        password_confirm: confirm,
+      };
       // console.log(payload)
-      const res = await fetch("http://localhost:8000/user/register", {
+      const res = await fetch(`${API_URL}user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          payload
-        ),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
 
