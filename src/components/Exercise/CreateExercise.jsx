@@ -6,9 +6,10 @@ import {
   Button,
   Autocomplete,
   Stack,
-  Paper,
   Container,
   CircularProgress,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import SnackbarAlert from "../Alerts/SnackbarAlert";
@@ -17,8 +18,11 @@ import useGeneral from "../../hooks/useGeneral";
 import useExercise from "./hooks/useExercise";
 
 export default function CreateExercise() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const { createExercise, error, loading } = useExercise();
-  const { getAllMuscles, errorGeneral, loadingGeneral } = useGeneral();
+  const { getAllMuscles } = useGeneral();
 
   const [exerciseName, setExerciseName] = useState("");
   const [exerciseDescription, setExerciseDescription] = useState("");
@@ -81,7 +85,6 @@ export default function CreateExercise() {
       setExerciseName(exercise.name);
       setExerciseDescription(exercise.description || "");
 
-      // Filtruj grupy mięśniowe na podstawie ID
       const selectedGroups = muscleGroupOptions.filter(group =>
         exercise.muscle_group.includes(group.id)
       );
@@ -97,7 +100,6 @@ export default function CreateExercise() {
   };
 
   const handleCreateNewExercise = async () => {
-    // Walidacja
     if (!exerciseName.trim()) {
       showAlert("Wprowadź nazwę ćwiczenia", "warning");
       return;
@@ -135,18 +137,39 @@ export default function CreateExercise() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ p: 4, mt: 4, borderRadius: 3 }}>
-        <Stack spacing={3}>
-          <Typography variant="h5" fontWeight={600}>
+    <Container maxWidth="sm" disableGutters={isMobile} className="BAARRK">
+      <Box
+        sx={{
+          width: "100%",
+          // px: isMobile ? 2 : 3,
+          // py: isMobile ? 2 : 4,
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Stack spacing={3} sx={{ width: "100%" }}>
+          {/* Nagłówek */}
+          <Typography
+            variant={isMobile ? "h6" : "h5"}
+            fontWeight={700}
+            sx={{
+              fontSize: isMobile ? "1.25rem" : "1.5rem",
+              mb: 1,
+            }}
+          >
             Dodaj nowe ćwiczenie
           </Typography>
 
           {/* Wyszukiwanie istniejącego ćwiczenia */}
-          <Box sx={{ py: 2, borderBottom: "1px solid #e0e0e0" }}>
+          <Box>
             <Typography
               variant="subtitle2"
-              sx={{ mb: 1, color: "text.secondary" }}
+              sx={{
+                mb: 1.5,
+                color: "text.secondary",
+                fontSize: isMobile ? "0.875rem" : "1rem",
+              }}
             >
               Lub załaduj istniejące:
             </Typography>
@@ -156,9 +179,17 @@ export default function CreateExercise() {
               apiAdress="exercise/exercise/all"
               disabled={loading}
             />
+            <Box
+              sx={{
+                width: "100%",
+                height: "1px",
+                backgroundColor: "#e0e0e0",
+                mt: 2,
+              }}
+            />
           </Box>
 
-          {/* Formularz tworzenia ćwiczenia */}
+          {/* Nazwa ćwiczenia */}
           <TextField
             label="Nazwa ćwiczenia"
             value={exerciseName}
@@ -167,20 +198,36 @@ export default function CreateExercise() {
             required
             disabled={loading}
             placeholder="np. Wyciskanie sztangi leżąc"
+            size="small"
+            variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                fontSize: isMobile ? "0.875rem" : "1rem",
+              },
+            }}
           />
 
+          {/* Opis ćwiczenia */}
           <TextField
             label="Opis ćwiczenia"
             value={exerciseDescription}
             onChange={e => setExerciseDescription(e.target.value)}
             fullWidth
             multiline
-            minRows={3}
+            minRows={isMobile ? 2 : 3}
             disabled={loading}
             helperText="Opcjonalnie opisz sprzęt, pozycję, itp."
             placeholder="np. Leż na ławce, weź sztangę na wysokości klatki piersiowej..."
+            size="small"
+            variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                fontSize: isMobile ? "0.875rem" : "1rem",
+              },
+            }}
           />
 
+          {/* Grupy mięśniowe */}
           <Autocomplete
             multiple
             onChange={handleMuscleGroupsChange}
@@ -189,6 +236,7 @@ export default function CreateExercise() {
             value={muscleGroups}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             disabled={loading}
+            size="small"
             renderInput={params => (
               <TextField
                 {...params}
@@ -196,31 +244,52 @@ export default function CreateExercise() {
                 variant="outlined"
                 placeholder="Wybierz grupy mięśniowe..."
                 required
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    fontSize: isMobile ? "0.875rem" : "1rem",
+                  },
+                }}
               />
             )}
+            componentsProps={{
+              paper: {
+                sx: {
+                  maxHeight: 200,
+                },
+              },
+            }}
           />
 
-          <Stack direction="row" spacing={2}>
+          {/* Przyciski akcji */}
+          <Stack
+            direction={isMobile ? "column" : "row"}
+            spacing={1}
+            sx={{ mt: 2 }}
+          >
             <Button
               variant="contained"
               color="primary"
               onClick={handleCreateNewExercise}
               disabled={loading}
-              size="large"
-              sx={{ flex: 1, position: "relative" }}
+              fullWidth
+              sx={{
+                py: isMobile ? 1.25 : 1,
+                fontSize: isMobile ? "0.875rem" : "1rem",
+                fontWeight: 600,
+                position: "relative",
+                minHeight: 40,
+              }}
             >
               {loading ? (
                 <>
                   <CircularProgress
-                    size={20}
+                    size={18}
                     sx={{
                       position: "absolute",
-                      left: "50%",
-                      marginLeft: "-10px",
                       color: "inherit",
                     }}
                   />
-                  <span style={{ visibility: "hidden" }}>Zapisz ćwiczenie</span>
+                  <span style={{ visibility: "hidden" }}>Zapisz</span>
                 </>
               ) : (
                 "Zapisz ćwiczenie"
@@ -233,13 +302,20 @@ export default function CreateExercise() {
                 color="error"
                 onClick={resetForm}
                 disabled={loading}
+                fullWidth={isMobile}
+                sx={{
+                  py: isMobile ? 1.25 : 1,
+                  fontSize: isMobile ? "0.875rem" : "1rem",
+                  fontWeight: 600,
+                  minHeight: 40,
+                }}
               >
-                Czyść
+                Wyczyść
               </Button>
             )}
           </Stack>
         </Stack>
-      </Paper>
+      </Box>
 
       <SnackbarAlert
         open={statusAlert.open}

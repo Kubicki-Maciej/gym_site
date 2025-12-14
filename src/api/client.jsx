@@ -3,14 +3,14 @@ import { API_URL } from "../config";
 async function request(method, path, body) {
   const token = localStorage.getItem("token");
 
-  // console.log("TOKEN z localStorage:", token); // 👈 DEBUG 1
+  console.log("TOKEN z localStorage:", token); // DEBUG 1
 
   const requestHeaders = {
     "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 
-  // console.log("REQUEST Headers:", requestHeaders); // 👈 DEBUG 2
+  console.log("REQUEST Headers:", requestHeaders); // 👈 DEBUG 2
 
   const res = await fetch(`${API_URL}${path}`, {
     method,
