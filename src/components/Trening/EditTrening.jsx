@@ -237,20 +237,6 @@ export default function EditTrening() {
             </Button>
           </>
         )}
-
-        <Button
-          variant="contained"
-          onClick={() => setPopOutWindow(true)}
-          disabled={loading}
-        >
-          Stwórz nowe ćwiczenie
-        </Button>
-
-        <Poput
-          component={<CreateExerciseForm />}
-          setWindowProperty={setPopOutWindow}
-          windowProperty={popOutWindow}
-        />
       </Box>
 
       <SnackbarAlert

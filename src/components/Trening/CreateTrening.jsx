@@ -175,14 +175,6 @@ export default function CreateNewTraining() {
         />
 
         <Button
-          onClick={handleAddExercise}
-          disabled={loading}
-          variant="outlined"
-        >
-          Dodaj ćwiczenie
-        </Button>
-
-        <Button
           variant="contained"
           color={selectedTraining ? "secondary" : "primary"}
           onClick={handleSaveTraining}
@@ -209,20 +201,6 @@ export default function CreateNewTraining() {
             "Utwórz trening"
           )}
         </Button>
-
-        <Button
-          variant="contained"
-          onClick={() => setPopOutWindow(true)}
-          disabled={loading}
-        >
-          Stwórz nowe ćwiczenie
-        </Button>
-
-        <Poput
-          component={<CreateExerciseForm />}
-          setWindowProperty={setPopOutWindow}
-          windowProperty={popOutWindow}
-        />
       </Box>
 
       <SnackbarAlert
