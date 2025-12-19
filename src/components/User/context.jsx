@@ -113,7 +113,7 @@ export function UserProvider({ children }) {
     setAccessToken(null);
     setRefreshToken(null);
     setUser(null);
-    setSelectedUser(null); 
+    setSelectedUser(null);
     setLogged(false);
   };
 

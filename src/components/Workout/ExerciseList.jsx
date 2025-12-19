@@ -3,7 +3,6 @@ import { Box, Stack, Typography, Button, Alert } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import ExerciseCard from "./ExerciseCard";
 
-
 export default function ExerciseList({
   exercises,
   onAddExercise,
@@ -12,6 +11,7 @@ export default function ExerciseList({
   onAddSerie,
   onRemoveSerie,
   onDeleteExercise,
+  trainingObject,
 }) {
   return (
     <Box>
@@ -39,6 +39,7 @@ export default function ExerciseList({
               onAddSerie={onAddSerie}
               onRemoveSerie={onRemoveSerie}
               onDeleteExercise={onDeleteExercise}
+              trainingObject={trainingObject}
             />
           ))}
         </Stack>

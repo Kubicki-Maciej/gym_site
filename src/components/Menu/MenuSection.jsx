@@ -12,6 +12,7 @@ import CreateNewTraining from "../Trening/CreateTrening";
 import StudentProfileScreen from "../../Screens/StudentProfileScreen";
 import StudentNextTraining from "../Student/StudentNextTraining";
 import StudentTrainingsScreen from "../Student/StudentTrainingsScreen";
+import StudentCreateTraining from "../Student/StudentCreateTraining";
 
 export default function MenuSection({ sideBarName }) {
   return (
@@ -32,6 +33,7 @@ export default function MenuSection({ sideBarName }) {
         )}
         <Route path="userprofile" element={<UserProfile />} />
 
+        <Route path="create" element={<StudentCreateTraining />} />
         <Route path="profile" element={<StudentProfileScreen />} />
         <Route path="nextworkout" element={<StudentNextTraining />} />
         <Route path="meetings" element={<StudentTrainingsScreen />} />

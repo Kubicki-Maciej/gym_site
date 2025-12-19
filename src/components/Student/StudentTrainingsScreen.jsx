@@ -29,7 +29,6 @@ function formatDate(date) {
   return date.toISOString().split("T")[0];
 }
 
-// Helper do wyświetlania nazwy miesiąca
 function getMonthName(dateString) {
   const date = new Date(dateString + "T00:00:00");
   return date.toLocaleDateString("pl-PL", { month: "long", year: "numeric" });
@@ -39,7 +38,6 @@ export default function StudentTrainingsScreen() {
   const { selectedUser } = useUserContext();
   const { loading, error, getUserTrainingsInDateRange } = useTraining();
 
-  // Hook do sprawdzania rozmiaru ekranu
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -131,12 +129,11 @@ export default function StudentTrainingsScreen() {
   return (
     <Paper
       sx={{
-        p: { xs: 1.5, sm: 2, md: 3 }, // Responsywny padding
+        p: { xs: 1.5, sm: 2, md: 3 },
         mx: { xs: 0.5, sm: 1 },
         my: 1,
       }}
     >
-      {/* Nagłówek */}
       <Typography
         variant={isMobile ? "subtitle1" : "h6"}
         gutterBottom
@@ -150,7 +147,6 @@ export default function StudentTrainingsScreen() {
         📅 Treningi - {selectedUser.name}
       </Typography>
 
-      {/* Nawigacja miesiącami - kompaktowa na mobile */}
       <Box
         sx={{
           display: "flex",
@@ -162,7 +158,6 @@ export default function StudentTrainingsScreen() {
         }}
       >
         {isMobile ? (
-          // Mobile: ikony + nazwa miesiąca
           <>
             <IconButton
               onClick={handlePreviousMonth}
@@ -201,7 +196,6 @@ export default function StudentTrainingsScreen() {
             </IconButton>
           </>
         ) : (
-          // Desktop: pełne przyciski
           <>
             <Button
               variant="outlined"
@@ -233,7 +227,6 @@ export default function StudentTrainingsScreen() {
         )}
       </Box>
 
-      {/* Pola dat - stack na mobile, grid na desktop */}
       <Stack
         direction={{ xs: "column", sm: "row" }}
         spacing={{ xs: 1.5, sm: 2 }}
@@ -268,14 +261,12 @@ export default function StudentTrainingsScreen() {
         />
       </Stack>
 
-      {/* Loading */}
       {loading && (
         <Box sx={{ display: "flex", justifyContent: "center", p: 3 }}>
           <CircularProgress size={isMobile ? 30 : 40} />
         </Box>
       )}
 
-      {/* Error */}
       {error && (
         <Alert
           severity="error"
@@ -288,7 +279,6 @@ export default function StudentTrainingsScreen() {
         </Alert>
       )}
 
-      {/* Lista treningów */}
       {!loading && trainings.length > 0 ? (
         <Box>
           <Typography

@@ -7,12 +7,12 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import SeriesEditor from "./SeriesEditor";
 import { Fab } from "@mui/material";
 import { keyframes } from "@mui/system";
+import RecentExercise from "../RecentExercise/RecentExercise";
 
 const slideDown = keyframes`
   from {
@@ -47,6 +47,7 @@ export default function ExerciseCard({
   onAddSerie,
   onRemoveSerie,
   onDeleteExercise,
+  trainingObject,
 }) {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -81,7 +82,6 @@ export default function ExerciseCard({
           </IconButton>
         </Box>
 
-        {/* Animowana zawartość */}
         <Box
           sx={{
             animation: !collapsed
@@ -122,7 +122,10 @@ export default function ExerciseCard({
         >
           <DeleteIcon />
         </IconButton>
-
+        <RecentExercise
+          exerciseId={exercise.exerciseId}
+          trainingObject={trainingObject}
+        />
         <Fab
           size="small"
           color="success"

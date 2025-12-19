@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { API_URL } from "../../config";
-import GetUsers from "../User/Component/GetUsers";
+import { useState } from "react";
 
 import useUser from "../User/hooks/useUser";
 

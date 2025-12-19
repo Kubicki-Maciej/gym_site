@@ -82,4 +82,10 @@ export const trainingApi = {
       `training/user/trainings_in_date_range/${userId}/?start_date=${data.start_date}&end_date=${data.end_date}`
     );
   },
+
+  getUserRecentExercise: async (userId, exerciseId, trainingId) => {
+    return api.get(
+      `exercise/recent_exercise/${exerciseId}/user/${userId}/training/${trainingId}`
+    );
+  },
 };

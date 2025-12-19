@@ -235,6 +235,26 @@ export default function useTraining() {
     }
   }, []);
 
+  const getUserRecentExercise = useCallback(
+    async (userId, exerciseId, currentTrainingId) => {
+      try {
+        setLoading(true);
+        const data = await trainingApi.getUserRecentExercise(
+          userId,
+          exerciseId,
+          currentTrainingId
+        );
+        setError(null);
+        return data;
+      } catch (err) {
+        return handleError(err, "Błąd pobierania ćwiczenia");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   return {
     loading,
     error,
@@ -255,5 +275,6 @@ export default function useTraining() {
     createTraining,
     updateMainTraining,
     getUserTrainingsInDateRange,
+    getUserRecentExercise,
   };
 }

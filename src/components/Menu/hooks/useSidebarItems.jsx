@@ -11,6 +11,7 @@ import FormatListBulletedAddIcon from "@mui/icons-material/FormatListBulletedAdd
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EditCalendarOutlinedIcon from "@mui/icons-material/EditCalendarOutlined";
 import MovingOutlinedIcon from "@mui/icons-material/MovingOutlined";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 
 export const useSidebarItems = () => {
   const sidebarItems = [
@@ -52,6 +53,7 @@ export const useSidebarItems = () => {
           icon: AccountCircleIcon,
           path: "profile",
         },
+
         {
           id: "next-workout",
           name: "Najbliższy trening",
@@ -63,6 +65,12 @@ export const useSidebarItems = () => {
           name: "Lista spotkań",
           icon: FormatListBulletedAddIcon,
           path: "meetings",
+        },
+        {
+          id: "create-training-student",
+          name: "Stwórz trening",
+          icon: EditCalendarIcon,
+          path: "create",
         },
         {
           id: "data-student",

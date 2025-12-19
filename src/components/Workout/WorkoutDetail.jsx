@@ -99,6 +99,7 @@ export default function WorkoutDetail() {
         onAddSerie={handleAddSerie}
         onRemoveSerie={handleRemoveSerie}
         onDeleteExercise={handleDeleteExercise}
+        trainingObject={training}
       />
 
       <AddExerciseDialog
