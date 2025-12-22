@@ -28,10 +28,10 @@ export default function UserAddTraining() {
     }
   };
 
-  // Odbierasz dane z SingleTraining
+
   const handleTrainingChange = data => {
     setTrainingData(data);
-    // data = { training, exercises }
+
   };
   const handleEventDataChange = data => {
     setEventData(data);
