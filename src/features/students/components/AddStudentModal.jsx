@@ -11,8 +11,8 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-// import { AvailableStudentsList } from "./AvailableStudentsList";
-import { AvailableStudentsList } from "./AvailableStudentsList";
+
+import CreateNewStudent from "./CreateNewStudent";
 
 export const AddStudentModal = ({
   open,
@@ -21,30 +21,22 @@ export const AddStudentModal = ({
   loading = false,
   error = null,
   onAddStudent,
-  myStudentIds = [],
+  onStudentCreated,
 }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredStudents = availableStudents.filter(
-    student =>
-      student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.last_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleStudentCreated = () => {
+    // Wywołaj callback z parent (StudentPage)
+    if (onStudentCreated) {
+      onStudentCreated();
+    }
+    // Zamknij modal
+    onClose();
+  };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Dodaj studenta</DialogTitle>
       <DialogContent>
         <Box sx={{ pt: 2, display: "flex", flexDirection: "column", gap: 2 }}>
-          <TextField
-            fullWidth
-            label="Szukaj studenta..."
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            size="small"
-          />
-
           {error && <Alert severity="error">{error}</Alert>}
 
           {loading ? (
@@ -52,12 +44,7 @@ export const AddStudentModal = ({
               <CircularProgress />
             </Box>
           ) : (
-            <AvailableStudentsList
-              students={filteredStudents}
-              loading={false}
-              onAddStudent={onAddStudent}
-              myStudentIds={myStudentIds}
-            />
+            <CreateNewStudent onStudentCreated={handleStudentCreated} />
           )}
         </Box>
       </DialogContent>

@@ -24,3 +24,4 @@ yarn-error.log*
 .github
 
 src/config.js
+md

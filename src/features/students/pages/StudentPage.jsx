@@ -1,4 +1,3 @@
-// src/features/students/pages/StudentsPage.jsx
 import React, { useState } from "react";
 import {
   Container,
@@ -15,6 +14,7 @@ import { Add as AddIcon } from "@mui/icons-material";
 import { useStudents } from "../hooks/useStudents";
 import { StudentList } from "../components/StudentList";
 import { AddStudentModal } from "../components/AddStudentModal";
+import CreateNewStudent from "../components/CreateNewStudent";
 
 import { AvailableStudentsList } from "../components/AvailableStudentsList";
 
@@ -42,6 +42,7 @@ export const StudentsPage = () => {
     error,
     addStudentToTrainer,
     removeStudentFromTrainer,
+    refetch,
   } = useStudents();
 
   const handleAddStudent = async studentId => {
@@ -135,6 +136,7 @@ export const StudentsPage = () => {
         loading={loading}
         onAddStudent={handleAddStudent}
         myStudentIds={myStudentIds}
+        onStudentCreated={refetch}
       />
 
       <Snackbar

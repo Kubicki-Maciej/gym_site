@@ -36,6 +36,28 @@ export const useStudents = () => {
     }
   }, []);
 
+  const createStudentToTrainer = useCallback(
+    async (data, onSuccess) => {
+      try {
+        const result = await studentApi.createStudent(data);
+        await fetchMyStudents();
+        await fetchAvailableStudents();
+
+        // Wywołaj callback jeśli został przekazany
+        if (onSuccess) {
+          onSuccess(result);
+        }
+
+        return result;
+      } catch (err) {
+        const errorMsg = err.message || "Błąd przy dodawaniu studenta";
+        setError(errorMsg);
+        return { success: false, error: errorMsg };
+      }
+    },
+    [fetchMyStudents, fetchAvailableStudents]
+  );
+
   const addStudentToTrainer = useCallback(
     async studentId => {
       try {
@@ -80,6 +102,7 @@ export const useStudents = () => {
     error,
     addStudentToTrainer,
     removeStudentFromTrainer,
+    createStudentToTrainer,
     refetch: async () => {
       await fetchMyStudents();
       await fetchAvailableStudents();

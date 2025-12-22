@@ -24,4 +24,8 @@ export const studentApi = {
       student_id: studentId,
     });
   },
+
+  createStudent: async data => {
+    return api.post("user/trainer/create_student", data);
+  },
 };
