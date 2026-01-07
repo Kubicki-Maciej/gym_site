@@ -14,30 +14,8 @@ import StudentNextTraining from "../Student/StudentNextTraining";
 import StudentTrainingsScreen from "../Student/StudentTrainingsScreen";
 import StudentCreateTraining from "../Student/StudentCreateTraining";
 
+import MenuRoutes from "../../router/MenuRoutes";
+
 export default function MenuSection({ sideBarName }) {
-  return (
-    <>
-      <Routes>
-        {/* training */}
-        <Route path="training/create" element={<CreateNewTraining />} />
-        <Route path="training/edit" element={<EditTrening />} />
-        <Route path="exercise/create" element={<CreateExercise />} />
-
-        {/* my clients */}
-        <Route path="plan/create" element={<UserAddTraining />} />
-        <Route path="workout/create" element={<CreateWorkout />} />
-        <Route path="students" element={<StudentsPage />} />
-
-        {sideBarName === "clients" && (
-          <Route path="" element={<StudentsPage />} />
-        )}
-        <Route path="userprofile" element={<UserProfile />} />
-
-        <Route path="create" element={<StudentCreateTraining />} />
-        <Route path="profile" element={<StudentProfileScreen />} />
-        <Route path="nextworkout" element={<StudentNextTraining />} />
-        <Route path="meetings" element={<StudentTrainingsScreen />} />
-      </Routes>
-    </>
-  );
+  return <MenuRoutes sideBarName={sideBarName} />;
 }

@@ -2,7 +2,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 import Footer from "./components/Layout/Footer/Footer";
-import Section from "./components/Section/AppRoutes.jsx";
+import Section from "./components/Section/Section.jsx";
 
 import { useUserContext } from "./components/User/context.jsx";
 import { NewNavBar } from "./components/Layout/Navbar/NewNavBar.jsx";
