@@ -11,9 +11,15 @@ import TrainerCalendar from "../components/Calendar/TrainerCalendar";
 import MenuScreen from "../components/Menu/MenuScreen";
 import WorkoutDetail from "../components/Workout/WorkoutDetail";
 import ExercisesPage from "../Screens/ExercisePage";
+import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
+
+import { TrainingDashboard } from "../features/progress/TrainingDashboard";
+import { TrainingDashboardMobile } from "../features/progress/TraningDashboardMobile";
 
 export default function AppRoutes() {
   const { logged } = useUserContext();
+  const Forbidden = () => <h1>403 – Brak uprawnień</h1>;
+
   return (
     <Routes>
       <Route path="" element={<Article />}></Route>
@@ -22,6 +28,7 @@ export default function AppRoutes() {
       <Route path="register/*" element={<RegisterPage />}></Route>
       <Route path="logout/*" element={<LoginPage />}></Route>
 
+      <Route path="/403" element={<Forbidden />} />
       <Route
         path="training/*"
         element={
@@ -70,7 +77,8 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route path="test/" element={<ExercisesPage />} />
+      <Route path="test/" element={<TrainingDashboardMobile />} />
+      <Route path="clienttraining/" element={<ClientTrainingScreen />} />
     </Routes>
   );
 }

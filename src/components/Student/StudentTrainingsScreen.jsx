@@ -26,7 +26,10 @@ import {
 import StudentTrainingListItem from "./StudentTrainingListItem";
 
 function formatDate(date) {
-  return date.toISOString().split("T")[0];
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function getMonthName(dateString) {
@@ -34,8 +37,8 @@ function getMonthName(dateString) {
   return date.toLocaleDateString("pl-PL", { month: "long", year: "numeric" });
 }
 
-export default function StudentTrainingsScreen() {
-  const { selectedUser } = useUserContext();
+export default function StudentTrainingsScreen({ client = false }) {
+  const { selectedUser, user } = useUserContext();
   const { loading, error, getUserTrainingsInDateRange } = useTraining();
 
   const theme = useTheme();
@@ -43,6 +46,9 @@ export default function StudentTrainingsScreen() {
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  console.log("firstDayOfMonth");
+  console.log(firstDayOfMonth);
+  console.log(formatDate(firstDayOfMonth));
   const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
   const [startDate, setStartDate] = useState(formatDate(firstDayOfMonth));
@@ -50,15 +56,24 @@ export default function StudentTrainingsScreen() {
   const [trainings, setTrainings] = useState([]);
 
   useEffect(() => {
-    if (!selectedUser?.id || !startDate || !endDate) {
-      return;
+    if (client) {
+      if (!user?.id || !startDate || !endDate) {
+        return;
+      }
+      console.log("user");
+      console.log(user.id);
+      loadTrainings(user.id);
+    } else {
+      if (!selectedUser?.id || !startDate || !endDate) {
+        return;
+      }
+      loadTrainings(selectedUser.id);
     }
-    loadTrainings();
-  }, [selectedUser?.id, startDate, endDate]);
+  }, [selectedUser?.id, , startDate, endDate]);
 
-  const loadTrainings = async () => {
+  const loadTrainings = async id => {
     try {
-      const data = await getUserTrainingsInDateRange(selectedUser.id, {
+      const data = await getUserTrainingsInDateRange(id, {
         start_date: startDate,
         end_date: endDate,
       });
@@ -86,7 +101,7 @@ export default function StudentTrainingsScreen() {
   };
 
   const handleNextMonth = () => {
-    const lastOfCurrentMonth = new Date(endDate + "T00:00:00");
+    const lastOfCurrentMonth = new Date(startDate + "T00:00:00");
     lastOfCurrentMonth.setMonth(lastOfCurrentMonth.getMonth() + 1);
     lastOfCurrentMonth.setDate(0);
 
@@ -117,13 +132,15 @@ export default function StudentTrainingsScreen() {
       setEndDate(newEnd);
     }
   };
-
-  if (!selectedUser) {
-    return (
-      <Alert severity="info" sx={{ m: 1 }}>
-        Wybierz studenta, aby zobaczyć jego treningi
-      </Alert>
-    );
+  if (client) {
+  } else {
+    if (!selectedUser) {
+      return (
+        <Alert severity="info" sx={{ m: 1 }}>
+          Wybierz studenta, aby zobaczyć jego treningi
+        </Alert>
+      );
+    }
   }
 
   return (
@@ -144,7 +161,7 @@ export default function StudentTrainingsScreen() {
           textAlign: { xs: "center", sm: "left" },
         }}
       >
-        📅 Treningi - {selectedUser.name}
+        📅 Treningi - {selectedUser ? selectedUser.name : user.first_name}
       </Typography>
 
       <Box
