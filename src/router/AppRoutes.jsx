@@ -13,9 +13,6 @@ import WorkoutDetail from "../components/Workout/WorkoutDetail";
 import ExercisesPage from "../Screens/ExercisePage";
 import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
 
-import { TrainingDashboard } from "../features/progress/TrainingDashboard";
-import { TrainingDashboardMobile } from "../features/progress/TraningDashboardMobile";
-
 export default function AppRoutes() {
   const { logged } = useUserContext();
   const Forbidden = () => <h1>403 – Brak uprawnień</h1>;
@@ -77,7 +74,7 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route path="test/" element={<TrainingDashboardMobile />} />
+      {/* <Route path="test/" element={<TrainingDashboardMobile />} /> */}
       <Route path="clienttraining/" element={<ClientTrainingScreen />} />
     </Routes>
   );

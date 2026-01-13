@@ -76,7 +76,7 @@ export const useSidebarItems = () => {
           id: "data-student",
           name: "Progres użytkownika",
           icon: MovingOutlinedIcon,
-          path: "data",
+          path: "statistics",
         },
       ],
     },

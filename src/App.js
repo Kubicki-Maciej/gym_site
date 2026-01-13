@@ -7,6 +7,7 @@ import Section from "./components/Section/Section.jsx";
 import { useUserContext } from "./components/User/context.jsx";
 import { NewNavBar } from "./components/Layout/Navbar/NewNavBar.jsx";
 
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -36,29 +37,31 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <div
-        className="App"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-          justifyContent: "space-between",
-        }}
-      >
-        <NewNavBar />
-
+    // <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
         <div
+          className="App"
           style={{
-            flexGrow: 1,
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+            justifyContent: "space-between",
           }}
         >
-          <Section />
-        </div>
+          <NewNavBar />
 
-        <Footer />
-      </div>
-    </ThemeProvider>
+          <div
+            style={{
+              flexGrow: 1,
+            }}
+          >
+            <Section />
+          </div>
+
+          <Footer />
+        </div>
+      </ThemeProvider>
+    // </QueryClientProvider>
   );
 }
 export default App;
