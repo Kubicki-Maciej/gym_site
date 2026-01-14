@@ -7,7 +7,7 @@ export default function ExerciseSelectStatistic({ data }) {
   const [selectedExercise, setSelectedExercise] = useState(null);
   // ("ExerciseSELECT STATISTIC");
   // (selectedExercise.data);
-  if (!selectedExercise) return "";
+  if (!data) return "";
   return (
     <div>
       <ExerciseSelector exercises={data} onSelect={setSelectedExercise} />

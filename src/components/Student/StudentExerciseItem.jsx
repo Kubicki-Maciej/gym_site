@@ -13,9 +13,11 @@ import StudentSeriesCard from "./StudentSeriesCard";
 
 export default function StudentExerciseItem({ exercise }) {
   const [expandedSeries, setExpandedSeries] = useState(false);
-
-  const seriesCount = exercise.exercises_series?.length || 0;
-
+  console.log("exercise");
+  console.log(exercise);
+  const seriesCount =
+    exercise.exercises_series?.length || exercise.sets?.length || 0;
+  const dataSeries = exercise.exercises_series || exercise.sets;
   const handleToggleSeries = () => {
     setExpandedSeries(!expandedSeries);
   };
@@ -87,7 +89,7 @@ export default function StudentExerciseItem({ exercise }) {
             </Typography>
           ) : (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              {exercise.exercises_series.map((series, seriesIndex) => (
+              {dataSeries.map((series, seriesIndex) => (
                 <StudentSeriesCard
                   key={series.id || seriesIndex}
                   series={series}
