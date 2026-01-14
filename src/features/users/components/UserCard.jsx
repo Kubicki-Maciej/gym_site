@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function UserCard({ id, spouse_name, last_name }) {
   const { trainingList, loading, error } = useUserUpcomingTraining(id);
-  // console.log(trainingList);
+  // (trainingList);
   const navigate = useNavigate();
   const goToNextTraining = () => {
     if (trainingList) {

@@ -8,9 +8,7 @@ export default function PlanTraining({ onEventDataChange }) {
     onEventDataChange(schedule);
   };
 
-  const handleTrainingType = type => {
-    console.log("typ treningu:", type); // "cycle" | "single"
-  };
+  const handleTrainingType = type => {};
 
   return (
     <TrainingSchedulePicker

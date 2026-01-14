@@ -16,8 +16,7 @@ export default function StudentProfileScreen({ userObject }) {
   const { loading, error, trainingList } = useUserUpcomingTraining(
     selectedUser.id
   );
-  console.log("selectedUser");
-  console.log(trainingList[0]);
+
   if (selectedUser) {
     return (
       <>

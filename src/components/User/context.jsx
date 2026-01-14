@@ -30,7 +30,7 @@
  *
  *      // Sprawdzenie czy użytkownik jest zalogowany
  *      if (logged) {
- *        console.log('Zalogowany użytkownik:', user);
+ *        ('Zalogowany użytkownik:', user);
  *      }
  *
  *      // Zalogowanie użytkownika

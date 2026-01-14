@@ -52,8 +52,6 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        console.log("data.access");
-        console.log(data.access);
         localStorage.setItem("access", data.access);
         setAlert({
           open: true,

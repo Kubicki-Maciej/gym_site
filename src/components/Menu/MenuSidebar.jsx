@@ -13,7 +13,6 @@ export default function MenuSidebar({ sideBarName }) {
   const { getItemById } = useSidebarItems();
   const navigate = useNavigate();
   const handleNavigate = path => {
-    console.log(path);
     navigate(path);
   };
   const currentItem = getItemById(sideBarName);

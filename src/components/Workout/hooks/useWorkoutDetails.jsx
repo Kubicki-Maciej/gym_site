@@ -178,8 +178,6 @@ export default function useWorkoutDetail(
 
   const handleDeleteExercise = useCallback(
     async exerciseId => {
-      console.log(" jestesmy tutaj przy usuwaniu");
-      console.log(exerciseId);
       setExercises(prev => prev.filter(ex => ex.id !== exerciseId));
       setIsSaving(true);
       try {
@@ -233,7 +231,6 @@ export default function useWorkoutDetail(
   );
 
   const handleAddExercise = useCallback(data => {
-    console.log(data);
     const newExercise = {
       id: data.id,
       name: data.name,
@@ -241,7 +238,7 @@ export default function useWorkoutDetail(
       userExerciseId: data.id,
       exerciseSeries: data.exercises_series || [],
     };
-    console.log(newExercise);
+
     setExercises(prev => [...prev, newExercise]);
   }, []);
 

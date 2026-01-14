@@ -75,7 +75,6 @@ export const NewNavBar = () => {
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
   const handleNavClick = href => {
-    console.log(href);
     navigate(href);
     setMobileOpen(false);
   };

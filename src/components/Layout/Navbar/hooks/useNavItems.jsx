@@ -2,9 +2,6 @@ import { useUserContext } from "../../../User/context";
 
 export const useNavItems = () => {
   const { logged, user } = useUserContext();
-  console.log("logged:", logged);
-  console.log("useNav:");
-  console.log(user);
 
   if (logged) {
     if (user?.is_user_trainer) {

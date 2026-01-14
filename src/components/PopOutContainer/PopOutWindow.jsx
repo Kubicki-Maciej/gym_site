@@ -6,12 +6,12 @@ export default function PopOutWindow({ elementInside, windowOpen }) {
   const [windowOpenState, setWindowOpenState] = useState(windowOpen);
 
   function closeWindowFunc() {
-    console.log("closeWindowFunc");
-    console.log(windowOpen);
+    ("closeWindowFunc");
+    windowOpen;
   }
 
-  console.log("Jaki jest State okna");
-  console.log(windowOpen);
+  ("Jaki jest State okna");
+  windowOpen;
   return (
     <Popup
       trigger={<button className="navbarButton redElementButton">Login</button>}

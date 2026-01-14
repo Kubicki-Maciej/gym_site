@@ -10,21 +10,21 @@ export default function PopupWindow({ date, idElement, closeBtn, hour }) {
 
   const [id, setId] = useState(idElement);
   const { logged, user } = useUserContext();
-  console.log("user");
-  console.log(user);
+  ("user");
+  user;
 
   async function bookDate() {
     if (logged) {
-      console.log(id);
-      console.log("rezerwacja terminu");
-      console.log(user);
+      id;
+      ("rezerwacja terminu");
+      user;
       client
         .post("booked/book_treining", {
           idUser: user,
           idDate: id,
         })
         .then(function (res) {
-          console.log(res.data);
+          res.data;
         });
     }
   }

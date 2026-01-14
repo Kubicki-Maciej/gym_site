@@ -110,7 +110,7 @@ export default function RegisterPage() {
         email: email,
         password_confirm: confirm,
       };
-      // console.log(payload)
+      // (payload)
       const res = await fetch(`${API_URL}user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

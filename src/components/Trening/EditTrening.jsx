@@ -101,9 +101,9 @@ export default function EditTrening() {
     }
 
     try {
-      // console.log("TrainingId:", trainingId, typeof trainingId);
-      // console.log("Exercises:", exercises);
-      // console.log(
+      // ("TrainingId:", trainingId, typeof trainingId);
+      // ("Exercises:", exercises);
+      // (
       //   "Exercise groups IDs:",
       //   exercises.map(ex => ex.id)
       // );

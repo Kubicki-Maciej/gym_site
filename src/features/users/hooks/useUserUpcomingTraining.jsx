@@ -8,8 +8,6 @@ export default function useUserUpcomingTraining(userId) {
 
   const fetchUserUpcomingTraining = useCallback(async () => {
     if (!userId) {
-      console.log("userId");
-      console.log(userId);
       setTrainingList([]);
       return;
     }

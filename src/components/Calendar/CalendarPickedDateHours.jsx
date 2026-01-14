@@ -18,14 +18,14 @@ export default function CalendarPickedDateHours({ pickedDate }) {
   });
 
   useEffect(() => {
-    console.log("zmiana");
+    ("zmiana");
     getHoursByDate();
   }, [pickedDate]);
 
   async function getHoursByDate() {
     if (pickedDate) {
       const newDateString = pickedDate.replace(/\./g, "-");
-      console.log(newDateString);
+      newDateString;
     } else {
     }
     // e.preventDefault()
@@ -35,7 +35,7 @@ export default function CalendarPickedDateHours({ pickedDate }) {
         // day:'2024-06-07'
       })
       .then(function (res) {
-        console.log(res.data);
+        res.data;
         setPickedHours({ date: pickedDate, objectsHours: res.data });
       });
   }

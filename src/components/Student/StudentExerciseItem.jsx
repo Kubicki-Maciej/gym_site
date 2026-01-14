@@ -9,12 +9,11 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-// import SeriesCard from "./SeriesCard";
 import StudentSeriesCard from "./StudentSeriesCard";
 
 export default function StudentExerciseItem({ exercise }) {
   const [expandedSeries, setExpandedSeries] = useState(false);
-  console.log(exercise);
+
   const seriesCount = exercise.exercises_series?.length || 0;
 
   const handleToggleSeries = () => {

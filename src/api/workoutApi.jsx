@@ -30,7 +30,7 @@ export const workoutApi = {
   },
 
   deleteSeries: async seriesId => {
-    console.log(" ping");
+    (" ping");
     return api.del(`exercise/delete/seriesexercise/${seriesId}`);
   },
 

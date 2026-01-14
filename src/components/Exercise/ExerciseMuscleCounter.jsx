@@ -6,7 +6,7 @@ import api from "../../api/client";
 export default function ExerciseMuscleCounter({ exercises }) {
   const [muscles, setMuscles] = useState([]);
   useEffect(() => {
-    console.log("echo");
+    ("echo");
     const fetchMuscles = async () => {
       try {
         const res = await api.get(`exercise/muscles/all`);

@@ -25,7 +25,6 @@ export default function GetTraining({ onTrainingSelect }) {
           setTraining(response.data);
         } else {
           console.error("Dane z API nie są tablicą:", response.data);
-          console.log(response.data);
           setTraining([]);
           setError("Błąd formatu danych z serwera");
         }

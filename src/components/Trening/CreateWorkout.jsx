@@ -20,15 +20,13 @@ export default function CreateWorkout() {
   const { error, loading, getTrainerStudents } = useUser();
 
   const handleUserSelect = async user => {
-    console.log(user);
     const workouts = await getTrainerStudents(user.id);
-    console.log(workouts);
+
     setUser(user);
   };
 
   const handleSelectTraining = data => {
     setTraining(data);
-    console.log(data);
   };
 
   //show exercises from training

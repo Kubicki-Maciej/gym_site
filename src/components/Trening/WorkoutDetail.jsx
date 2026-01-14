@@ -175,8 +175,8 @@ export default function WorkoutDetail() {
   };
 
   const handleRemoveSerie = (exerciseId, serieId) => {
-    console.log("tutaj dzieje sie magia");
-    console.log(serieId);
+    ("tutaj dzieje sie magia");
+    serieId;
     setExercises(prev =>
       prev.map(ex =>
         ex.userExerciseId === exerciseId
@@ -194,8 +194,8 @@ export default function WorkoutDetail() {
 
   // // --- Exercises logic ---
   // const handleAddExercise = exercise => {
-  //   console.log("--- Exercises logic ---");
-  //   console.log(exercise);
+  //   ("--- Exercises logic ---");
+  //   (exercise);
 
   //   const newExercise = {
   //     userExerciseId: `temp-${Date.now()}`,
@@ -205,13 +205,13 @@ export default function WorkoutDetail() {
   //       { id: `temp-serie-${Date.now()}`, repeats: 10, weight: 0 },
   //     ],
   //   };
-  //   console.log(newExercise);
+  //   (newExercise);
   //   setExercises(prev => [...prev, newExercise]);
   // };
 
   const handleAddExercise = data => {
-    console.log("--- Exercises logic ---");
-    console.log(data);
+    ("--- Exercises logic ---");
+    data;
 
     const newExercise = {
       userExerciseId: data.id || `temp-${Date.now()}`,
@@ -219,13 +219,13 @@ export default function WorkoutDetail() {
       name: data.name,
       exerciseSeries: data.exercises_series || [],
     };
-    console.log(newExercise);
+    newExercise;
     setExercises(prev => [...prev, newExercise]);
   };
 
   const handleDeleteExercise = async exerciseId => {
     setIsSaving(true);
-    console.log("usuwamy cwiczenie ");
+    ("usuwamy cwiczenie ");
     const result = await deleteSeriesExercise(exerciseId);
     if (result) {
       setExercises(prev => prev.filter(ex => ex.userExerciseId !== exerciseId));
@@ -259,7 +259,7 @@ export default function WorkoutDetail() {
       })),
     };
 
-    console.log("=== DATA TO SEND ===", dataToSend);
+    "=== DATA TO SEND ===", dataToSend;
 
     setIsSaving(true);
     try {
@@ -604,17 +604,17 @@ function AddExerciseDialog({
     }
 
     const result = await addExerciseToTraining(idUserTraining, selectedId);
-    console.log("result");
-    console.log(result);
+    ("result");
+    result;
     if (!result) {
       setError("Błąd przy dodawaniu ćwiczenia");
       return;
     }
 
     const exercise = exercisesList.find(e => e.id === Number(selectedId));
-    console.log("Adding exercise ID:", selectedId);
-    console.log("idUserTraining:", idUserTraining);
-    console.log(exercise);
+    "Adding exercise ID:", selectedId;
+    "idUserTraining:", idUserTraining;
+    exercise;
     if (exercise) onAdd(result);
     setSelectedId("");
     setError("");

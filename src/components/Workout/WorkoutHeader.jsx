@@ -28,15 +28,15 @@ export default function WorkoutHeader({
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSaveAs = () => {
-    console.log("SaveAs clicked");
+    ("SaveAs clicked");
   };
 
   const handleFitness = () => {
-    console.log("Fitness clicked");
+    ("Fitness clicked");
   };
 
   const handleAdd = () => {
-    console.log("Add clicked");
+    ("Add clicked");
   };
 
   if (isMobile) {

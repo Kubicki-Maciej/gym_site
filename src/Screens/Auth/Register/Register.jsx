@@ -14,20 +14,17 @@ export default function Register() {
 
   const handleRegister = async e => {
     const payload = {
-        email: email,
-        password: password,
-        name: username,
-        password_confirm:confirmPassword
-    }
-    console.log(payload)
+      email: email,
+      password: password,
+      name: username,
+      password_confirm: confirmPassword,
+    }(payload);
     e.preventDefault();
-    client
-      .post("user/register", payload)
-      .then(function (res) {
-        // add here validation for used emails
-        console.log("zarejestrowany");
-        console.log(res.data);
-      });
+    client.post("user/register", payload).then(function (res) {
+      // add here validation for used emails
+      ("zarejestrowany");
+      res.data;
+    });
   };
 
   return (

@@ -14,7 +14,7 @@ export default function ButtonMobileTraining({ icon, handleClick }) {
           transform: "scale(0.95)",
         },
       }}
-      onClick={() => console.log("Clicked")}
+      onClick={() => "Clicked"}
     >
       <AddIcon />
     </IconButton>

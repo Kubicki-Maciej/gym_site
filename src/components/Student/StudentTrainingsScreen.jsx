@@ -46,9 +46,7 @@ export default function StudentTrainingsScreen({ client = false }) {
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  console.log("firstDayOfMonth");
-  console.log(firstDayOfMonth);
-  console.log(formatDate(firstDayOfMonth));
+  formatDate(firstDayOfMonth);
   const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
   const [startDate, setStartDate] = useState(formatDate(firstDayOfMonth));
@@ -60,8 +58,6 @@ export default function StudentTrainingsScreen({ client = false }) {
       if (!user?.id || !startDate || !endDate) {
         return;
       }
-      console.log("user");
-      console.log(user.id);
       loadTrainings(user.id);
     } else {
       if (!selectedUser?.id || !startDate || !endDate) {

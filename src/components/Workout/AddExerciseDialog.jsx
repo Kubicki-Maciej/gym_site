@@ -35,10 +35,8 @@ export default function AddExerciseDialog({
     }
 
     try {
-      console.log("id user / selected id");
       const result = await addExerciseToTraining(idUserTraining, selectedId);
-      console.log("result");
-      console.log(result);
+
       if (!result) {
         setError("Błąd przy dodawaniu ćwiczenia");
         return;

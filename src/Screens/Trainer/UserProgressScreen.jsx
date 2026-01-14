@@ -1,14 +1,13 @@
 import { useUserStatistics } from "../../features/statistics/hooks/useUserStatistic";
 import { useUserContext } from "../../components/User/context";
 import useMonthControler from "../../features/calendarNavigation/useMonthControler";
+import CalendarButton from "../../components/Buttons/CalendarButton";
 import CalendarNavigator from "../../features/calendarNavigation/CalendarNavigator";
 import { TrainingDashboard } from "../../features/statistics/TrainingDashboard";
 
 export default function UserProgressScreen() {
   const { selectedUser } = useUserContext();
   const { year, month, nextMonth, prevMonth } = useMonthControler();
-  console.log("year");
-  console.log(year);
   const userId = selectedUser?.id;
 
   const { data, isLoading, isError, error } = useUserStatistics({
@@ -21,6 +20,7 @@ export default function UserProgressScreen() {
   if (isError) return <p>Błąd: {error.message}</p>;
 
   const statistics = data;
+  console.log(statistics);
 
   return (
     <div>

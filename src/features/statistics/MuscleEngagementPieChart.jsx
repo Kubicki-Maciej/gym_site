@@ -6,7 +6,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { muscleEngagement } from "./mockData";
+// import { muscleEngagement } from "./mockData";
 
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
 
@@ -18,13 +18,13 @@ export function MuscleEngagementPieChart({ muscleUsage }) {
       <ResponsiveContainer>
         <PieChart>
           <Pie
-            data={muscleUsage || muscleEngagement}
+            data={muscleUsage}
             dataKey="count"
             nameKey="name"
             outerRadius={100}
             label
           >
-            {muscleEngagement.map((_, index) => (
+            {muscleUsage.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>

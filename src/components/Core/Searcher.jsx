@@ -28,7 +28,6 @@ export default function Searcher({ dataOutput, apiAdress, labelName }) {
 
   function handleChange(event, value) {
     dataOutput(value);
-    console.log("value");
   }
   return (
     <>
