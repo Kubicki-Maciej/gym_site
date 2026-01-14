@@ -4,6 +4,7 @@ import useMonthControler from "../../features/calendarNavigation/useMonthControl
 import CalendarButton from "../../components/Buttons/CalendarButton";
 import CalendarNavigator from "../../features/calendarNavigation/CalendarNavigator";
 import { TrainingDashboard } from "../../features/statistics/TrainingDashboard";
+import ExerciseSelectInDateRangeStatistic from "../../features/statistics/ExerciseSelectInDateRangeStatistic";
 
 export default function UserProgressScreen() {
   const { selectedUser } = useUserContext();
@@ -20,7 +21,6 @@ export default function UserProgressScreen() {
   if (isError) return <p>Błąd: {error.message}</p>;
 
   const statistics = data;
-  console.log(statistics);
 
   return (
     <div>
@@ -32,8 +32,8 @@ export default function UserProgressScreen() {
         next={nextMonth}
       />
       <TrainingDashboard data={statistics} />
-
-      <pre>{JSON.stringify(statistics, null, 2)}</pre>
+      <ExerciseSelectInDateRangeStatistic selectedUserId={userId} />
+      {/* <pre>{JSON.stringify(statistics, null, 2)}</pre> */}
     </div>
   );
 }

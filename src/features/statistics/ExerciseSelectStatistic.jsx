@@ -5,8 +5,6 @@ import ListOfExercise from "../exercise/ListOfExercise";
 
 export default function ExerciseSelectStatistic({ data }) {
   const [selectedExercise, setSelectedExercise] = useState(null);
-  // ("ExerciseSELECT STATISTIC");
-  // (selectedExercise.data);
   if (!data) return "";
   return (
     <div>
@@ -15,7 +13,7 @@ export default function ExerciseSelectStatistic({ data }) {
       {selectedExercise && (
         <Card>
           <ListOfExercise listOfExercise={selectedExercise.data} />
-          <pre>{JSON.stringify(selectedExercise, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(selectedExercise, null, 2)}</pre> */}
         </Card>
       )}
     </div>

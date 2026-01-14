@@ -1,4 +1,3 @@
-// features/statistics/hooks/useUserStatistics.js
 import { useQuery } from "@tanstack/react-query";
 import { statisticApi } from "../api/statisticApi";
 

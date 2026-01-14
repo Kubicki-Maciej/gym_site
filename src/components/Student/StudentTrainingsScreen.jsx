@@ -42,7 +42,7 @@ export default function StudentTrainingsScreen({ client = false }) {
   const { loading, error, getUserTrainingsInDateRange } = useTraining();
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
