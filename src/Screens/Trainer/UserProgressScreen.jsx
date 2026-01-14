@@ -1,8 +1,8 @@
 import { useUserStatistics } from "../../features/statistics/hooks/useUserStatistic";
 import { useUserContext } from "../../components/User/context";
 import useMonthControler from "../../features/calendarNavigation/useMonthControler";
-import CalendarButton from "../../components/Buttons/CalendarButton";
 import CalendarNavigator from "../../features/calendarNavigation/CalendarNavigator";
+import { TrainingDashboard } from "../../features/statistics/TrainingDashboard";
 
 export default function UserProgressScreen() {
   const { selectedUser } = useUserContext();
@@ -31,6 +31,7 @@ export default function UserProgressScreen() {
         prev={prevMonth}
         next={nextMonth}
       />
+      <TrainingDashboard data={statistics} />
 
       <pre>{JSON.stringify(statistics, null, 2)}</pre>
     </div>

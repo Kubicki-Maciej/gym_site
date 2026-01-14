@@ -14,7 +14,7 @@ import StudentSeriesCard from "./StudentSeriesCard";
 
 export default function StudentExerciseItem({ exercise }) {
   const [expandedSeries, setExpandedSeries] = useState(false);
-
+  console.log(exercise);
   const seriesCount = exercise.exercises_series?.length || 0;
 
   const handleToggleSeries = () => {
@@ -41,7 +41,10 @@ export default function StudentExerciseItem({ exercise }) {
       >
         <Box sx={{ flex: 1 }}>
           <Typography variant="subtitle2" sx={{ fontWeight: "bold", mb: 0.5 }}>
-            {exercise.name || exercise.exercise_name || "Nieznane ćwiczenie"}
+            {exercise.date ||
+              exercise.name ||
+              exercise.exercise_name ||
+              "Nieznane ćwiczenie"}
           </Typography>
 
           {seriesCount > 0 && (

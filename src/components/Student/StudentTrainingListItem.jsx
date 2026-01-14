@@ -15,6 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useNavigate } from "react-router-dom";
 import StudentExerciseItem from "./StudentExerciseItem";
+import ListOfExercise from "../../features/exercise/ListOfExercise";
 
 export default function TrainingListItem({ training }) {
   const navigate = useNavigate();
@@ -144,11 +145,7 @@ export default function TrainingListItem({ training }) {
               📭 Brak ćwiczeń przypisanych do tego treningu
             </Typography>
           ) : (
-            <List sx={{ width: "100%", p: 0 }}>
-              {training.user_exercises.map(exercise => (
-                <StudentExerciseItem key={exercise.id} exercise={exercise} />
-              ))}
-            </List>
+            <ListOfExercise listOfExercise={training.user_exercises} />
           )}
         </Box>
       </Collapse>

@@ -10,7 +10,7 @@ import { muscleEngagement } from "./mockData";
 
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
 
-export function MuscleEngagementPieChart() {
+export function MuscleEngagementPieChart({ muscleUsage }) {
   return (
     <div style={{ width: "100%", height: 300 }}>
       <h3>Zaangażowanie mięśni – cały trening</h3>
@@ -18,9 +18,9 @@ export function MuscleEngagementPieChart() {
       <ResponsiveContainer>
         <PieChart>
           <Pie
-            data={muscleEngagement}
-            dataKey="value"
-            nameKey="muscle"
+            data={muscleUsage || muscleEngagement}
+            dataKey="count"
+            nameKey="name"
             outerRadius={100}
             label
           >

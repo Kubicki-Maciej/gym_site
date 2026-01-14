@@ -1,13 +1,12 @@
 import { WeightRepsBarChart } from "./WeightRepsBarChart";
 import { MuscleEngagementPieChart } from "./MuscleEngagementPieChart";
+import BestProgressExercise from "./BestProgressExercise";
 
-export function TrainingDashboard() {
+export function TrainingDashboard({ data }) {
   return (
-    <div style={{ padding: 24 }}>
-      <h2>📈 Analiza treningu</h2>
-
-      <WeightRepsBarChart />
-      <MuscleEngagementPieChart />
-    </div>
+    <>
+      <MuscleEngagementPieChart muscleUsage={data.muscle_usage} />
+      <BestProgressExercise bestProgressExercise={data.best_progress} />
+    </>
   );
 }
