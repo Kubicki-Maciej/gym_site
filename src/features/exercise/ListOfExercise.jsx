@@ -7,10 +7,13 @@ export default function ListOfExercise({ listOfExercise }) {
   // }
 
   return (
-    <List sx={{ width: "100%", p: 0 }}>
-      {listOfExercise.map(exercise => (
-        <StudentExerciseItem key={exercise.id} exercise={exercise} />
-      ))}
-    </List>
+    <>
+      {/* {JSON.stringify(listOfExercise, null, 2)} */}
+      <List sx={{ width: "100%", p: 0 }}>
+        {listOfExercise.map(exercise => (
+          <StudentExerciseItem key={exercise.id} exercise={exercise} />
+        ))}
+      </List>
+    </>
   );
 }

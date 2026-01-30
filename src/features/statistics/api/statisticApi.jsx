@@ -9,10 +9,13 @@ export const statisticApi = {
     exerciseId,
     userId,
     startDate,
-    endDate
+    endDate,
   ) => {
     return api.get(
-      `statistics/history/${userId}/${exerciseId}/${startDate}/${endDate}/`
+      `statistics/history/${userId}/${exerciseId}/${startDate}/${endDate}/`,
     );
+  },
+  getUserAllExerciseName: async userId => {
+    return api.get(`training/user/all_exercise/${userId}`);
   },
 };

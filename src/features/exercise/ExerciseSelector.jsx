@@ -27,7 +27,7 @@ export default function ExerciseSelector({ exercises, onSelect }) {
       {/* WYBÓR ĆWICZENIA */}
       <Autocomplete
         options={filteredExercises}
-        getOptionLabel={option => option.exercise_name}
+        getOptionLabel={option => option.exercise_name || option.name}
         onChange={(e, value) => onSelect(value)}
         renderInput={params => (
           <TextField {...params} label="Wybierz ćwiczenie" />

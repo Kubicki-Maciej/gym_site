@@ -2,21 +2,25 @@ import useUserExerciseInDateRangeStatistic from "./hooks/useUserExerciseInDateRa
 import useUserListExerciseOption from "../exercise/hooks/useUserListExerciseOption";
 
 import { useState } from "react";
+import { Card } from "@mui/material";
 import DateRangePicker from "../dateRange/DateRangePicker";
+import BestProgressExercise from "./BestProgressExercise";
+import ExerciseSelectHistory from "./ExerciseSelectHistory";
 
 import {
   getFirstDayOfTheCurrentMonthString,
   getLastDayOfCurrentMonthString,
 } from "../../components/Date/DateCurrentMonth";
+import ListOfExercise from "../exercise/ListOfExercise";
 
-export default function ExerciseSelectInDateRangeStatistic() {
+export default function ExerciseSelectInDateRangeStatistic({
+  userId = 12,
+  exerciseId = 33,
+}) {
   const [startDate, setStartDate] = useState(
-    getFirstDayOfTheCurrentMonthString()
+    getFirstDayOfTheCurrentMonthString(),
   );
   const [endDate, setEndDate] = useState(getLastDayOfCurrentMonthString());
-
-  const exerciseId = 33;
-  const userId = 12;
 
   const { data, isLoading, isError, error } =
     useUserExerciseInDateRangeStatistic({
@@ -32,6 +36,8 @@ export default function ExerciseSelectInDateRangeStatistic() {
     isError: listIsError,
     error: listError,
   } = useUserListExerciseOption();
+  console.log("data");
+  console.log(data);
 
   if (isLoading) return <p>Ładowanie statystyk...</p>;
   if (isError) return <p>Błąd: {error.message}</p>;
@@ -51,8 +57,11 @@ export default function ExerciseSelectInDateRangeStatistic() {
           setEndDate(end);
         }}
       />
-      ExerciseSelectInDateRangeStatistic
-      <pre>{JSON.stringify(statistics, null, 2)}</pre>
+      {statistics && (
+        <Card>
+          <ListOfExercise listOfExercise={statistics.history} />
+        </Card>
+      )}
     </div>
   );
 }
