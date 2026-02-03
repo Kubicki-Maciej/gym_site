@@ -5,8 +5,9 @@ import useGetUserAllExerciseName from "../users/hooks/useGetUserAllExerciseName"
 
 export default function FastStatisitcOfExercise({ userId }) {
   // change name to USER ?
-  const [selectedExercise, setSelectedExercise] = useState(null);
-
+  const [selectedExercise, setSelectedExercise] = useState(0);
+  console.log('selectedExercise')
+  console.log(selectedExercise)
   const {
     data: exerciseData,
     isLoading,
@@ -22,15 +23,15 @@ export default function FastStatisitcOfExercise({ userId }) {
     <div>
       <h4>FastStatisitcOfExercise</h4>
       <>Wybierz ćwiczenie</>
-      {/* <ExerciseSelector
+      <ExerciseSelector
         onSelect={setSelectedExercise}
         exercises={exerciseData}
-      /> */}
+      />
       <br />
 
       <>Wybierz Date</>
       {/* to wybiera date potrzebuje Id cwiczenia  if statment if selected exercise jest czyms to */}
-      <ExerciseSelectInDateRangeStatistic userId={userId} />
+      <ExerciseSelectInDateRangeStatistic userId={userId} exerciseId={selectedExercise.id} />
     </div>
   );
 }

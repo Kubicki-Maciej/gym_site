@@ -173,6 +173,14 @@ export default function CreateNewTraining() {
           apiAdress="exercise/exercise/all"
           disabled={loading}
         />
+<Button
+              onClick={handleAddExercise}
+              disabled={loading}
+              variant="outlined"
+            >
+              Dodaj ćwiczenie
+            </Button>
+
 
         <Button
           variant="contained"
