@@ -2,8 +2,7 @@ import { Card, CardContent, Typography, Box, Chip } from "@mui/material";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 export default function BestProgressExercise({ bestProgressExercise }) {
-  console.log("data");
-  console.log(bestProgressExercise);
+
   if (!bestProgressExercise) return null;
 
   const { exercise, increase_kg, percentage } = bestProgressExercise;

@@ -1,4 +1,4 @@
-import { GroupedWeightChart } from "./GroupedWeightChart";
+// import { GroupedWeightChart } from "./GroupedWeightChart";
 
 export function TrainingDashboardMobile() {
   return (
@@ -8,7 +8,7 @@ export function TrainingDashboardMobile() {
         Każdy słupek = jedna seria. Kliknij, aby zobaczyć powtórzenia.
       </p>
 
-      <GroupedWeightChart />
+      {/* <GroupedWeightChart /> */}
     </div>
   );
 }

@@ -1,21 +1,20 @@
-import useUserExerciseInDateRangeStatistic from "./hooks/useUserExerciseInDateRangeStatistic";
-import useUserListExerciseOption from "../exercise/hooks/useUserListExerciseOption";
-
+import useUserExerciseInDateRangeStatistic from "../hooks/useUserExerciseInDateRangeStatistic";
+import useUserListExerciseOption from "../../exercise/hooks/useUserListExerciseOption";
+import ProgressMaxChart from "../charts/ProgressMaxChart";
 import { useState } from "react";
 import { Card } from "@mui/material";
-import DateRangePicker from "../dateRange/DateRangePicker";
-import BestProgressExercise from "./BestProgressExercise";
-import ExerciseSelectHistory from "./ExerciseSelectHistory";
+import DateRangePicker from "../../dateRange/DateRangePicker";
+import TestChart from "./charts/TestChart";
 
 import {
   getFirstDayOfTheCurrentMonthString,
   getLastDayOfCurrentMonthString,
-} from "../../components/Date/DateCurrentMonth";
-import ListOfExercise from "../exercise/ListOfExercise";
+} from "../../../components/Date/DateCurrentMonth";
+import ListOfStudentExercise from "../../exercise/ListOfStudentExercise";
 
 export default function ExerciseSelectInDateRangeStatistic({
-  userId = 12,
-  exerciseId = 33,
+  userId ,
+  exerciseId 
 }) {
   const [startDate, setStartDate] = useState(
     getFirstDayOfTheCurrentMonthString(),
@@ -29,15 +28,12 @@ export default function ExerciseSelectInDateRangeStatistic({
       startDate,
       endDate,
     });
-
   const {
     data: listData,
     isLoading: listIsLoading,
     isError: listIsError,
     error: listError,
   } = useUserListExerciseOption();
-  console.log("data");
-  console.log(data);
 
   if (isLoading) return <p>Ładowanie statystyk...</p>;
   if (isError) return <p>Błąd: {error.message}</p>;
@@ -45,10 +41,11 @@ export default function ExerciseSelectInDateRangeStatistic({
   if (listError) return <p>Błąd: {error.message}</p>;
 
   const statistics = data;
-  const listOfExercise = listData;
 
+  
   return (
     <div>
+      <>TUTAJ JEST DATE RANGE PICKER</>
       <DateRangePicker
         initialStart={startDate}
         initialEnd={endDate}
@@ -59,8 +56,19 @@ export default function ExerciseSelectInDateRangeStatistic({
       />
       {statistics && (
         <Card>
-          <ListOfExercise listOfExercise={statistics.history} />
+          <ListOfStudentExercise listOfExercise={statistics.history} />
         </Card>
+        
+      )}
+      {statistics &&
+      (
+        <>
+        Test CHart
+        <TestChart data={statistics.history}/>
+      
+        <ProgressMaxChart data={statistics}/></>
+
+
       )}
     </div>
   );

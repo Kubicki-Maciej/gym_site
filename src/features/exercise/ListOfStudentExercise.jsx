@@ -1,7 +1,7 @@
 import StudentExerciseItem from "../../components/Student/StudentExerciseItem";
 import { List } from "@mui/material";
 
-export default function ListOfExercise({ listOfExercise }) {
+export default function ListOfStudentExercise({ listOfExercise }) {
   // if (!listOfExercise) {
   //   return null;
   // }

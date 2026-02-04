@@ -8,8 +8,7 @@ export default function DateRangePicker({
 }) {
   const { startDate, endDate, onStartDateChange, onEndDateChange } =
     useDateRange(initialStart, initialEnd);
-  console.log("startDate, endDate");
-  console.log(startDate, endDate);
+
 
   // Wywołanie callbacku przy każdej zmianie zakresu
   // np. w parent component aktualizujesz state

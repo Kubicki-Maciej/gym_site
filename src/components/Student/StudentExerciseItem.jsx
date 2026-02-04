@@ -13,8 +13,6 @@ import StudentSeriesCard from "./StudentSeriesCard";
 
 export default function StudentExerciseItem({ exercise }) {
   const [expandedSeries, setExpandedSeries] = useState(false);
-  console.log("exercise");
-  console.log(exercise);
   const seriesCount =
     exercise.exercises_series?.length || exercise.sets?.length || 0;
   const dataSeries = exercise.exercises_series || exercise.sets;

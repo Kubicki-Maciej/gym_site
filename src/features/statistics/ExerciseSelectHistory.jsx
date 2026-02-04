@@ -1,11 +1,11 @@
 import ExerciseSelector from "../exercise/ExerciseSelector";
 import { useState } from "react";
 import { Card } from "@mui/material";
-import ListOfExercise from "../exercise/ListOfExercise";
+import ListOfExercise from "../exercise/ListOfStudentExercise";
 
 export default function ExerciseSelectHistory({ data }) {
   const [selectedExercise, setSelectedExercise] = useState(null);
-  console.log(selectedExercise);
+
   if (!data) return "";
   return (
     <div>

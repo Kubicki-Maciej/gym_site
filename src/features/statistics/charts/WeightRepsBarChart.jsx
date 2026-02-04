@@ -7,15 +7,15 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { exerciseProgress } from "./mockData";
 
-export function WeightRepsBarChart() {
+
+export function WeightRepsBarChart({data}) {
   return (
     <div style={{ width: "100%", height: 300 }}>
       <h3>Bench Press – progres ciężaru i powtórzeń</h3>
 
       <ResponsiveContainer>
-        <BarChart data={exerciseProgress}>
+        <BarChart data={data}>
           <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />

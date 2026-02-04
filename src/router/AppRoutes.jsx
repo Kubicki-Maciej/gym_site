@@ -74,7 +74,7 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      {/* <Route path="test/" element={<TrainingDashboardMobile />} /> */}
+
       <Route path="clienttraining/" element={<ClientTrainingScreen />} />
     </Routes>
   );

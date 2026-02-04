@@ -12,7 +12,7 @@ import StudentProfileScreen from "../Screens/StudentProfileScreen";
 import StudentTrainingsScreen from "../components/Student/StudentTrainingsScreen";
 import StudentNextTraining from "../components/Student/StudentNextTraining";
 import StudentCreateTraining from "../components/Student/StudentCreateTraining";
-import UserProgressScreen from "../Screens/Trainer/UserProgressScreen";
+import StudentProgressScreen from "../Screens/Statistic/StudentProgressScreen";
 
 export default function MenuRoutes({ sideBarName }) {
   return (
@@ -126,7 +126,7 @@ export default function MenuRoutes({ sideBarName }) {
           path="statistics"
           element={
             <ProtectedRoute requireTrainer>
-              <UserProgressScreen />
+              <StudentProgressScreen />
             </ProtectedRoute>
           }
         />

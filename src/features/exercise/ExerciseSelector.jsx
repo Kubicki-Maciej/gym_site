@@ -13,8 +13,7 @@ export default function ExerciseSelector({ exercises, onSelect }) {
       ex.muscles.forEach(muscle => {
         // Jeśli nie mamy jeszcze tego ID w mapie, dodajemy je
         if (!muscleMap.has(muscle.id)) {
-          console.log('muscle object')
-          console.log(muscle)
+
           muscleMap.set(muscle.id, muscle);
         }
       });

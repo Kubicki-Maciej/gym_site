@@ -7,12 +7,9 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { exerciseProgress } from "./mockData";
-import { groupExercisesByDate } from "./transformData";
 
-const data = groupExercisesByDate(exerciseProgress);
 
-export function ExerciseProgressChart() {
+export function ExerciseProgressChart({data}) {
   return (
     <div
       style={{
