@@ -16,6 +16,7 @@ export default function ExerciseSelectHistory({ data }) {
           <ListOfExercise listOfExercise={selectedExercise.data} />
         </Card>
       )}
+      pass
     </div>
   );
 }

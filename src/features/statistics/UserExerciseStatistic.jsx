@@ -11,7 +11,7 @@ import FolderTabsMui from "../../components/FolderTabs/TabPanel";
 // Wykresy
 import ProgressMaxChart from "./charts/ProgressMaxChart";
 import GroupedWeightChart from "./charts/GroupedWeightChart";
-
+import WeightProgressChart from "./charts/WeightProgressChart";
 
 // Hooki i Utilsy
 import useGetUserAllExerciseName from "../users/hooks/useGetUserAllExerciseName";
@@ -20,6 +20,8 @@ import {
   getFirstDayOfTheCurrentMonthString,
   getLastDayOfCurrentMonthString,
 } from "../../components/Date/DateCurrentMonth";
+
+import useExerciseAnalysis from "./hooks/useExerciseAnalysis";
 
 export default function UserExerciseStatistics({ userId }) {
   
@@ -55,14 +57,16 @@ export default function UserExerciseStatistics({ userId }) {
     enabled: !!selectedExercise?.id, 
   });
 
+  const analysis = useExerciseAnalysis(statisticsData?.history ?? [])
+
     const folderContent = statisticsData ? [
     {
       label: "📈 Wykres Postępu",
       content: <ProgressMaxChart data={statisticsData} />,
     },
     {
-      label: "📝 Wykres Serii",
-      content: <GroupedWeightChart data={statisticsData.history}/>,
+      label: "📝 Wykres Serii i 1RM",
+      content: <WeightProgressChart data={analysis.allSets}/>,
     },
     {
       label: "📝 Historia Serii",

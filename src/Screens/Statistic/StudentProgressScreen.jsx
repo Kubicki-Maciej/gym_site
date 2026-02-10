@@ -4,6 +4,7 @@ import { useUserContext } from '../../components/User/context'
 // Components
 import UserExerciseStatistics from '../../features/statistics/UserExerciseStatistic'
 import UserMuscleUsage from '../../features/statistics/UserMuscleUsage'
+import ExerciseAnalysis from '../../features/statistics/ExerciseAnalysis'
 
 
 // Ui
@@ -24,16 +25,12 @@ export default function StudentProgressScreen() {
     {
       label: "📊 Użycie mieśni",
       content: <UserMuscleUsage userId={userId} />,
-    }, 
-    ,
+    },
     ]
 
   return (
-    <div>Student Progress Screen
-       
-           <FolderTabsMui tabs={folderContent} />
-
-
-    </div>
+    <>
+          <FolderTabsMui tabs={folderContent} />
+    </>
   )
 }

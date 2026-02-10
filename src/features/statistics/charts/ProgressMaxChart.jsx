@@ -11,10 +11,12 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
+import useExerciseAnalysis from '../hooks/useExerciseAnalysis';
+
 export default function ProgressMaxChart({ data }){
-  // 1. Transformacja danych
-  // Musimy spłaszczyć strukturę, aby Recharts mógł ją łatwo odczytać.
-  // Dodatkowo obliczamy "Objętość" (Volume) = suma (ciężar * powtórzenia) dla każdej sesji.
+
+ 
+
   const chartData = useMemo(() => {
     return data.history.map((session) => {
       const totalVolume = session.sets.reduce((acc, set) => {
@@ -39,7 +41,7 @@ export default function ProgressMaxChart({ data }){
       {/* Podsumowanie nad wykresem */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '20px', fontSize: '0.9rem', color: '#555' }}>
         <span>Sesje: <strong>{data.summary.total_sessions}</strong></span>
-        <span>Globalny Max: <strong>{data.summary.global_max_weight} kg</strong></span>
+        <span>Globalny Max: <strong>{data.summary.global_max_weight.weight} kg</strong></span>
         <span>Łącznie powtórzeń: <strong>{data.summary.total_repeats}</strong></span>
       </div>
 
