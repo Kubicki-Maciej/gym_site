@@ -99,8 +99,9 @@ export const StudentsPage = () => {
         scrollButtons="auto"
       >
         <Tab label={`Moi studenci (${myStudents.length})`} />
-        <Tab label={`Dostępni do dodania (${availableStudents.length})`} />
+
         <Tab label={"Dodaj studenta"} />
+        <Tab label={`Dostępni do dodania (${availableStudents.length})`} />
       </Tabs>
 
       <TabPanel value={tabValue} index={0}>
@@ -110,26 +111,18 @@ export const StudentsPage = () => {
           onRemoveStudent={handleRemoveStudent}
         />
       </TabPanel>
-
       <TabPanel value={tabValue} index={1}>
+        <CenteredRow>
+          <CreateNewStudent refetchStudent={refetch} />
+        </CenteredRow>
+      </TabPanel>
+      <TabPanel value={tabValue} index={2}>
         <AvailableStudentsList
           students={availableStudents}
           loading={loading}
           onAddStudent={handleAddStudent}
           myStudentIds={myStudentIds}
         />
-      </TabPanel>
-      <TabPanel value={tabValue} index={2}>
-        {/* <AddStudentModal
-          availableStudents={availableStudents}
-          loading={loading}
-          onAddStudent={handleAddStudent}
-          myStudentIds={myStudentIds}
-          onStudentCreated={refetch}
-        /> */}
-        <CenteredRow>
-          <CreateNewStudent refetchStudent={refetch} />
-        </CenteredRow>
       </TabPanel>
 
       <Snackbar
