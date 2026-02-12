@@ -3,6 +3,7 @@ import {
   Container,
   Box,
   Button,
+  Stack,
   Typography,
   Grid,
   Tab,
@@ -10,10 +11,11 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
+import { CenteredRow } from "../../../components/Layout/CentredRow";
 import { Add as AddIcon } from "@mui/icons-material";
 import { useStudents } from "../hooks/useStudents";
 import { StudentList } from "../components/StudentList";
-import { AddStudentModal } from "../components/AddStudentModal";
+// import { AddStudentModal } from "../components/AddStudentModal";
 import CreateNewStudent from "../components/CreateNewStudent";
 
 import { AvailableStudentsList } from "../components/AvailableStudentsList";
@@ -28,7 +30,7 @@ function TabPanel({ children, value, index }) {
 
 export const StudentsPage = () => {
   const [tabValue, setTabValue] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -53,7 +55,6 @@ export const StudentsPage = () => {
         message: "Student dodany pomyślnie!",
         severity: "success",
       });
-      setModalOpen(false);
     } else {
       setSnackbar({
         open: true,
@@ -83,20 +84,7 @@ export const StudentsPage = () => {
   const myStudentIds = myStudents.map(s => s.id);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom>
-          Moi studenci
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => setModalOpen(true)}
-        >
-          Dodaj studenta
-        </Button>
-      </Box>
-
+    <Container>
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
@@ -107,9 +95,12 @@ export const StudentsPage = () => {
         value={tabValue}
         onChange={(e, newValue) => setTabValue(newValue)}
         sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}
+        variant="scrollable"
+        scrollButtons="auto"
       >
         <Tab label={`Moi studenci (${myStudents.length})`} />
         <Tab label={`Dostępni do dodania (${availableStudents.length})`} />
+        <Tab label={"Dodaj studenta"} />
       </Tabs>
 
       <TabPanel value={tabValue} index={0}>
@@ -128,16 +119,18 @@ export const StudentsPage = () => {
           myStudentIds={myStudentIds}
         />
       </TabPanel>
-
-      <AddStudentModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        availableStudents={availableStudents}
-        loading={loading}
-        onAddStudent={handleAddStudent}
-        myStudentIds={myStudentIds}
-        onStudentCreated={refetch}
-      />
+      <TabPanel value={tabValue} index={2}>
+        {/* <AddStudentModal
+          availableStudents={availableStudents}
+          loading={loading}
+          onAddStudent={handleAddStudent}
+          myStudentIds={myStudentIds}
+          onStudentCreated={refetch}
+        /> */}
+        <CenteredRow>
+          <CreateNewStudent refetchStudent={refetch} />
+        </CenteredRow>
+      </TabPanel>
 
       <Snackbar
         open={snackbar.open}
