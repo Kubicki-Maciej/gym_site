@@ -46,7 +46,7 @@ export const AvailableStudentsList = ({
       </Typography>
       <Grid container spacing={2}>
         {students.map(student => (
-          <Grid item xs={12} sm={6} md={4} key={student.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={student.id}>
             <StudentCard
               student={student}
               isAdded={myStudentIds.includes(student.id)}
