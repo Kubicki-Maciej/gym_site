@@ -10,7 +10,7 @@ import TrainingScreen from "../Screens/Training/TrainingScreen";
 import TrainerCalendar from "../components/Calendar/TrainerCalendar";
 import MenuScreen from "../components/Menu/MenuScreen";
 import WorkoutDetail from "../components/Workout/WorkoutDetail";
-import ExercisesPage from "../Screens/ExercisePage";
+import { StudentsPage } from "../features/students/pages/StudentPage";
 import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
 
 export default function AppRoutes() {
@@ -62,7 +62,7 @@ export default function AppRoutes() {
         path="clientsmenu/*"
         element={
           <ProtectedRoute requireTrainer>
-            <MenuScreen sideBarName={"clients"} />
+            <StudentsPage />
           </ProtectedRoute>
         }
       />
