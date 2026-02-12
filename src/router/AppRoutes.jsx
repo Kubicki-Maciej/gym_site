@@ -12,7 +12,7 @@ import MenuScreen from "../components/Menu/MenuScreen";
 import WorkoutDetail from "../components/Workout/WorkoutDetail";
 import { StudentsPage } from "../features/students/pages/StudentPage";
 import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
-import MenuTrainingScreen from "../Screens/Menu/MenuTrainingScreen";
+
 import MenuLayout from "../components/Layout/MenuLayout";
 
 export default function AppRoutes() {
