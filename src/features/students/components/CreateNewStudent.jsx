@@ -3,7 +3,7 @@ import { TextField, Button, Box } from "@mui/material";
 import { useStudents } from "../hooks/useStudents";
 import { StatusAlertService } from "react-status-alert";
 
-export default function CreateNewStudent({ onStudentCreated }) {
+export default function CreateNewStudent({ refetchStudent }) {
   const { error, loading, createStudentToTrainer } = useStudents();
 
   const [form, setForm] = useState({
@@ -28,17 +28,15 @@ export default function CreateNewStudent({ onStudentCreated }) {
         // Po pomyślnym utworzeniu
         setForm({ first_name: "", last_name: "" });
         StatusAlertService.showSuccess(
-          `Utworzono studenta: ${form.first_name} ${form.last_name}`
+          `Utworzono studenta: ${form.first_name} ${form.last_name}`,
         );
 
-        // Wywołaj callback z parent komponentu
-        if (onStudentCreated) {
-          onStudentCreated();
+        if (refetchStudent) {
+          refetchStudent();
         }
-      }
+      },
     );
 
-    // Obsługa błędów
     if (!result.success && result.error) {
       StatusAlertService.showError(result.error);
     }
@@ -48,7 +46,15 @@ export default function CreateNewStudent({ onStudentCreated }) {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 2 }}
+      sx={{
+        maxWidth: 600,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        alignItems: "center", // WAŻNE: To wyśrodkuje elementy wewnątrz, gdy będą węższe niż kontener
+        width: "100%", // Opcjonalnie: upewnij się, że kontener zajmuje dostępne miejsce
+        margin: "0 auto", // Opcjonalnie: wyśrodkowuje cały formularz na stronie
+      }}
     >
       <TextField
         label="Imię"
@@ -56,6 +62,8 @@ export default function CreateNewStudent({ onStudentCreated }) {
         value={form.first_name}
         onChange={handleChange}
         required
+        // Responsywna szerokość:
+        sx={{ width: { xs: "80%", sm: "50%" } }}
       />
 
       <TextField
@@ -64,8 +72,17 @@ export default function CreateNewStudent({ onStudentCreated }) {
         value={form.last_name}
         onChange={handleChange}
         required
+        // To samo tutaj:
+        sx={{ width: { xs: "80%", sm: "50%" } }}
       />
-      <Button type="submit" variant="contained" disabled={loading}>
+
+      <Button
+        type="submit"
+        variant="contained"
+        disabled={loading}
+        // Przycisk też może mieć taką szerokość dla spójności:
+        sx={{ width: { xs: "80%", sm: "50%" } }}
+      >
         {loading ? "Tworzenie..." : "Dodaj studenta"}
       </Button>
     </Box>
