@@ -8,7 +8,7 @@ import MenuNavbarMobile from "./MenuNavbarMobile";
 
 export default function MenuSidebar({ sideBarName }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { getItemById } = useSidebarItems();
   const navigate = useNavigate();
@@ -17,9 +17,9 @@ export default function MenuSidebar({ sideBarName }) {
   };
   const currentItem = getItemById(sideBarName);
   const submenu = currentItem?.submenu || [];
-  if (isMobile) {
-    return <MenuNavbarMobile submenu={submenu} onNavigate={handleNavigate} />;
-  }
+  // if (isMobile) {
+  //   return <MenuNavbarMobile submenu={submenu} onNavigate={handleNavigate} />;
+  // }
   return (
     <Box
       sx={{
