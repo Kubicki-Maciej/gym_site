@@ -94,9 +94,10 @@ export const StudentsPage = () => {
       <Tabs
         value={tabValue}
         onChange={(e, newValue) => setTabValue(newValue)}
-        sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}
-        variant="scrollable"
-        scrollButtons="auto"
+        variant="scrollable" // Pozwala na przewijanie
+        scrollButtons="auto" // Pokazuje strzałki w razie potrzeby
+        allowScrollButtonsMobile // Włącza strzałki na mobile
+        centered={false} // Musi być false, aby scrollable działało
       >
         <Tab label={`Moi studenci (${myStudents.length})`} />
 
@@ -124,7 +125,6 @@ export const StudentsPage = () => {
           myStudentIds={myStudentIds}
         />
       </TabPanel>
-
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}
