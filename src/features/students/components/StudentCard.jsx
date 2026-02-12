@@ -33,34 +33,18 @@ export const StudentCard = ({
         <Typography variant="h6" component="h3">
           {fullName}
         </Typography>
-        <Typography color="textSecondary" variant="body2">
-          {student.email}
-        </Typography>
       </CardContent>
       <CardActions>
-        {isAdded ? (
-          <Button
-            fullWidth
-            variant="contained"
-            color="error"
-            startIcon={<PersonRemove />}
-            onClick={() => onRemove(student.id)}
-            disabled={loading}
-          >
-            Usuń
-          </Button>
-        ) : (
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            startIcon={<PersonAdd />}
-            onClick={() => onAdd(student.id)}
-            disabled={loading}
-          >
-            Dodaj
-          </Button>
-        )}
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          startIcon={<PersonAdd />}
+          onClick={() => onAdd(student.id)}
+          disabled={loading}
+        >
+          Dodaj
+        </Button>
       </CardActions>
     </Card>
   );
