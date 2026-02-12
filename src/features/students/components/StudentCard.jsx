@@ -6,7 +6,6 @@ import {
   CardActions,
   Typography,
   Button,
-  Box,
 } from "@mui/material";
 import { PersonAdd, PersonRemove } from "@mui/icons-material";
 
