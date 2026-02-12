@@ -12,6 +12,8 @@ import MenuScreen from "../components/Menu/MenuScreen";
 import WorkoutDetail from "../components/Workout/WorkoutDetail";
 import { StudentsPage } from "../features/students/pages/StudentPage";
 import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
+import MenuTrainingScreen from "../Screens/Menu/MenuTrainingScreen";
+import MenuLayout from "../components/Layout/MenuLayout";
 
 export default function AppRoutes() {
   const { logged } = useUserContext();
@@ -54,7 +56,7 @@ export default function AppRoutes() {
         path="trainingmenu/*"
         element={
           <ProtectedRoute requireTrainer>
-            <MenuScreen sideBarName={"training"} />
+            <MenuLayout sideBarName={"training"} />
           </ProtectedRoute>
         }
       />
@@ -70,7 +72,7 @@ export default function AppRoutes() {
         path="student/*"
         element={
           <ProtectedRoute requireTrainer>
-            <MenuScreen sideBarName={"student"} />
+            <MenuLayout sideBarName={"student"} />
           </ProtectedRoute>
         }
       />
