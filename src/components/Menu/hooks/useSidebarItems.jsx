@@ -49,7 +49,7 @@ export const useSidebarItems = () => {
       submenu: [
         {
           id: "student-profile",
-          name: "Profil Użytkownika",
+          name: "Profil",
           icon: AccountCircleIcon,
           path: "profile",
         },
