@@ -21,7 +21,14 @@ export const StudentCard = ({
     `${student.first_name} ${student.last_name}`.trim() || student.email;
 
   return (
-    <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Card
+      sx={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography variant="h6" component="h3">
           {fullName}
