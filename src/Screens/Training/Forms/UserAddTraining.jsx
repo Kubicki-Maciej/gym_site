@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import GetUsers from "../../../components/User/Component/GetUsers";
 import PlanTraining from "../../../components/Trening/PlanTraining";
 import { Button } from "@mui/material";
-import useUserTraining from "../../../components/Trening/hooks/useTraining";
+import useUserTraining from "../../../hooks/useUserTraining";
 import SnackbarAlert from "../../../components/Alerts/SnackbarAlert";
 import useSnackbarAlerts from "../../../hooks/useSnackbarAlerts";
 

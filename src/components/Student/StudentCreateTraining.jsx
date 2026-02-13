@@ -1,6 +1,6 @@
 import PlanTraining from "../Trening/PlanTraining";
 import { useState, useEffect } from "react";
-import useUserTraining from "../Trening/hooks/useTraining";
+import useUserTraining from "../../hooks/useUserTraining";
 import SnackbarAlert from "../Alerts/SnackbarAlert";
 import useSnackbarAlerts from "../../hooks/useSnackbarAlerts";
 import { useUserContext } from "../User/context";

@@ -15,7 +15,7 @@ import {
 import SnackbarAlert from "../Alerts/SnackbarAlert";
 import Searcher from "../Core/Searcher";
 import useGeneral from "../../hooks/useGeneral";
-import useExercise from "./hooks/useExercise";
+import useExercise from "../../hooks/useExercise";
 
 export default function CreateExercise() {
   const theme = useTheme();

@@ -21,7 +21,7 @@ import { MobileNavBar } from "./MobileNavBar";
 import { DesktopNavBar } from "./DesktopNavBar";
 import { styled } from "@mui/material/styles";
 
-import { useNavItems } from "./hooks/useNavItems";
+import { useNavItems } from "../../../hooks/useNavItems";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   background: `linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%)`,

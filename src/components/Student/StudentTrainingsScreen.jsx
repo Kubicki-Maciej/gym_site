@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useUserContext } from "../User/context";
-import useTraining from "../Trening/hooks/useTraining";
+import useTraining from "../../hooks/useTraining";
 import {
   Box,
   TextField,

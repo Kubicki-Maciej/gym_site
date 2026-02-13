@@ -6,7 +6,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import { useUserContext } from "../User/context";
-import useUserTraining from "../Trening/hooks/useTraining";
+import useUserTraining from "../../hooks/useUserTraining";
 
 export default function TrainerCalendar() {
   const theme = useTheme();

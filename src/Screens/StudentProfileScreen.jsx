@@ -5,7 +5,7 @@ import { Box, Card, CardContent, Typography, Stack } from "@mui/material";
 import { useUserContext } from "../components/User/context";
 
 import StudentInfo from "../components/Student/StudentInfo";
-import useTraining from "../components/Trening/hooks/useTraining";
+import useTraining from "../hooks/useTraining";
 import useUserUpcomingTraining from "../features/users/hooks/useUserUpcomingTraining";
 import StudentTrainingListItem from "../components/Student/StudentTrainingListItem";
 export default function StudentProfileScreen({ userObject }) {

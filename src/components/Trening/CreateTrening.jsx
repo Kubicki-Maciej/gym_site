@@ -17,7 +17,7 @@ import Searcher from "../Core/Searcher";
 import Notification from "../Core/Messager";
 
 import Poput from "../Popout/Poput";
-import useTraining from "./hooks/useTraining";
+import useTraining from "../../hooks/useTraining";
 
 export default function CreateNewTraining() {
   const { error, loading, createTraining, updateMainTraining } = useTraining();

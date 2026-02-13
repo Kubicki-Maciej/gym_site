@@ -1,6 +1,6 @@
 import React from "react";
 // import useUserTraining from "../../../hooks/useUserTraining";
-import useUserTraining from "../../../components/Trening/hooks/useTraining";
+import useUserTraining from "../../../hooks/useUserTraining";
 import Searcher from "../../../components/Core/Searcher";
 import { API_URL } from "../../../config";
 import { useState } from "react";

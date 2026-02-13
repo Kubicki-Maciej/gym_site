@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import UserCard from "./UserCard";
 import { useCarousel } from "../../../hooks/useCarousel";
 
-import useUser from "../../../components/User/hooks/useUser";
+import useUser from "../../../hooks/useUser";
 
 // MUI imports
 import {

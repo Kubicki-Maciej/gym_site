@@ -14,7 +14,7 @@ import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import { FitnessCenter } from "@mui/icons-material";
 
 import ConfirmDeleteDialog from "../../../components/Dialog/ConfirmDeleteDialog";
-import useConfirmDialog from "../../../components/Dialog/hooks/useConfirmDialog";
+import useConfirmDialog from "../../../hooks/useConfirmDialog";
 
 export default function SingleStudent({
   student,

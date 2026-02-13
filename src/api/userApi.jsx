@@ -1,4 +1,4 @@
-import api from "../../../api/client";
+import api from "./client";
 
 export const userApi = {
   //   getTrainerOnlyUsers: async idTrainer => {

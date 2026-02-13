@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
-import useTraining from "../Trening/hooks/useTraining";
+import useTraining from "../../hooks/useTraining";
 
 export default function RecentExercise({ exerciseId, trainingObject }) {
   const theme = useTheme();

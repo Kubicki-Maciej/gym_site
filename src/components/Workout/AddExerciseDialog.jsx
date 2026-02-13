@@ -9,7 +9,7 @@ import {
   Alert,
 } from "@mui/material";
 import { StatusAlertService } from "react-status-alert";
-import useTraining from "../Trening/hooks/useTraining";
+import useTraining from "../../hooks/useTraining";
 // import useUserTraining from "../../hooks/useUserTraining";
 
 export default function AddExerciseDialog({

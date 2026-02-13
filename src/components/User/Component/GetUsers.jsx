@@ -11,7 +11,7 @@ import { API_URL } from "../../../config";
 import api from "../../../api/client";
 
 import { useUserContext } from "../context";
-import useUser from "../hooks/useUser";
+import useUser from "../../../hooks/useUser";
 
 export default function GetUsers({ onUserSelect }) {
   const { error, loading, getTrainerStudents } = useUser();

@@ -1,4 +1,4 @@
-import { useUserContext } from "../../../User/context";
+import { useUserContext } from "components/User/context";
 
 export const useNavItems = () => {
   const { logged, user } = useUserContext();

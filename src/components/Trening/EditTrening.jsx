@@ -14,7 +14,7 @@ import Searcher from "../Core/Searcher";
 
 import SnackbarAlert from "../Alerts/SnackbarAlert";
 import Poput from "../Popout/Poput";
-import useTraining from "./hooks/useTraining";
+import useTraining from "../../hooks/useTraining";
 
 export default function EditTrening() {
   const { error, loading, updateMainTraining } = useTraining();

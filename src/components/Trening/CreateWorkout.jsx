@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import useUser from "../User/hooks/useUser";
+import useUser from "../../hooks/useUser";
 
 import Searcher from "../Core/Searcher";
 
