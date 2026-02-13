@@ -11,7 +11,7 @@ export default function MenuLayout({ sideBarName }) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: { xs: 0, md: 3 },
           pb: { xs: "56px", md: 3 },
           width: { md: `calc(100% - 280px)` },
         }}
