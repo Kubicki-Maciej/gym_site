@@ -13,7 +13,6 @@ export default function MenuSidebar({ sideBarName }) {
   return (
     <Box
       sx={{
-        // Ukryj na mobile (xs), pokaż od 'md' w górę
         display: { xs: "none", md: "flex" },
         flexDirection: "column",
         gap: 1,
@@ -21,7 +20,7 @@ export default function MenuSidebar({ sideBarName }) {
         width: 280,
         backgroundColor: "#f5f5f5",
         minHeight: "100vh",
-        borderRight: "1px solid #e0e0e0", // Opcjonalnie: granica
+        borderRight: "1px solid #e0e0e0",
       }}
     >
       {submenu.map(item => (
