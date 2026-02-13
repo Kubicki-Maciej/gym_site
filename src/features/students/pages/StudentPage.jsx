@@ -12,12 +12,9 @@ import {
   Snackbar,
 } from "@mui/material";
 import { CenteredRow } from "../../../components/Layout/CentredRow";
-import { Add as AddIcon } from "@mui/icons-material";
 import { useStudents } from "../hooks/useStudents";
 import { StudentList } from "../components/StudentList";
-// import { AddStudentModal } from "../components/AddStudentModal";
 import CreateNewStudent from "../components/CreateNewStudent";
-
 import { AvailableStudentsList } from "../components/AvailableStudentsList";
 
 function TabPanel({ children, value, index }) {
@@ -90,17 +87,15 @@ export const StudentsPage = () => {
           {error}
         </Alert>
       )}
-
       <Tabs
         value={tabValue}
         onChange={(e, newValue) => setTabValue(newValue)}
-        variant="scrollable" // Pozwala na przewijanie
-        scrollButtons="auto" // Pokazuje strzałki w razie potrzeby
-        allowScrollButtonsMobile // Włącza strzałki na mobile
-        centered={false} // Musi być false, aby scrollable działało
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile
+        centered={false}
       >
         <Tab label={`Moi studenci (${myStudents.length})`} />
-
         <Tab label={"Dodaj studenta"} />
         <Tab label={`Dostępni do dodania (${availableStudents.length})`} />
       </Tabs>
