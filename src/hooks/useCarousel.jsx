@@ -1,4 +1,3 @@
-// hooks/useCarousel.js
 import { useState } from "react";
 
 export const useCarousel = (items, itemsPerPage = 3) => {
