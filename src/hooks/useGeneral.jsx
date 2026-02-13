@@ -1,6 +1,4 @@
-import React from "react";
 import { useState, useCallback } from "react";
-// import
 import { generalApi } from "../api/generalApi";
 
 export default function useGeneral() {

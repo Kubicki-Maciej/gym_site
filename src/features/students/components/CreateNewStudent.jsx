@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
-import { useStudents } from "../hooks/useStudents";
+import { useStudents } from "../../../hooks/useStudents";
 import { StatusAlertService } from "react-status-alert";
 
 export default function CreateNewStudent({ refetchStudent }) {

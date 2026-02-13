@@ -3,12 +3,12 @@ import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Box, CircularProgress, Alert, Button, Stack } from "@mui/material";
 import { StatusAlertService } from "react-status-alert";
 import useUserTraining from "../../hooks/useUserTraining";
-import useWorkoutDetail from "./hooks/useWorkoutDetails";
+import useWorkoutDetail from "../../hooks/useWorkoutDetails";
 
 import WorkoutHeader from "./WorkoutHeader";
 import ExerciseList from "./ExerciseList";
 import AddExerciseDialog from "./AddExerciseDialog";
-import AddTrainingDialog from "./AddTrainingDialog"; // Nowy import
+import AddTrainingDialog from "./AddTrainingDialog";
 
 export default function WorkoutDetail() {
   const { id } = useParams();
@@ -52,7 +52,7 @@ export default function WorkoutDetail() {
     id,
     getUserDataTraining,
     getAllExercises,
-    getAllTrainings
+    getAllTrainings,
   );
 
   if (loading)

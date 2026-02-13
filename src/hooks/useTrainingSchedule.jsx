@@ -29,13 +29,13 @@ export function useTrainingSchedule({ onChange, setTrainigType } = {}) {
   const handleCyclicTimeChange = (dayValue, newTimeDate) => {
     const formatted = formatTime(newTimeDate);
     setSelectedDays(prev =>
-      prev.map(d => (d.day === dayValue ? { ...d, time: formatted } : d))
+      prev.map(d => (d.day === dayValue ? { ...d, time: formatted } : d)),
     );
   };
 
   const handleCyclicDurationChange = (dayValue, newDuration) => {
     setSelectedDays(prev =>
-      prev.map(d => (d.day === dayValue ? { ...d, duration: newDuration } : d))
+      prev.map(d => (d.day === dayValue ? { ...d, duration: newDuration } : d)),
     );
   };
 
@@ -66,7 +66,7 @@ export function useTrainingSchedule({ onChange, setTrainigType } = {}) {
 
       const events = generateDatesFromSelectedDays(
         selectedDays,
-        Number(cycles)
+        Number(cycles),
       );
 
       onChange?.({

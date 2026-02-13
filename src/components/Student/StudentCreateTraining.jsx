@@ -2,7 +2,7 @@ import PlanTraining from "../Trening/PlanTraining";
 import { useState, useEffect } from "react";
 import useUserTraining from "../Trening/hooks/useTraining";
 import SnackbarAlert from "../Alerts/SnackbarAlert";
-import useSnackbarAlerts from "../Alerts/hooks/useSnackbarAlerts";
+import useSnackbarAlerts from "../../hooks/useSnackbarAlerts";
 import { useUserContext } from "../User/context";
 import { Button } from "@mui/material";
 

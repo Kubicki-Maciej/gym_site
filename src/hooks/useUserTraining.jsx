@@ -1,7 +1,7 @@
 // hooks/useUserTraining.js
 import { useCallback } from "react";
 import { workoutApi } from "../api/workoutApi";
-import { exerciseApi } from "../components/Exercise/api/exerciseApi";
+import { exerciseApi } from "../api/exerciseApi";
 
 export default function useUserTraining() {
   const getUserDataTraining = useCallback(async trainingId => {
@@ -49,7 +49,7 @@ export default function useUserTraining() {
       try {
         const result = await workoutApi.addExerciseToTraining(
           userTrainingId,
-          exerciseId
+          exerciseId,
         );
         return result;
       } catch (error) {
@@ -57,7 +57,7 @@ export default function useUserTraining() {
         throw error;
       }
     },
-    []
+    [],
   );
 
   const addTrainingExercises = useCallback(
@@ -73,7 +73,7 @@ export default function useUserTraining() {
         throw error;
       }
     },
-    []
+    [],
   );
 
   const createSingleRep = useCallback(async payload => {

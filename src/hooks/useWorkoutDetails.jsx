@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { StatusAlertService } from "react-status-alert";
-import useUserTraining from "../../../hooks/useUserTraining";
-import useTraining from "../../Trening/hooks/useTraining";
+import useUserTraining from "./useUserTraining";
+import useTraining from "./useTraining";
 
 export default function useWorkoutDetail(
   trainingId,
   getUserDataTraining,
   getAllExercises,
-  getAllTrainings // Dodaj ten parametr
+  getAllTrainings, // Dodaj ten parametr
 ) {
   const [training, setTraining] = useState(null);
   const [exercises, setExercises] = useState([]);
@@ -57,7 +57,7 @@ export default function useWorkoutDetail(
               exerciseSeries: userExercise.exercises_series || [],
               name: userExercise.exercise.name,
               muscleGroupIds: userExercise.exercise.muscle_group || [],
-            })
+            }),
           );
           setExercises(mappedExercises);
         }
@@ -108,11 +108,11 @@ export default function useWorkoutDetail(
           ? {
               ...ex,
               exerciseSeries: ex.exerciseSeries.map(serie =>
-                serie.id === serieId ? { ...serie, [field]: value } : serie
+                serie.id === serieId ? { ...serie, [field]: value } : serie,
               ),
             }
-          : ex
-      )
+          : ex,
+      ),
     );
   }, []);
 
@@ -128,11 +128,11 @@ export default function useWorkoutDetail(
                       ...serie,
                       [field]: Math.max(0, (serie[field] || 0) + delta),
                     }
-                  : serie
+                  : serie,
               ),
             }
-          : ex
-      )
+          : ex,
+      ),
     );
   }, []);
 
@@ -165,7 +165,7 @@ export default function useWorkoutDetail(
               };
             }
             return ex;
-          })
+          }),
         );
         StatusAlertService.showSuccess("✅ Seria dodana!");
       } catch (err) {
@@ -173,7 +173,7 @@ export default function useWorkoutDetail(
         StatusAlertService.showError("❌ Błąd dodawania serii");
       }
     },
-    [exercises, createSingleRep]
+    [exercises, createSingleRep],
   );
 
   const handleDeleteExercise = useCallback(
@@ -184,7 +184,7 @@ export default function useWorkoutDetail(
         const result = await deleteSeriesExercise(exerciseId);
         if (result) {
           setExercises(prev =>
-            prev.filter(ex => ex.userExerciseId !== exerciseId)
+            prev.filter(ex => ex.userExerciseId !== exerciseId),
           );
           StatusAlertService.showSuccess("✅ Ćwiczenie usunięte");
         } else {
@@ -197,7 +197,7 @@ export default function useWorkoutDetail(
         setIsSaving(false);
       }
     },
-    [deleteSeriesExercise]
+    [deleteSeriesExercise],
   );
 
   const handleRemoveSerie = useCallback(
@@ -208,11 +208,11 @@ export default function useWorkoutDetail(
             ? {
                 ...ex,
                 exerciseSeries: ex.exerciseSeries.filter(
-                  serie => serie.id !== serieId
+                  serie => serie.id !== serieId,
                 ),
               }
-            : ex
-        )
+            : ex,
+        ),
       );
       deleteSingleExercise(serieId)
         .then(result => {
@@ -227,7 +227,7 @@ export default function useWorkoutDetail(
           StatusAlertService.showError("❌ Błąd usuwania serii");
         });
     },
-    [deleteSingleExercise]
+    [deleteSingleExercise],
   );
 
   const handleAddExercise = useCallback(data => {
@@ -249,7 +249,7 @@ export default function useWorkoutDetail(
       try {
         const result = await addTrainingExercises(
           trainingId,
-          selectedTrainingId
+          selectedTrainingId,
         );
 
         if (result && result.user_exercises) {
@@ -283,13 +283,13 @@ export default function useWorkoutDetail(
         setIsSaving(false);
       }
     },
-    [trainingId, addTrainingExercises]
+    [trainingId, addTrainingExercises],
   );
 
   const handleSaveChanges = useCallback(async () => {
     if (exercises.length === 0) {
       StatusAlertService.showError(
-        "Trening musi zawierać co najmniej jedno ćwiczenie"
+        "Trening musi zawierać co najmniej jedno ćwiczenie",
       );
       return;
     }

@@ -11,11 +11,11 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
-import { CenteredRow } from "../../../components/Layout/CentredRow";
-import { useStudents } from "../hooks/useStudents";
-import { StudentList } from "../components/StudentList";
-import CreateNewStudent from "../components/CreateNewStudent";
-import { AvailableStudentsList } from "../components/AvailableStudentsList";
+import { CenteredRow } from "../../components/Layout/CentredRow";
+import { useStudents } from "../../hooks/useStudents";
+import { StudentList } from "../../features/students/components/StudentList";
+import CreateNewStudent from "../../features/students/components/CreateNewStudent";
+import { AvailableStudentsList } from "../../features/students/components/AvailableStudentsList";
 
 function TabPanel({ children, value, index }) {
   return (

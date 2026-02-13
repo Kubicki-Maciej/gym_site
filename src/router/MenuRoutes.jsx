@@ -4,7 +4,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import UserAddTraining from "../Screens/Training/Forms/UserAddTraining";
 import CreateWorkout from "../components/Trening/CreateWorkout";
 import UserProfile from "../features/users/components/UserProfile";
-import { StudentsPage } from "../features/students/pages/StudentPage";
+import { StudentsPage } from "../Screens/Student/StudentPage";
 import EditTrening from "../components/Trening/EditTrening";
 import CreateExercise from "../components/Exercise/CreateExercise";
 import CreateNewTraining from "../components/Trening/CreateTrening";

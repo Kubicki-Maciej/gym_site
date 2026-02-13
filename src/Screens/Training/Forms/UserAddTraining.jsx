@@ -4,7 +4,7 @@ import PlanTraining from "../../../components/Trening/PlanTraining";
 import { Button } from "@mui/material";
 import useUserTraining from "../../../components/Trening/hooks/useTraining";
 import SnackbarAlert from "../../../components/Alerts/SnackbarAlert";
-import useSnackbarAlerts from "../../../components/Alerts/hooks/useSnackbarAlerts";
+import useSnackbarAlerts from "../../../hooks/useSnackbarAlerts";
 
 // TrainingScheduleConfigurator
 export default function UserAddTraining() {
@@ -28,10 +28,8 @@ export default function UserAddTraining() {
     }
   };
 
-
   const handleTrainingChange = data => {
     setTrainingData(data);
-
   };
   const handleEventDataChange = data => {
     setEventData(data);

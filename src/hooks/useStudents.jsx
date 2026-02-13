@@ -43,7 +43,6 @@ export const useStudents = () => {
         await fetchMyStudents();
         await fetchAvailableStudents();
 
-        // Wywołaj callback jeśli został przekazany
         if (onSuccess) {
           onSuccess(result);
         }
@@ -55,7 +54,7 @@ export const useStudents = () => {
         return { success: false, error: errorMsg };
       }
     },
-    [fetchMyStudents, fetchAvailableStudents]
+    [fetchMyStudents, fetchAvailableStudents],
   );
 
   const addStudentToTrainer = useCallback(
@@ -71,7 +70,7 @@ export const useStudents = () => {
         return { success: false, error: errorMsg };
       }
     },
-    [fetchMyStudents, fetchAvailableStudents]
+    [fetchMyStudents, fetchAvailableStudents],
   );
 
   const removeStudentFromTrainer = useCallback(
@@ -87,7 +86,7 @@ export const useStudents = () => {
         return { success: false, error: errorMsg };
       }
     },
-    [fetchMyStudents, fetchAvailableStudents]
+    [fetchMyStudents, fetchAvailableStudents],
   );
 
   useEffect(() => {

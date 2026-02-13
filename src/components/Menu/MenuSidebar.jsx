@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useSidebarItems } from "./hooks/useSidebarItems";
+import { useSidebarItems } from "../../hooks/useSidebarItems";
 import MenuButton from "./ui/MenuButton";
 
 export default function MenuSidebar({ sideBarName }) {

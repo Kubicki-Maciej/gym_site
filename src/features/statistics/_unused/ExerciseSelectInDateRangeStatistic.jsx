@@ -1,5 +1,5 @@
 import useUserExerciseInDateRangeStatistic from "../hooks/useUserExerciseInDateRangeStatistic";
-import useUserListExerciseOption from "../../exercise/hooks/useUserListExerciseOption";
+import useUserListExerciseOption from "../../../hooks/useUserListExerciseOption";
 import ProgressMaxChart from "../charts/ProgressMaxChart";
 import { useState } from "react";
 import { Card } from "@mui/material";
@@ -13,8 +13,8 @@ import {
 import ListOfStudentExercise from "../../exercise/ListOfStudentExercise";
 
 export default function ExerciseSelectInDateRangeStatistic({
-  userId ,
-  exerciseId 
+  userId,
+  exerciseId,
 }) {
   const [startDate, setStartDate] = useState(
     getFirstDayOfTheCurrentMonthString(),
@@ -42,7 +42,6 @@ export default function ExerciseSelectInDateRangeStatistic({
 
   const statistics = data;
 
-  
   return (
     <div>
       <>TUTAJ JEST DATE RANGE PICKER</>
@@ -58,17 +57,13 @@ export default function ExerciseSelectInDateRangeStatistic({
         <Card>
           <ListOfStudentExercise listOfExercise={statistics.history} />
         </Card>
-        
       )}
-      {statistics &&
-      (
+      {statistics && (
         <>
-        Test CHart
-        <TestChart data={statistics.history}/>
-      
-        <ProgressMaxChart data={statistics}/></>
-
-
+          Test CHart
+          <TestChart data={statistics.history} />
+          <ProgressMaxChart data={statistics} />
+        </>
       )}
     </div>
   );

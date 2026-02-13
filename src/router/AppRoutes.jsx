@@ -10,7 +10,7 @@ import TrainingScreen from "../Screens/Training/TrainingScreen";
 import TrainerCalendar from "../components/Calendar/TrainerCalendar";
 import MenuScreen from "../components/Menu/MenuScreen";
 import WorkoutDetail from "../components/Workout/WorkoutDetail";
-import { StudentsPage } from "../features/students/pages/StudentPage";
+import { StudentsPage } from "../Screens/Student/StudentPage";
 import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
 
 import MenuLayout from "../components/Layout/MenuLayout";

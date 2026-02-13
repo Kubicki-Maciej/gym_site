@@ -1,7 +1,7 @@
 // components/MenuMobileBottom.jsx
 import { Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useSidebarItems } from "../../Menu/hooks/useSidebarItems";
+import { useSidebarItems } from "../../../hooks/useSidebarItems";
 
 export default function MenuMobileBottom({ sideBarName }) {
   const { getItemById } = useSidebarItems();

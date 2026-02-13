@@ -1,5 +1,4 @@
-import React from "react";
-import api from "../../../api/client";
+import api from "./client";
 
 export const exerciseApi = {
   createExercise: async data => {
@@ -15,5 +14,8 @@ export const exerciseApi = {
 
   updateExercise: async (exerciseId, data) => {
     return api.put(`exercise/workout/updateexercise/${exerciseId}`, data);
+  },
+  getUserListExerciseOption: async () => {
+    return api.get(`exercise/exercise/all`);
   },
 };
