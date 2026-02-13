@@ -9,7 +9,6 @@ export default function DateRangePicker({
   const { startDate, endDate, onStartDateChange, onEndDateChange } =
     useDateRange(initialStart, initialEnd);
 
-
   // Wywołanie callbacku przy każdej zmianie zakresu
   // np. w parent component aktualizujesz state
   const handleStartChange = e => {
@@ -23,7 +22,7 @@ export default function DateRangePicker({
   };
 
   return (
-    <Box display="flex" gap={2} mb={2}>
+    <Box display="flex" gap={1} mb={2}>
       <TextField
         label="Od"
         type="date"
