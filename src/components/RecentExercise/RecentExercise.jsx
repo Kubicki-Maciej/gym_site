@@ -31,7 +31,7 @@ export default function RecentExercise({ exerciseId, trainingObject }) {
         const res = await getUserRecentExercise(
           trainingObject.user || null,
           exerciseId,
-          trainingObject.id
+          trainingObject.id,
         );
         setRecentExercise(res.exercises_series);
       } catch (e) {

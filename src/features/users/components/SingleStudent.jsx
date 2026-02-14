@@ -35,7 +35,7 @@ export default function SingleStudent({
     openDialog(
       "Potwierdzenie usunięcia",
       `Czy na pewno chcesz usunąć studenta ${studentName}? Ta akcja nie może być cofnięta.`,
-      () => onRemoveStudent(student.id)
+      () => onRemoveStudent(student.id),
     );
   };
   const handleViewTraining = () => {
@@ -56,7 +56,7 @@ export default function SingleStudent({
         secondaryAction={
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <StudentButton student={student}/>
+              <StudentButton student={student} />
               {trainingList && trainingList.length > 0 ? (
                 <IconButton
                   size="small"

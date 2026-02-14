@@ -65,7 +65,7 @@ export default function CreateExercise() {
   const showAlert = (
     message,
     severity = "success",
-    autoHideDuration = 4000
+    autoHideDuration = 4000,
   ) => {
     setStatusAlert({
       open: true,
@@ -86,7 +86,7 @@ export default function CreateExercise() {
       setExerciseDescription(exercise.description || "");
 
       const selectedGroups = muscleGroupOptions.filter(group =>
-        exercise.muscle_group.includes(group.id)
+        exercise.muscle_group.includes(group.id),
       );
       setMuscleGroups(selectedGroups);
       showAlert(`Ćwiczenie: ${exercise.name} załadowane`, "info", 2000);
@@ -124,7 +124,7 @@ export default function CreateExercise() {
       showAlert(
         err.message || "Nie udało się utworzyć ćwiczenia",
         "error",
-        5000
+        5000,
       );
     }
   };

@@ -90,7 +90,7 @@ export default function EditTrening() {
     if (!trainingComment || exercises.length === 0) {
       showAlert(
         "Wprowadź komentarz oraz dodaj przynajmniej jedno ćwiczenie.",
-        "error"
+        "error",
       );
       return;
     }

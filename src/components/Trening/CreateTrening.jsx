@@ -79,7 +79,7 @@ export default function CreateNewTraining() {
     if (!trainingName || !trainingComment || exercises.length === 0) {
       showAlert(
         "Wprowadź nazwę, komentarz oraz dodaj przynajmniej jedno ćwiczenie.",
-        "error"
+        "error",
       );
       return;
     }
@@ -174,13 +174,12 @@ export default function CreateNewTraining() {
           disabled={loading}
         />
         <Button
-              onClick={handleAddExercise}
-              disabled={loading}
-              variant="outlined"
-            >
-              Dodaj ćwiczenie
+          onClick={handleAddExercise}
+          disabled={loading}
+          variant="outlined"
+        >
+          Dodaj ćwiczenie
         </Button>
-
 
         <Button
           variant="contained"

@@ -89,7 +89,7 @@ export default function StudentTrainingsScreen({ client = false }) {
     const firstOfPrevMonth = new Date(
       lastOfPrevMonth.getFullYear(),
       lastOfPrevMonth.getMonth(),
-      1
+      1,
     );
 
     setStartDate(formatDate(firstOfPrevMonth));
@@ -107,7 +107,7 @@ export default function StudentTrainingsScreen({ client = false }) {
     const lastOfNextMonth = new Date(
       firstOfNextMonth.getFullYear(),
       firstOfNextMonth.getMonth() + 1,
-      0
+      0,
     );
 
     setStartDate(formatDate(firstOfNextMonth));

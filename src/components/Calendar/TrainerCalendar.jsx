@@ -31,8 +31,8 @@ export default function TrainerCalendar() {
         const list = Array.isArray(data)
           ? data
           : Array.isArray(data?.results)
-          ? data.results
-          : [];
+            ? data.results
+            : [];
 
         const mapped = list.map((item, idx) => ({
           id: item.id ?? idx,
@@ -46,7 +46,7 @@ export default function TrainerCalendar() {
           ...(item.duration &&
             item.training_date && {
               end: new Date(
-                new Date(item.training_date).getTime() + item.duration * 60000
+                new Date(item.training_date).getTime() + item.duration * 60000,
               ).toISOString(),
             }),
           extendedProps: {
@@ -73,16 +73,16 @@ export default function TrainerCalendar() {
   const headerToolbar = isMobile
     ? { left: "prev,next", center: "title", right: "listWeek" }
     : isTablet
-    ? {
-        left: "prev,today,next",
-        center: "title",
-        right: "timeGridDay,listWeek",
-      }
-    : {
-        left: "prev,today,next",
-        center: "title",
-        right: "timeGridWeek,timeGridDay,listWeek",
-      };
+      ? {
+          left: "prev,today,next",
+          center: "title",
+          right: "timeGridDay,listWeek",
+        }
+      : {
+          left: "prev,today,next",
+          center: "title",
+          right: "timeGridWeek,timeGridDay,listWeek",
+        };
 
   const initialView = isMobile ? "listWeek" : "timeGridWeek";
 

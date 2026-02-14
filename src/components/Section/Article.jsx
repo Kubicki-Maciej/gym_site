@@ -2,14 +2,7 @@ import React from "react";
 import TextArticle from "./TextArticle";
 import ImgArticle from "./ImgArticle";
 import section_img1 from "../../assets/images/section_img1.jpg";
-// import section_img1 from "../../assets/images/section_img1.jpg";
-import { useState, useEffect } from "react";
 import "./style.css";
-
-import {
-  flexArticleDirection,
-  titleSize,
-} from "../TypographyFunctions/navbarTypography";
 
 function Article() {
   return (

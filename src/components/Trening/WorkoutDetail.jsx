@@ -81,7 +81,7 @@ export default function WorkoutDetail() {
               exerciseSeries: userExercise.exercises_series || [],
               name: userExercise.exercise.name,
               muscleGroupIds: userExercise.exercise.muscle_group || [],
-            })
+            }),
           );
           setExercises(mappedExercises);
         }
@@ -118,11 +118,11 @@ export default function WorkoutDetail() {
           ? {
               ...ex,
               exerciseSeries: ex.exerciseSeries.map(serie =>
-                serie.id === serieId ? { ...serie, [field]: value } : serie
+                serie.id === serieId ? { ...serie, [field]: value } : serie,
               ),
             }
-          : ex
-      )
+          : ex,
+      ),
     );
   };
 
@@ -138,11 +138,11 @@ export default function WorkoutDetail() {
                       ...serie,
                       [field]: Math.max(0, (serie[field] || 0) + delta),
                     }
-                  : serie
+                  : serie,
               ),
             }
-          : ex
-      )
+          : ex,
+      ),
     );
   };
 
@@ -170,7 +170,7 @@ export default function WorkoutDetail() {
           return { ...ex, exerciseSeries: [...ex.exerciseSeries, newSerie] };
         }
         return ex;
-      })
+      }),
     );
   };
 
@@ -183,11 +183,11 @@ export default function WorkoutDetail() {
           ? {
               ...ex,
               exerciseSeries: ex.exerciseSeries.filter(
-                serie => serie.id !== serieId
+                serie => serie.id !== serieId,
               ),
             }
-          : ex
-      )
+          : ex,
+      ),
     );
     deleteSingleExercise(serieId);
   };
@@ -239,7 +239,7 @@ export default function WorkoutDetail() {
   const handleSaveChanges = async () => {
     if (exercises.length === 0) {
       StatusAlertService.showError(
-        "Trening musi zawierać co najmniej jedno ćwiczenie"
+        "Trening musi zawierać co najmniej jedno ćwiczenie",
       );
       return;
     }
@@ -259,7 +259,7 @@ export default function WorkoutDetail() {
       })),
     };
 
-    "=== DATA TO SEND ===", dataToSend;
+    ("=== DATA TO SEND ===", dataToSend);
 
     setIsSaving(true);
     try {
@@ -419,7 +419,7 @@ export default function WorkoutDetail() {
                                     exercise.userExerciseId,
                                     serie.id,
                                     "repeats",
-                                    -1
+                                    -1,
                                   )
                                 }
                                 sx={{ p: "4px" }}
@@ -434,7 +434,7 @@ export default function WorkoutDetail() {
                                     exercise.userExerciseId,
                                     serie.id,
                                     "repeats",
-                                    parseInt(e.target.value) || 0
+                                    parseInt(e.target.value) || 0,
                                   )
                                 }
                                 sx={{
@@ -450,7 +450,7 @@ export default function WorkoutDetail() {
                                     exercise.userExerciseId,
                                     serie.id,
                                     "repeats",
-                                    1
+                                    1,
                                   )
                                 }
                                 sx={{ p: "4px" }}
@@ -477,7 +477,7 @@ export default function WorkoutDetail() {
                                     exercise.userExerciseId,
                                     serie.id,
                                     "weight",
-                                    -0.5
+                                    -0.5,
                                   )
                                 }
                                 sx={{ p: "4px" }}
@@ -492,7 +492,7 @@ export default function WorkoutDetail() {
                                     exercise.userExerciseId,
                                     serie.id,
                                     "weight",
-                                    parseFloat(e.target.value) || 0
+                                    parseFloat(e.target.value) || 0,
                                   )
                                 }
                                 sx={{
@@ -509,7 +509,7 @@ export default function WorkoutDetail() {
                                     exercise.userExerciseId,
                                     serie.id,
                                     "weight",
-                                    0.5
+                                    0.5,
                                   )
                                 }
                                 sx={{ p: "4px" }}
@@ -525,7 +525,7 @@ export default function WorkoutDetail() {
                               onClick={() =>
                                 handleRemoveSerie(
                                   exercise.userExerciseId,
-                                  serie.id
+                                  serie.id,
                                 )
                               }
                             >
@@ -593,7 +593,7 @@ function AddExerciseDialog({
 
   // Filtruj już istniejące ćwiczenia
   const availableExercises = exercisesList.filter(
-    exercise => !existingExercises.some(ex => ex.exerciseId === exercise.id)
+    exercise => !existingExercises.some(ex => ex.exerciseId === exercise.id),
   );
 
   const handleAdd = async () => {
@@ -612,8 +612,8 @@ function AddExerciseDialog({
     }
 
     const exercise = exercisesList.find(e => e.id === Number(selectedId));
-    "Adding exercise ID:", selectedId;
-    "idUserTraining:", idUserTraining;
+    ("Adding exercise ID:", selectedId);
+    ("idUserTraining:", idUserTraining);
     exercise;
     if (exercise) onAdd(result);
     setSelectedId("");

@@ -25,7 +25,7 @@ export default function AddExerciseDialog({
   const { addExerciseToTraining } = useTraining();
 
   const availableExercises = exercisesList.filter(
-    exercise => !existingExercises.some(ex => ex.exerciseId === exercise.id)
+    exercise => !existingExercises.some(ex => ex.exerciseId === exercise.id),
   );
 
   const handleAdd = async () => {

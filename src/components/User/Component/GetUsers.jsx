@@ -23,8 +23,6 @@ export default function GetUsers({ onUserSelect }) {
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-
-    
     const fetchUsers = async () => {
       try {
         let fetchedUsers = await getTrainerStudents(user.id);
@@ -44,7 +42,6 @@ export default function GetUsers({ onUserSelect }) {
       fetchUsers();
     }
   }, []);
-
 
   const handleChange = (event, newValue) => {
     setSelectedUser(newValue);
