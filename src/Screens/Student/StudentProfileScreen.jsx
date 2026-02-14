@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Box, Card, CardContent, Typography, Stack } from "@mui/material";
 
-import { useUserContext } from "../components/User/context";
+import { useUserContext } from "../../components/User/context";
 
-import StudentInfo from "../components/Student/StudentInfo";
-import useTraining from "../hooks/useTraining";
-import useUserUpcomingTraining from "../features/users/hooks/useUserUpcomingTraining";
-import StudentTrainingListItem from "../components/Student/StudentTrainingListItem";
+import StudentInfo from "../../components/Student/StudentInfo";
+import useTraining from "../../hooks/useTraining";
+import useUserUpcomingTraining from "../../features/users/hooks/useUserUpcomingTraining";
+import StudentTrainingListItem from "../../components/Student/StudentTrainingListItem";
 export default function StudentProfileScreen({ userObject }) {
   const location = useLocation();
   const student = location.state?.student;

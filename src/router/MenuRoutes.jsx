@@ -8,7 +8,7 @@ import { StudentsPage } from "../Screens/Student/StudentPage";
 import EditTrening from "../components/Trening/EditTrening";
 import CreateExercise from "../components/Exercise/CreateExercise";
 import CreateNewTraining from "../components/Trening/CreateTrening";
-import StudentProfileScreen from "../Screens/StudentProfileScreen";
+import StudentProfileScreen from "../Screens/Student/StudentProfileScreen";
 import StudentTrainingsScreen from "../components/Student/StudentTrainingsScreen";
 import StudentNextTraining from "../components/Student/StudentNextTraining";
 import StudentCreateTraining from "../components/Student/StudentCreateTraining";

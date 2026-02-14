@@ -18,4 +18,7 @@ export const exerciseApi = {
   getUserListExerciseOption: async () => {
     return api.get(`exercise/exercise/all`);
   },
+  getMuscles: async () => {
+    return api.get(`exercise/muscles/all`);
+  },
 };

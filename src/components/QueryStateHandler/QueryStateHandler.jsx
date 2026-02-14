@@ -20,16 +20,13 @@ export default function QueryStateHandler({
       </Box>
     );
   }
-
   return (
     <>
       {isError && (
         <SnackbarAlert
           open={true}
           severity="error"
-          message={
-            error?.message || "Wystąpił nieoczekiwany błąd"
-          }
+          message={error?.message || "Wystąpił nieoczekiwany błąd"}
         />
       )}
 
