@@ -11,16 +11,11 @@ export default function SerieRow({
   initialSerie,
   index,
   exerciseId,
-  onSerieChange,
-  onAdjustSerie,
   onRemoveSerie,
 }) {
   const { serie, updateSerieDebounced, adJustSerie } =
     useSerieRow(initialSerie);
-  // if (!initialSerie) return null;
-  console.log("***SERIE***");
-  console.log(serie);
-  console.log(exerciseId);
+
   return (
     <Box
       spacing={2}

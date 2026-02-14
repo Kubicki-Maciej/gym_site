@@ -128,7 +128,6 @@ export default function useTraining() {
   }, []);
 
   const updateExercise = useCallback(async (serieId, data) => {
-    console.log("______________ updateExercise ", serieId, data);
     try {
       setLoading(true);
       const result = await trainingApi.updateExercise(serieId, data);

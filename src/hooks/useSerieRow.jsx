@@ -7,7 +7,6 @@ export default function useSerieRow(initialSerie) {
   const [serie, setSerie] = useState(initialSerie);
   const saveTimeoutRef = useRef(null);
   const { updateExercise } = useTraining();
-  console.log("initial s", initialSerie);
 
   const updateSerieMutation = useMutation({
     mutationFn: ({ serieId, payload }) => updateExercise(serieId, payload),

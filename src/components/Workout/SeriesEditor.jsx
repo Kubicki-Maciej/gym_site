@@ -25,8 +25,6 @@ export default function SeriesEditor({
             initialSerie={serie}
             index={idx}
             exerciseId={exercise.userExerciseId}
-            onSerieChange={onSerieChange}
-            onAdjustSerie={onAdjustSerie}
             onRemoveSerie={onRemoveSerie}
           />
         ))}

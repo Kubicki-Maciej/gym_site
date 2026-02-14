@@ -1,4 +1,3 @@
-// hooks/useUserTraining.js
 import { useCallback } from "react";
 import { workoutApi } from "../api/workoutApi";
 import { exerciseApi } from "../api/exerciseApi";
