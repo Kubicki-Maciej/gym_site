@@ -1,6 +1,7 @@
 // src/hooks/useUserTraining.js
 import { useState, useCallback } from "react";
 import { trainingApi } from "../api/trainingApi";
+import { useMutation } from "@tanstack/react-query";
 
 export default function useTraining() {
   const [loading, setLoading] = useState(false);
@@ -126,10 +127,11 @@ export default function useTraining() {
     }
   }, []);
 
-  const updateExercise = useCallback(async (exerciseId, data) => {
+  const updateExercise = useCallback(async (serieId, data) => {
+    console.log("______________ updateExercise ", serieId, data);
     try {
       setLoading(true);
-      const result = await trainingApi.updateExercise(exerciseId, data);
+      const result = await trainingApi.updateExercise(serieId, data);
       setError(null);
       return result;
     } catch (err) {
@@ -144,7 +146,7 @@ export default function useTraining() {
       try {
         const result = await trainingApi.addExerciseToTraining(
           idUserTraining,
-          idExercise
+          idExercise,
         );
         setError(null);
         return result;
@@ -152,7 +154,7 @@ export default function useTraining() {
         return handleError(err, "Błąd dodawania ćwiczenia do treningu");
       }
     },
-    []
+    [],
   );
 
   const createSingleRep = useCallback(async data => {
@@ -241,7 +243,7 @@ export default function useTraining() {
         const data = await trainingApi.getUserRecentExercise(
           userId,
           exerciseId,
-          currentTrainingId
+          currentTrainingId,
         );
         setError(null);
         return data;
@@ -251,7 +253,7 @@ export default function useTraining() {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   return {

@@ -45,8 +45,13 @@ export const trainingApi = {
     return api.get(`exercise/${exerciseId}`);
   },
 
-  updateExercise: async (exerciseId, data) => {
-    return api.put(`exercise/workout/updateexercise/${exerciseId}`, data);
+  updateExercise: async (serieId, data) => {
+    return api
+      .put(`exercise/workout/updateexercise/${serieId}`, data)
+      .then(res => {
+        console.log("RESPONSE", res);
+        return res;
+      });
   },
 
   addExerciseToTraining: async (idUserTraining, idExercise) => {

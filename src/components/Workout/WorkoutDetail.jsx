@@ -54,7 +54,8 @@ export default function WorkoutDetail() {
     getAllExercises,
     getAllTrainings,
   );
-
+  console.log("training");
+  console.log(training);
   if (loading)
     return (
       <Box
@@ -92,6 +93,7 @@ export default function WorkoutDetail() {
       </Stack>
 
       <ExerciseList
+        trainingDate={training.training_date}
         exercises={exercises}
         onAddExercise={() => setIsAddExerciseOpen(true)}
         onSerieChange={handleSerieChange}
@@ -101,7 +103,6 @@ export default function WorkoutDetail() {
         onDeleteExercise={handleDeleteExercise}
         trainingObject={training}
       />
-
       <AddExerciseDialog
         open={isAddExerciseOpen}
         onClose={() => setIsAddExerciseOpen(false)}
@@ -110,7 +111,6 @@ export default function WorkoutDetail() {
         idUserTraining={id}
         existingExercises={exercises}
       />
-
       <AddTrainingDialog
         open={isAddTrainingOpen}
         onClose={() => setIsAddTrainingOpen(false)}

@@ -22,7 +22,7 @@ export default function SeriesEditor({
         {exercise.exerciseSeries.map((serie, idx) => (
           <SerieRow
             key={serie.id}
-            serie={serie}
+            initialSerie={serie}
             index={idx}
             exerciseId={exercise.userExerciseId}
             onSerieChange={onSerieChange}

@@ -1,13 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { StatusAlertService } from "react-status-alert";
 import useUserTraining from "./useUserTraining";
 import useTraining from "./useTraining";
+import { useMutation } from "@tanstack/react-query";
 
 export default function useWorkoutDetail(
   trainingId,
   getUserDataTraining,
   getAllExercises,
-  getAllTrainings, // Dodaj ten parametr
+  getAllTrainings,
 ) {
   const [training, setTraining] = useState(null);
   const [exercises, setExercises] = useState([]);
@@ -15,16 +16,20 @@ export default function useWorkoutDetail(
   const [error, setError] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [allExercises, setAllExercises] = useState([]);
-  const [allTrainings, setAllTrainings] = useState([]); // Nowy state
+  const [allTrainings, setAllTrainings] = useState([]);
   const [isAddExerciseOpen, setIsAddExerciseOpen] = useState(false);
   const [isAddTrainingOpen, setIsAddTrainingOpen] = useState(false);
+  const saveTimeoutRef = useRef(null);
 
-  const { deleteSingleExercise, updateTraining, createSingleRep } =
-    useTraining();
+  const {
+    deleteSingleExercise,
+    updateTraining,
+    createSingleRep,
+    updateExercise,
+  } = useTraining();
 
   const { deleteSeriesExercise, addTrainingExercises } = useUserTraining();
 
-  // Fetch training data na start
   useEffect(() => {
     const fetchTrainingData = async () => {
       if (!trainingId) {
@@ -73,7 +78,6 @@ export default function useWorkoutDetail(
     fetchTrainingData();
   }, [trainingId, getUserDataTraining]);
 
-  // Fetch all exercises na start
   useEffect(() => {
     const fetchAllExercises = async () => {
       try {
@@ -87,7 +91,6 @@ export default function useWorkoutDetail(
     fetchAllExercises();
   }, [getAllExercises]);
 
-  // Fetch all trainings
   useEffect(() => {
     const fetchAllTrainings = async () => {
       try {
@@ -101,43 +104,93 @@ export default function useWorkoutDetail(
     fetchAllTrainings();
   }, [getAllTrainings]);
 
-  const handleSerieChange = useCallback((exerciseId, serieId, field, value) => {
-    setExercises(prev =>
-      prev.map(ex =>
-        ex.userExerciseId === exerciseId
-          ? {
-              ...ex,
-              exerciseSeries: ex.exerciseSeries.map(serie =>
-                serie.id === serieId ? { ...serie, [field]: value } : serie,
-              ),
-            }
-          : ex,
-      ),
-    );
-  }, []);
+  const updateExerciseMutation = useMutation({
+    mutationFn: ({ serieId, payload }) => updateExercise(serieId, payload),
+    onError: () => {
+      StatusAlertService.showError("❌ Błąd zapisu ćwiczenia");
+    },
+  });
 
-  const handleAdjustSerie = useCallback((exerciseId, serieId, field, delta) => {
-    setExercises(prev =>
-      prev.map(ex =>
-        ex.userExerciseId === exerciseId
-          ? {
-              ...ex,
-              exerciseSeries: ex.exerciseSeries.map(serie =>
-                serie.id === serieId
-                  ? {
-                      ...serie,
-                      [field]: Math.max(0, (serie[field] || 0) + delta),
-                    }
-                  : serie,
-              ),
-            }
-          : ex,
-      ),
-    );
-  }, []);
+  const handleSerieChange = useCallback(
+    (exerciseId, serieId, field, value) => {
+      setExercises(prev =>
+        prev.map(ex =>
+          ex.userExerciseId === exerciseId
+            ? {
+                ...ex,
+                exerciseSeries: ex.exerciseSeries.map(serie =>
+                  serie.id === serieId ? { ...serie, [field]: value } : serie,
+                ),
+              }
+            : ex,
+        ),
+      );
+
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+
+      saveTimeoutRef.current = setTimeout(() => {
+        const payload = {
+          [field]: value,
+        };
+
+        updateExerciseMutation.mutate({
+          serieId,
+          payload,
+        });
+      }, 1200);
+    },
+    [updateExerciseMutation],
+  );
+
+  const handleAdjustSerie = useCallback(
+    (exerciseId, serieId, field, delta, value) => {
+      setExercises(prev =>
+        prev.map(ex =>
+          ex.userExerciseId === exerciseId
+            ? {
+                ...ex,
+                exerciseSeries: ex.exerciseSeries.map(serie =>
+                  serie.id === serieId
+                    ? {
+                        ...serie,
+                        [field]: Math.max(0, (serie[field] || 0) + delta),
+                      }
+                    : serie,
+                ),
+              }
+            : ex,
+        ),
+      );
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+
+      const serie = exercises
+        .find(ex => ex.userExerciseId === exerciseId)
+        ?.exerciseSeries.find(s => s.id === serieId);
+
+      const newValue = Math.max(0, (serie[field] || 0) + delta);
+
+      const payload = {
+        [field]: newValue,
+      };
+
+      console.log("payload");
+      console.log(payload);
+
+      saveTimeoutRef.current = setTimeout(() => {
+        updateExerciseMutation.mutate({
+          serieId,
+          payload,
+        });
+      }, 1200);
+    },
+    [updateExerciseMutation],
+  );
 
   const handleAddSerie = useCallback(
-    // working here
     async exerciseId => {
       const exercise = exercises.find(ex => ex.userExerciseId === exerciseId);
       const last = exercise?.exerciseSeries.at(-1);
@@ -242,7 +295,6 @@ export default function useWorkoutDetail(
     setExercises(prev => [...prev, newExercise]);
   }, []);
 
-  // NOWA FUNKCJA - Dodawanie treningu
   const handleAddTraining = useCallback(
     async selectedTrainingId => {
       setIsSaving(true);
@@ -253,7 +305,6 @@ export default function useWorkoutDetail(
         );
 
         if (result && result.user_exercises) {
-          // Aktualizuj exercises z nowymi ćwiczeniami z treningu
           const newExercises = result.user_exercises.map(userExercise => ({
             id: userExercise.id,
             userExerciseId: userExercise.id,
@@ -264,8 +315,6 @@ export default function useWorkoutDetail(
           }));
 
           setExercises(newExercises);
-
-          // Zaktualizuj training z usedTraining
           setTraining(prev => ({
             ...prev,
             usedTraining: selectedTrainingId,

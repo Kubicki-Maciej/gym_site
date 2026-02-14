@@ -5,15 +5,22 @@ import {
   AddCircleOutline as AddCircleIcon,
   RemoveCircleOutline as RemoveCircleIcon,
 } from "@mui/icons-material";
+import useSerieRow from "hooks/useSerieRow";
 
 export default function SerieRow({
-  serie,
+  initialSerie,
   index,
   exerciseId,
   onSerieChange,
   onAdjustSerie,
   onRemoveSerie,
 }) {
+  const { serie, updateSerieDebounced, adJustSerie } =
+    useSerieRow(initialSerie);
+  // if (!initialSerie) return null;
+  console.log("***SERIE***");
+  console.log(serie);
+  console.log(exerciseId);
   return (
     <Box
       spacing={2}
@@ -49,7 +56,7 @@ export default function SerieRow({
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Box>
-      {/* Powtórzenia */}
+
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box
           sx={{
@@ -62,7 +69,7 @@ export default function SerieRow({
           <Typography variant="caption">Powtórzenia:</Typography>
           <IconButton
             size="small"
-            onClick={() => onAdjustSerie(exerciseId, serie.id, "repeats", -1)}
+            onClick={() => adJustSerie("repeats", -1)}
             sx={{ p: "4px" }}
           >
             <RemoveCircleIcon fontSize="small" />
@@ -70,14 +77,10 @@ export default function SerieRow({
           <TextField
             type="number"
             value={serie.repeats}
-            onChange={e =>
-              onSerieChange(
-                exerciseId,
-                serie.id,
-                "repeats",
-                parseInt(e.target.value) || 0
-              )
-            }
+            onChange={e => {
+              updateSerieDebounced("repeats", parseInt(e.target.value) || 0);
+              console.log("zmiana powtorzen");
+            }}
             sx={{
               width: "70px",
               "& input": { textAlign: "center", p: "4px" },
@@ -86,14 +89,13 @@ export default function SerieRow({
           />
           <IconButton
             size="small"
-            onClick={() => onAdjustSerie(exerciseId, serie.id, "repeats", 1)}
+            onClick={() => adJustSerie("repeats", 1)}
             sx={{ p: "4px" }}
           >
             <AddCircleIcon fontSize="small" />
           </IconButton>
         </Box>
 
-        {/* Waga */}
         <Box
           sx={{
             display: "flex",
@@ -103,24 +105,18 @@ export default function SerieRow({
           }}
         >
           <Typography variant="caption">Waga (kg):</Typography>
-          {/* <IconButton
-            size="small"
-            onClick={() => onAdjustSerie(exerciseId, serie.id, "weight", -0.5)}
-            sx={{ p: "4px" }}
-          >
-            <RemoveCircleIcon fontSize="small" />
-          </IconButton> */}
+
           <TextField
-            // type="number"
             value={serie.weight}
-            onChange={e =>
-              onSerieChange(
+            onChange={e => {
+              updateSerieDebounced("weight", parseFloat(e.target.value) || 0);
+              console.log(
+                "SerieRow onChange",
                 exerciseId,
                 serie.id,
-                "weight",
-                parseFloat(e.target.value) || 0
-              )
-            }
+                e.target.value,
+              );
+            }}
             sx={{
               width: "70px",
               "& input": { textAlign: "center", p: "4px" },
@@ -128,17 +124,8 @@ export default function SerieRow({
             step="0.5"
             size="small"
           />
-          {/* <IconButton
-            size="small"
-            onClick={() => onAdjustSerie(exerciseId, serie.id, "weight", 0.5)}
-            sx={{ p: "4px" }}
-          >
-            <AddCircleIcon fontSize="small" />
-          </IconButton> */}
         </Box>
       </Box>
-
-      {/* Usuń serię */}
     </Box>
   );
 }

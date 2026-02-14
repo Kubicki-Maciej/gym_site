@@ -4,6 +4,7 @@ import { Add as AddIcon } from "@mui/icons-material";
 import ExerciseCard from "./ExerciseCard";
 
 export default function ExerciseList({
+  trainingDate,
   exercises,
   onAddExercise,
   onSerieChange,
@@ -22,7 +23,7 @@ export default function ExerciseList({
         sx={{ mb: 2 }}
       >
         <Typography variant="h5" sx={{ fontWeight: 600 }}>
-          Ćwiczenia ({exercises.length})
+          Trening ({trainingDate}) {/* add user name  */}
         </Typography>
       </Stack>
 
