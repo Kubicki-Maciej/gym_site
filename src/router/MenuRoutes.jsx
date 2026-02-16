@@ -13,6 +13,7 @@ import StudentTrainingsScreen from "../components/Student/StudentTrainingsScreen
 import StudentNextTraining from "../components/Student/StudentNextTraining";
 import StudentCreateTraining from "../components/Student/StudentCreateTraining";
 import StudentProgressScreen from "../Screens/Statistic/StudentProgressScreen";
+import CreateTrainingFromText from "components/Trening/CreateTrainingFromText";
 
 export default function MenuRoutes({ sideBarName }) {
   return (
@@ -33,6 +34,14 @@ export default function MenuRoutes({ sideBarName }) {
           element={
             <ProtectedRoute requireTrainer>
               <EditTrening />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="training/textcreate"
+          element={
+            <ProtectedRoute requireTrainer>
+              <CreateTrainingFromText />
             </ProtectedRoute>
           }
         />
