@@ -58,17 +58,26 @@ export default function UserExerciseStatistics({ userId }) {
 
   const analysis = useExerciseAnalysis(statisticsData?.history ?? []);
 
-  const hasData = statisticsData?.history?.length > 0 && analysis !== null;
+  const chartOneRM = analysis
+    ? {
+        label: "📝 Wykres Serii i 1RM",
+        content: <WeightProgressChart data={analysis.allSets} />,
+      }
+    : {
+        label: "📝 Wykres Serii i 1RM",
+        content: <p></p>,
+      };
 
-  const folderContent = hasData
+  const folderContent = statisticsData
     ? [
         {
           label: "📈 Wykres Postępu",
-          content: <ProgressMaxChart data={statisticsData.history} />,
+          content: <ProgressMaxChart data={statisticsData} />,
         },
+        // chartOneRM,
         {
           label: "📝 Wykres Serii i 1RM",
-          content: <WeightProgressChart data={analysis.allSets} />,
+          content: <WeightProgressChart data={analysis?.allSets} />,
         },
         {
           label: "📝 Historia Serii",
@@ -81,7 +90,6 @@ export default function UserExerciseStatistics({ userId }) {
 
   if (isListLoading) return <p>Ładowanie listy ćwiczeń...</p>;
   if (isListError) return <p>Błąd listy: {listError.message}</p>;
-  // if (analysis == null) return <p>Nie ma danych</p>;
 
   return (
     <div className="space-y-4">
@@ -109,12 +117,9 @@ export default function UserExerciseStatistics({ userId }) {
           {isStatsLoading && <p>Pobieranie danych wykresów...</p>}
           {isStatsError && <p>Błąd statystyk: {statsError.message}</p>}
 
-          {statisticsData && analysis && analysis.allSets?.length > 0 ? (
+          {statisticsData && (
+            //  <FolderTabs tabs={folderContent} />
             <FolderTabsMui tabs={folderContent} />
-          ) : (
-            <Card sx={{ p: 3, textAlign: "center" }}>
-              <p>🚫 Brak danych dla tego ćwiczenia w wybranym zakresie dat.</p>
-            </Card>
           )}
         </>
       ) : (
