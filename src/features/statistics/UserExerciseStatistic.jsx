@@ -58,11 +58,13 @@ export default function UserExerciseStatistics({ userId }) {
 
   const analysis = useExerciseAnalysis(statisticsData?.history ?? []);
 
-  const folderContent = statisticsData
+  const hasData = statisticsData?.history?.length > 0 && analysis !== null;
+
+  const folderContent = hasData
     ? [
         {
           label: "📈 Wykres Postępu",
-          content: <ProgressMaxChart data={statisticsData} />,
+          content: <ProgressMaxChart data={statisticsData.history} />,
         },
         {
           label: "📝 Wykres Serii i 1RM",
@@ -79,6 +81,7 @@ export default function UserExerciseStatistics({ userId }) {
 
   if (isListLoading) return <p>Ładowanie listy ćwiczeń...</p>;
   if (isListError) return <p>Błąd listy: {listError.message}</p>;
+  // if (analysis == null) return <p>Nie ma danych</p>;
 
   return (
     <div className="space-y-4">
@@ -106,9 +109,12 @@ export default function UserExerciseStatistics({ userId }) {
           {isStatsLoading && <p>Pobieranie danych wykresów...</p>}
           {isStatsError && <p>Błąd statystyk: {statsError.message}</p>}
 
-          {statisticsData && (
-            //  <FolderTabs tabs={folderContent} />
+          {statisticsData && analysis && analysis.allSets?.length > 0 ? (
             <FolderTabsMui tabs={folderContent} />
+          ) : (
+            <Card sx={{ p: 3, textAlign: "center" }}>
+              <p>🚫 Brak danych dla tego ćwiczenia w wybranym zakresie dat.</p>
+            </Card>
           )}
         </>
       ) : (
