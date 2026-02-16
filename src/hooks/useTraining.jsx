@@ -255,6 +255,19 @@ export default function useTraining() {
     [],
   );
 
+  const createTrainingFromText = useCallback(async rawInput => {
+    try {
+      setLoading(true);
+      const data = await trainingApi.createTrainingFromText(rawInput);
+      setError(null);
+      return data;
+    } catch (err) {
+      return handleError(err, "Błąd tworzenia treningu");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return {
     loading,
     error,
@@ -276,5 +289,6 @@ export default function useTraining() {
     updateMainTraining,
     getUserTrainingsInDateRange,
     getUserRecentExercise,
+    createTrainingFromText,
   };
 }
