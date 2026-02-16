@@ -93,4 +93,10 @@ export const trainingApi = {
       `exercise/recent_exercise/${exerciseId}/user/${userId}/training/${trainingId}`,
     );
   },
+
+  createTrainingFromText: async rawInput => {
+    return api.post("training/create_training_from_text", {
+      raw_input: rawInput,
+    });
+  },
 };
