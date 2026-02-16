@@ -24,7 +24,6 @@ import {
 import useExerciseAnalysis from "./hooks/useExerciseAnalysis";
 
 export default function UserExerciseStatistics({ userId }) {
-  
   // 1. Stan wybranego ćwiczenia
   const [selectedExercise, setSelectedExercise] = useState(null);
 
@@ -51,29 +50,32 @@ export default function UserExerciseStatistics({ userId }) {
     error: statsError,
   } = useUserExerciseInDateRangeStatistic({
     userId,
-    exerciseId: selectedExercise?.id, 
+    exerciseId: selectedExercise?.id,
     startDate: dateRange.startDate,
     endDate: dateRange.endDate,
-    enabled: !!selectedExercise?.id, 
+    enabled: !!selectedExercise?.id,
   });
 
-  const analysis = useExerciseAnalysis(statisticsData?.history ?? [])
+  const analysis = useExerciseAnalysis(statisticsData?.history ?? []);
 
-    const folderContent = statisticsData ? [
-    {
-      label: "📈 Wykres Postępu",
-      content: <ProgressMaxChart data={statisticsData} />,
-    },
-    {
-      label: "📝 Wykres Serii i 1RM",
-      content: <WeightProgressChart data={analysis.allSets}/>,
-    },
-    {
-      label: "📝 Historia Serii",
-      content: <ListOfStudentExercise listOfExercise={statisticsData.history} />,
-    },
-    
-  ] : [];
+  const folderContent = statisticsData
+    ? [
+        {
+          label: "📈 Wykres Postępu",
+          content: <ProgressMaxChart data={statisticsData} />,
+        },
+        {
+          label: "📝 Wykres Serii i 1RM",
+          content: <WeightProgressChart data={analysis.allSets} />,
+        },
+        {
+          label: "📝 Historia Serii",
+          content: (
+            <ListOfStudentExercise listOfExercise={statisticsData.history} />
+          ),
+        },
+      ]
+    : [];
 
   if (isListLoading) return <p>Ładowanie listy ćwiczeń...</p>;
   if (isListError) return <p>Błąd listy: {listError.message}</p>;
@@ -106,7 +108,7 @@ export default function UserExerciseStatistics({ userId }) {
 
           {statisticsData && (
             //  <FolderTabs tabs={folderContent} />
-             <FolderTabsMui tabs={folderContent} />
+            <FolderTabsMui tabs={folderContent} />
           )}
         </>
       ) : (
