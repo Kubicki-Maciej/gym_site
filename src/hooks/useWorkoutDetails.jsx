@@ -57,6 +57,7 @@ export default function useWorkoutDetail(
           const mappedExercises = trainingData.user_exercises.map(
             userExercise => ({
               id: userExercise.id,
+              exerciseType: userExercise.exercise.exercise_type,
               userExerciseId: userExercise.id,
               exerciseId: userExercise.exercise.id,
               exerciseSeries: userExercise.exercises_series || [],

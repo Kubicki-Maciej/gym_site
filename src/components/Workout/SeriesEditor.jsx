@@ -26,6 +26,7 @@ export default function SeriesEditor({
             index={idx}
             exerciseId={exercise.userExerciseId}
             onRemoveSerie={onRemoveSerie}
+            exerciseType={exercise.exerciseType}
           />
         ))}
       </Stack>

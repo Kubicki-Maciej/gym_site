@@ -12,6 +12,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EditCalendarOutlinedIcon from "@mui/icons-material/EditCalendarOutlined";
 import MovingOutlinedIcon from "@mui/icons-material/MovingOutlined";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
+import StraightenIcon from "@mui/icons-material/Straighten";
 
 export const useSidebarItems = () => {
   const sidebarItems = [
@@ -24,7 +26,7 @@ export const useSidebarItems = () => {
         {
           id: "add-training",
           name: "Dodaj trening",
-          icon: AddIcon,
+          icon: FitnessCenterIcon,
           path: "training/create",
         },
         {
@@ -32,6 +34,12 @@ export const useSidebarItems = () => {
           name: "Edytuj trening",
           icon: EditIcon,
           path: "training/edit",
+        },
+        {
+          id: "text-training",
+          name: "Text trening",
+          icon: TextSnippetIcon,
+          path: "training/textcreate",
         },
         {
           id: "add-exercise",
@@ -71,6 +79,12 @@ export const useSidebarItems = () => {
           name: "Stwórz trening",
           icon: EditCalendarIcon,
           path: "create",
+        },
+        {
+          id: "data-measurement",
+          name: "Wymiary",
+          icon: StraightenIcon,
+          path: "measurement",
         },
         {
           id: "data-student",

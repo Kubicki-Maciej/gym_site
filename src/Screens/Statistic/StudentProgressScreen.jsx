@@ -1,36 +1,38 @@
-import { useUserContext } from '../../components/User/context'
-
-
 // Components
-import UserExerciseStatistics from '../../features/statistics/UserExerciseStatistic'
-import UserMuscleUsage from '../../features/statistics/UserMuscleUsage'
-import ExerciseAnalysis from '../../features/statistics/ExerciseAnalysis'
-
+import UserExerciseStatistics from "../../features/statistics/UserExerciseStatistic";
+import UserMuscleUsage from "../../features/statistics/UserMuscleUsage";
+import ExerciseAnalysis from "../../features/statistics/ExerciseAnalysis";
+import useSelectedUser from "hooks/useSelectedUser";
 
 // Ui
-import FolderTabsMui from '../../components/FolderTabs/TabPanel'
+import FolderTabsMui from "../../components/FolderTabs/TabPanel";
 
-// 
+//
 
 export default function StudentProgressScreen() {
-    const {selectedUser} = useUserContext();
-    const userId = selectedUser?.id
+  const { isLoading, getSelectedUserFromLocalStorage } = useSelectedUser();
+  const userId = getSelectedUserFromLocalStorage();
+  if (isLoading) return <p>Loading...</p>;
 
-    const folderContent = [
+  if (!userId) return <p>nie ma uzytkownika</p>;
+
+  const folderContent = userId
+    ? [
         {
-        label: "📈 Wykresy Postępu w ćwiczeniu",
-        content: <UserExerciseStatistics userId={userId}  />,
-    },
-    // refactor with spider chart create new statistic stats bomb 
-    {
-      label: "📊 Użycie mieśni",
-      content: <UserMuscleUsage userId={userId} />,
-    },
-    ]
+          label: "📈 Wykresy Postępu w ćwiczeniu",
+          content: <UserExerciseStatistics userId={userId} />,
+        },
+        // refactor with spider chart create new statistic stats bomb
+        {
+          label: "📊 Użycie mieśni",
+          content: <UserMuscleUsage userId={userId} />,
+        },
+      ]
+    : [];
 
   return (
     <>
-          <FolderTabsMui tabs={folderContent} />
+      <FolderTabsMui tabs={folderContent} />
     </>
-  )
+  );
 }

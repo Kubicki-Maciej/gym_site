@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import useUserTraining from "../../hooks/useUserTraining";
 import SnackbarAlert from "../Alerts/SnackbarAlert";
 import useSnackbarAlerts from "../../hooks/useSnackbarAlerts";
-import { useUserContext } from "../User/context";
+import useSelectedUser from "hooks/useSelectedUser";
 import { Button } from "@mui/material";
 
 export default function StudentCreateTraining() {
@@ -11,7 +11,7 @@ export default function StudentCreateTraining() {
   const { statusAlert, showAlert, handleCloseAlert } = useSnackbarAlerts();
   const [eventData, setEventData] = useState(null);
   const [trainingData, setTrainingData] = useState(null);
-  const { selectedUser } = useUserContext();
+  const { selectedUser } = useSelectedUser();
 
   const handleTrainingChange = data => {
     setTrainingData(data);
@@ -26,7 +26,7 @@ export default function StudentCreateTraining() {
       return;
     } else {
       const dataToSend = {
-        idUser: selectedUser.id,
+        idUser: selectedUser,
         dates: eventData,
       };
       showAlert("Trening dodany");

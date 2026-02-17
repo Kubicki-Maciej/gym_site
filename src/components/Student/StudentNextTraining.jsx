@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserUpcomingTraining from "../../features/users/hooks/useUserUpcomingTraining";
-import { useUserContext } from "../User/context";
+import useSelectedUser from "hooks/useSelectedUser";
 
 import { CircularProgress, Alert, Box } from "@mui/material";
 
 export default function StudentNextTraining() {
   const navigate = useNavigate();
-  const { selectedUser } = useUserContext();
-  const { loading, trainingList } = useUserUpcomingTraining(selectedUser?.id);
+  const { selectedUser } = useSelectedUser();
+  const { loading, trainingList } = useUserUpcomingTraining(selectedUser);
 
   useEffect(() => {
     if (trainingList && trainingList.length > 0) {

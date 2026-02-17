@@ -1,5 +1,6 @@
 import React from "react";
-import CalendarButton from "../../components/Buttons/CalendarButton";
+import CalendarButton from "features/statistics/Buttons/CalendarButton";
+
 import { Box, IconButton, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";

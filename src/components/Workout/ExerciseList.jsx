@@ -2,8 +2,10 @@ import React from "react";
 import { Box, Stack, Typography, Button, Alert } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import ExerciseCard from "./ExerciseCard";
+import { formatDate } from "utils/scheduleUtils";
 
 export default function ExerciseList({
+  userName,
   trainingDate,
   exercises,
   onAddExercise,
@@ -14,16 +16,15 @@ export default function ExerciseList({
   onDeleteExercise,
   trainingObject,
 }) {
+  console.log("exercises", exercises);
   return (
     <Box>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ mb: 2 }}
-      >
-        <Typography variant="h5" sx={{ fontWeight: 600 }}>
-          Trening ({trainingDate}) {/* add user name  */}
+      <Stack direction="column" alignItems="left" sx={{ mb: 2 }}>
+        <Typography variant="p" sx={{ fontWeight: 400 }}>
+          Trening: {formatDate(trainingDate)}
+        </Typography>
+        <Typography variant="h6" sx={{ fontWeight: 400 }}>
+          Użytkownik: {userName}
         </Typography>
       </Stack>
 

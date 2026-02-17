@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography, Stack } from "@mui/material";
+import { Box, Paper, Typography, Stack } from "@mui/material";
 
 export default function StudentInfo({ studentInfo }) {
   if (!studentInfo) {
@@ -8,43 +8,42 @@ export default function StudentInfo({ studentInfo }) {
       </Typography>
     );
   }
-
-  const { first_name, last_name, email } = studentInfo;
+  const parsed = JSON.parse(studentInfo);
 
   return (
-    <>
+    <Box sx={{ p: 1 }}>
       <Typography variant="h6" gutterBottom>
         Informacje o studencie
       </Typography>
 
       <Stack spacing={1}>
-        {first_name && (
+        {parsed.first_name && (
           <Box>
             <Typography variant="caption" color="text.secondary">
               Imię
             </Typography>
-            <Typography variant="body1">{first_name}</Typography>
+            <Typography variant="body1">{parsed.first_name}</Typography>
           </Box>
         )}
 
-        {last_name && (
+        {parsed.last_name && (
           <Box>
             <Typography variant="caption" color="text.secondary">
               Nazwisko
             </Typography>
-            <Typography variant="body1">{last_name}</Typography>
+            <Typography variant="body1">{parsed.last_name}</Typography>
           </Box>
         )}
 
-        {email && (
+        {parsed.email && (
           <Box>
-            <Typography variant="caption" color="text.secondary">
-              Email
+            <Typography variant="body1" color="text.secondary">
+              Email {parsed.email}
             </Typography>
-            <Typography variant="body1">{email}</Typography>
+            <Typography variant="body1"></Typography>
           </Box>
         )}
       </Stack>
-    </>
+    </Box>
   );
 }

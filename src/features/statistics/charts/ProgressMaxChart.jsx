@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { Button, useMediaQuery, useTheme } from "@mui/material";
 
-import useExerciseAnalysis from "../hooks/useExerciseAnalysis";
+import useExerciseAnalysis from "../../../hooks/useExerciseAnalysis";
 import { useCarousel } from "../../../hooks/useCarousel";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 

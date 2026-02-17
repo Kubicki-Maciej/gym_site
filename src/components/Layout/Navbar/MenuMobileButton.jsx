@@ -6,7 +6,7 @@ import { useSidebarItems } from "../../../hooks/useSidebarItems";
 export default function MenuMobileBottom({ sideBarName }) {
   const { getItemById } = useSidebarItems();
   const navigate = useNavigate();
-  const location = useLocation(); // Do podświetlania aktywnego elementu
+  const location = useLocation();
 
   const currentItem = getItemById(sideBarName);
   const submenu = currentItem?.submenu || [];
@@ -19,24 +19,44 @@ export default function MenuMobileBottom({ sideBarName }) {
         left: 0,
         right: 0,
         zIndex: 1000,
-        // Pokaż na mobile (xs), ukryj od 'md' w górę
         display: { xs: "block", md: "none" },
       }}
       elevation={3}
     >
       <BottomNavigation
         showLabels
-        value={location.pathname} // Podświetlenie na bazie URL
+        value={location.pathname}
         onChange={(event, newValue) => {
           navigate(newValue);
+        }}
+        sx={{
+          // Kluczowe - pozwól na scroll gdy nie mieści się
+          overflowX: "auto",
+          justifyContent: "flex-start",
+
+          // Ukryj scrollbar wizualnie
+          "&::-webkit-scrollbar": { display: "none" },
+          scrollbarWidth: "none",
         }}
       >
         {submenu.map(item => (
           <BottomNavigationAction
             key={item.id}
-            label={item.name}
             value={item.path}
-            icon={<item.icon />} // Zakładam, że icon to komponent Reacta
+            icon={<item.icon />}
+            sx={{
+              // Zmniejsz minimalną szerokość
+              minWidth: "auto",
+              // Równomiernie rozłóż w dostępnej przestrzeni
+              flex: `1 1 ${100 / submenu.length}%`,
+              // Zmniejsz padding
+              px: 0.5,
+
+              // Zmniejsz ikonę jeśli dużo elementów
+              "& .MuiSvgIcon-root": {
+                fontSize: submenu.length > 5 ? "1.2rem" : "1.5rem",
+              },
+            }}
           />
         ))}
       </BottomNavigation>

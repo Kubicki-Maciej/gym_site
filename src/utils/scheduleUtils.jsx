@@ -75,3 +75,14 @@ export function generateDatesFromSelectedDays(selectedDays, cycles) {
   results.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
   return results;
 }
+
+export function formatDate(date) {
+  if (!date) return "";
+  if (typeof date === "string") return date.split("T")[0]; // Jeśli to już ISO string
+
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}

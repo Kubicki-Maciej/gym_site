@@ -52,7 +52,7 @@ export default function WorkoutHeader({
         }}
       >
         <Toolbar sx={{ minHeight: 64 }}>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             sx={{
@@ -69,7 +69,7 @@ export default function WorkoutHeader({
             onClick={onSave}
           >
             <SaveAsIcon sx={{ fontSize: 28 }} />
-          </IconButton>
+          </IconButton> */}
           <Box sx={{ flexGrow: 1 }} />
           <IconButton
             size="large"
@@ -122,7 +122,7 @@ export default function WorkoutHeader({
         }}
       >
         <Toolbar sx={{ minHeight: 64 }}>
-          <Button
+          {/* <Button
             variant="contained"
             color="primary"
             startIcon={<SaveAsIcon />}
@@ -136,7 +136,7 @@ export default function WorkoutHeader({
             }}
           >
             {isSaving ? "Zapisywanie..." : "Zapisz zmiany"}
-          </Button>
+          </Button> */}
 
           <Box sx={{ flex: 1 }} />
 

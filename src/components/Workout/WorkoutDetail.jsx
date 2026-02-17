@@ -54,8 +54,7 @@ export default function WorkoutDetail() {
     getAllExercises,
     getAllTrainings,
   );
-  console.log("training");
-  console.log(training);
+
   if (loading)
     return (
       <Box
@@ -94,6 +93,7 @@ export default function WorkoutDetail() {
 
       <ExerciseList
         trainingDate={training.training_date}
+        userName={training.user_name}
         exercises={exercises}
         onAddExercise={() => setIsAddExerciseOpen(true)}
         onSerieChange={handleSerieChange}
@@ -123,7 +123,6 @@ export default function WorkoutDetail() {
         isSaving={isSaving}
         onAddTraining={() => setIsAddTrainingOpen(true)}
         onAddExercise={() => setIsAddExerciseOpen(true)}
-        onSave={handleSaveChanges}
       />
     </Box>
   );

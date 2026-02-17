@@ -18,4 +18,13 @@ export const statisticApi = {
   getUserAllExerciseName: async userId => {
     return api.get(`training/user/all_exercise/${userId}`);
   },
+
+  getBodyMeasurements: async (userId, startDate, endDate) => {
+    return api.get(
+      `statistics/body-measurements/${userId}/${startDate}/${endDate}`,
+    );
+  },
+  createBodyMeasurement: async (userId, data) => {
+    return api.post(`statistics/body-measurements/${userId}`, data);
+  },
 };

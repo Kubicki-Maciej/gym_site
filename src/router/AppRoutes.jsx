@@ -12,6 +12,7 @@ import MenuScreen from "../components/Menu/MenuScreen";
 import WorkoutDetail from "../components/Workout/WorkoutDetail";
 import { StudentsPage } from "../Screens/Student/StudentPage";
 import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
+import BodyStatsPage from "Screens/Student/BodyStatsPage";
 
 import MenuLayout from "../components/Layout/MenuLayout";
 
@@ -76,6 +77,7 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route path="test/" element={<BodyStatsPage />} />
 
       <Route path="clienttraining/" element={<ClientTrainingScreen />} />
     </Routes>

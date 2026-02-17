@@ -24,6 +24,7 @@ import {
   NavigateNext,
 } from "@mui/icons-material";
 import StudentTrainingListItem from "./StudentTrainingListItem";
+import useSelectedUser from "hooks/useSelectedUser";
 
 function formatDate(date) {
   const year = date.getFullYear();
@@ -38,7 +39,8 @@ function getMonthName(dateString) {
 }
 
 export default function StudentTrainingsScreen({ client = false }) {
-  const { selectedUser, user } = useUserContext();
+  const { selectedUser } = useSelectedUser();
+  const { user } = useUserContext();
   const { loading, error, getUserTrainingsInDateRange } = useTraining();
 
   const theme = useTheme();
@@ -60,12 +62,12 @@ export default function StudentTrainingsScreen({ client = false }) {
       }
       loadTrainings(user.id);
     } else {
-      if (!selectedUser?.id || !startDate || !endDate) {
+      if (!selectedUser || !startDate || !endDate) {
         return;
       }
-      loadTrainings(selectedUser.id);
+      loadTrainings(selectedUser);
     }
-  }, [selectedUser?.id, , startDate, endDate]);
+  }, [selectedUser, , startDate, endDate]);
 
   const loadTrainings = async id => {
     try {

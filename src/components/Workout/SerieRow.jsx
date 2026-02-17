@@ -6,12 +6,17 @@ import {
   RemoveCircleOutline as RemoveCircleIcon,
 } from "@mui/icons-material";
 import useSerieRow from "hooks/useSerieRow";
+import {
+  getExerciseTypeReapetsOrTime,
+  getExerciseTypeWeightOrDistance,
+} from "../../utils/exerciseUtils";
 
 export default function SerieRow({
   initialSerie,
   index,
   exerciseId,
   onRemoveSerie,
+  exerciseType,
 }) {
   const { serie, updateSerieDebounced, adJustSerie } =
     useSerieRow(initialSerie);
@@ -61,7 +66,9 @@ export default function SerieRow({
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="caption">Powtórzenia:</Typography>
+          <Typography variant="caption">
+            {getExerciseTypeReapetsOrTime(exerciseType)}
+          </Typography>
           <IconButton
             size="small"
             onClick={() => adJustSerie("repeats", -1)}
@@ -99,7 +106,9 @@ export default function SerieRow({
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="caption">Waga (kg):</Typography>
+          <Typography variant="caption">
+            {getExerciseTypeWeightOrDistance(exerciseType)}
+          </Typography>
 
           <TextField
             value={serie.weight}

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { statisticApi } from "../api/statisticApi";
+import { statisticApi } from "features/statistics/api/statisticApi";
 
 export function useUserStatistics({ userId, year, month }) {
   return useQuery({

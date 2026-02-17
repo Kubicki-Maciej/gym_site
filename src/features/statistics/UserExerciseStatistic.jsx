@@ -14,14 +14,14 @@ import GroupedWeightChart from "./charts/GroupedWeightChart";
 import WeightProgressChart from "./charts/WeightProgressChart";
 
 // Hooki i Utilsy
+import useUserExerciseInDateRangeStatistic from "hooks/useUserExerciseInDateRangeStatistic";
 import useGetUserAllExerciseName from "../users/hooks/useGetUserAllExerciseName";
-import useUserExerciseInDateRangeStatistic from "./hooks/useUserExerciseInDateRangeStatistic";
 import {
   getFirstDayOfTheCurrentMonthString,
   getLastDayOfCurrentMonthString,
 } from "../../components/Date/DateCurrentMonth";
 
-import useExerciseAnalysis from "./hooks/useExerciseAnalysis";
+import useExerciseAnalysis from "../../hooks/useExerciseAnalysis";
 
 export default function UserExerciseStatistics({ userId }) {
   // 1. Stan wybranego ćwiczenia

@@ -14,6 +14,7 @@ import StudentNextTraining from "../components/Student/StudentNextTraining";
 import StudentCreateTraining from "../components/Student/StudentCreateTraining";
 import StudentProgressScreen from "../Screens/Statistic/StudentProgressScreen";
 import CreateTrainingFromText from "components/Trening/CreateTrainingFromText";
+import BodyStatsPage from "Screens/Student/BodyStatsPage";
 
 export default function MenuRoutes({ sideBarName }) {
   return (
@@ -136,6 +137,14 @@ export default function MenuRoutes({ sideBarName }) {
           element={
             <ProtectedRoute requireTrainer>
               <StudentProgressScreen />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="measurement"
+          element={
+            <ProtectedRoute requireTrainer>
+              <BodyStatsPage />
             </ProtectedRoute>
           }
         />
