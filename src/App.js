@@ -1,5 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Footer from "./components/Layout/Footer/Footer";
 import Section from "./components/Section/Section.jsx";
@@ -7,8 +8,9 @@ import Section from "./components/Section/Section.jsx";
 import { useUserContext } from "./components/User/context.jsx";
 import { NewNavBar } from "./components/Layout/Navbar/NewNavBar.jsx";
 
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const queryClient = new QueryClient();
 
 const theme = createTheme({
   breakpoints: {
@@ -37,7 +39,7 @@ function App() {
   }, []);
 
   return (
-    // <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <div
           className="App"
@@ -61,7 +63,7 @@ function App() {
           <Footer />
         </div>
       </ThemeProvider>
-    // </QueryClientProvider>
+    </QueryClientProvider>
   );
 }
 export default App;
