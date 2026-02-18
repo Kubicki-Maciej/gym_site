@@ -27,7 +27,7 @@ export default function BodyMeasurementSection() {
 
   return (
     <Grid container spacing={2} p={1}>
-      <Grid size={{ xs: 12, sm: 1 }} paddingRight={1}>
+      <Grid size={{ xs: 2, sm: 1 }} paddingRight={1}>
         <MeasurementSelectButtons value={field} onChange={setField} />
         {/* <MeasurementSelect
           value={field}
@@ -35,7 +35,7 @@ export default function BodyMeasurementSection() {
           onChange={e => setField(e.target.value)}
         /> */}
       </Grid>
-      <Grid size={{ xs: 12, sm: 11 }} paddingLeft={4}>
+      <Grid size={{ xs: 10, sm: 11 }} paddingLeft={2}>
         <Typography variant="body1" textAlign="center">
           {field.toUpperCase()}
         </Typography>

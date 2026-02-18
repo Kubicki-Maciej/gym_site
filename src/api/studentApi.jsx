@@ -2,8 +2,8 @@ import api from "./client";
 
 export const studentApi = {
   // Pobierz dostępnych studentów
-  getAvailableStudents: async () => {
-    return api.get("user/users/available_students/");
+  getAvailableStudents: async userId => {
+    return api.get(`user/users/${userId}/available_students/`);
   },
 
   // Pobierz moich studentów

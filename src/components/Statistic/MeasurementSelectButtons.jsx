@@ -28,7 +28,7 @@ export default function MeasurementSelectButtons({ value, onChange }) {
       sx={{
         "& .MuiToggleButton-root": {
           py: 1.5,
-          px: 2,
+          // px: 2,
           justifyContent: "flex-start",
           gap: 1,
         },

@@ -94,6 +94,10 @@ export const trainingApi = {
     );
   },
 
+  checkUserTrainingAccess: async (userId, trainingId) => {
+    return api.get(`training/user_training_access/${userId}/${trainingId}`);
+  },
+
   createTrainingFromText: async rawInput => {
     return api.post("training/create_training_from_text", {
       raw_input: rawInput,

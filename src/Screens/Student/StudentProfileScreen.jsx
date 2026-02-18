@@ -39,7 +39,11 @@ export default function StudentProfileScreen({ userObject }) {
             )}
           </Paper>
         </Box>
-        <BodyMeasurementSection />
+        <Grid container>
+          <Grid size={{ xs: 12, lg: 6 }}>
+            <BodyMeasurementSection />
+          </Grid>
+        </Grid>
       </>
     );
   }

@@ -268,6 +268,25 @@ export default function useTraining() {
     }
   }, []);
 
+  const checkUserTrainingAccess = useCallback(async (userId, trainingId) => {
+    try {
+      setLoading(true);
+      const data = await trainingApi.checkUserTrainingAccess(
+        userId,
+        trainingId,
+      );
+      console.log("data");
+      console.log(data);
+      setError(null);
+      return { has_access: data?.has_access ?? false };
+    } catch (err) {
+      handleError(err, "Błąd w sprawdzeniu użytkownika");
+      return { has_access: false }; // ← Zawsze zwróć obiekt
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return {
     loading,
     error,
@@ -290,5 +309,6 @@ export default function useTraining() {
     getUserTrainingsInDateRange,
     getUserRecentExercise,
     createTrainingFromText,
+    checkUserTrainingAccess,
   };
 }

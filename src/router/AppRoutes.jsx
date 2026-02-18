@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { useUserContext } from "../components/User/context";
 
-import { ProtectedRoute } from "./ProtectedRoute";
+import { ProtectedRoute, ProtectedTrainingRoute } from "./ProtectedRoute";
 
 import LoginPage from "../Screens/Auth/Login/LoginPage";
 import RegisterPage from "../Screens/Auth/Register/RegisterPage";
@@ -48,11 +48,12 @@ export default function AppRoutes() {
       <Route
         path="training/details/:id"
         element={
-          <ProtectedRoute requireTrainer>
+          <ProtectedTrainingRoute requireTrainer>
             <WorkoutDetail />
-          </ProtectedRoute>
+          </ProtectedTrainingRoute>
         }
       ></Route>
+
       <Route
         path="trainingmenu/*"
         element={

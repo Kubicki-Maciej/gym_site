@@ -2,16 +2,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { studentApi } from "../api/studentApi";
 
-export const useStudents = () => {
+export const useStudents = userId => {
   const [myStudents, setMyStudents] = useState([]);
   const [availableStudents, setAvailableStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [storeUserId, setStoreUserId] = useState(userId);
   const fetchMyStudents = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await studentApi.getMyStudents();
+      const data = await studentApi.getMyStudents(storeUserId);
       setMyStudents(data.results || []);
       setError(null);
     } catch (err) {
@@ -25,7 +25,7 @@ export const useStudents = () => {
   const fetchAvailableStudents = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await studentApi.getAvailableStudents();
+      const data = await studentApi.getAvailableStudents(storeUserId);
       setAvailableStudents(data.results || []);
       setError(null);
     } catch (err) {
@@ -90,6 +90,7 @@ export const useStudents = () => {
   );
 
   useEffect(() => {
+    setStoreUserId(userId);
     fetchMyStudents();
     fetchAvailableStudents();
   }, [fetchMyStudents, fetchAvailableStudents]);

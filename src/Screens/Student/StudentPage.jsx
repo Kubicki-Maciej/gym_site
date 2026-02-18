@@ -16,7 +16,7 @@ import { useStudents } from "../../hooks/useStudents";
 import { StudentList } from "../../features/students/components/StudentList";
 import CreateNewStudent from "../../features/students/components/CreateNewStudent";
 import { AvailableStudentsList } from "../../features/students/components/AvailableStudentsList";
-
+import { useUserContext } from "components/User/context";
 function TabPanel({ children, value, index }) {
   return (
     <div hidden={value !== index}>
@@ -27,12 +27,13 @@ function TabPanel({ children, value, index }) {
 
 export const StudentsPage = () => {
   const [tabValue, setTabValue] = useState(0);
-
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
     severity: "success",
   });
+
+  const { user } = useUserContext();
 
   const {
     myStudents,
@@ -42,7 +43,7 @@ export const StudentsPage = () => {
     addStudentToTrainer,
     removeStudentFromTrainer,
     refetch,
-  } = useStudents();
+  } = useStudents(user.id);
 
   const handleAddStudent = async studentId => {
     const result = await addStudentToTrainer(studentId);
