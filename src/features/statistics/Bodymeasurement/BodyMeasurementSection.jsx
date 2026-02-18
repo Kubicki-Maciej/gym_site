@@ -11,7 +11,7 @@ import BodyMeasurementChart from "../charts/BodyMeasurementChart";
 import MeasurementSelect from "components/Statistic/MeasurementSelect";
 import MeasurementSelectButtons from "components/Statistic/MeasurementSelectButtons";
 
-export default function BodyMeasurementSection() {
+export default function BodyMeasurementSection({ userId }) {
   const [field, setField] = useState("waist");
   const [dateRange, setDateRange] = useState({
     startDate: getFirstDayOfTheCurrentMonthString(),
@@ -20,7 +20,7 @@ export default function BodyMeasurementSection() {
 
   const { getSelectedUserFromLocalStorage } = useSelectedUser();
   const { data, loading, error, refetch } = useBodyMeasurements(
-    getSelectedUserFromLocalStorage(),
+    userId,
     dateRange.startDate,
     dateRange.endDate,
   );
@@ -29,11 +29,6 @@ export default function BodyMeasurementSection() {
     <Grid container spacing={2} p={1}>
       <Grid size={{ xs: 2, sm: 1 }} paddingRight={1}>
         <MeasurementSelectButtons value={field} onChange={setField} />
-        {/* <MeasurementSelect
-          value={field}
-          label={"Parametr"}
-          onChange={e => setField(e.target.value)}
-        /> */}
       </Grid>
       <Grid size={{ xs: 10, sm: 11 }} paddingLeft={2}>
         <Typography variant="body1" textAlign="center">

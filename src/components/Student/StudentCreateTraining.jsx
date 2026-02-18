@@ -1,13 +1,13 @@
 import PlanTraining from "../Trening/PlanTraining";
 import { useState, useEffect } from "react";
-import useUserTraining from "../../hooks/useUserTraining";
 import SnackbarAlert from "../Alerts/SnackbarAlert";
 import useSnackbarAlerts from "../../hooks/useSnackbarAlerts";
 import useSelectedUser from "hooks/useSelectedUser";
 import { Button } from "@mui/material";
+import useTraining from "hooks/useTraining";
 
 export default function StudentCreateTraining() {
-  const { createMultipleTrainings, error, loading } = useUserTraining();
+  const { createMultipleTrainings } = useTraining();
   const { statusAlert, showAlert, handleCloseAlert } = useSnackbarAlerts();
   const [eventData, setEventData] = useState(null);
   const [trainingData, setTrainingData] = useState(null);

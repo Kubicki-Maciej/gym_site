@@ -21,7 +21,7 @@ export default function TrainingListItem({ training }) {
   const [expanded, setExpanded] = useState(false);
 
   const trainingDate = new Date(training.training_date).toLocaleDateString(
-    "pl-PL"
+    "pl-PL",
   );
 
   const trainingTime = training.training_date.split("T")[1].slice(0, 5);

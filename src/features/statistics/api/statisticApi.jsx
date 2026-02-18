@@ -27,4 +27,11 @@ export const statisticApi = {
   createBodyMeasurement: async (userId, data) => {
     return api.post(`statistics/body-measurements/${userId}`, data);
   },
+  userBodySummary: async userId => {
+    return api.get(`statistics/user_body_summary/${userId}`);
+  },
+
+  userExercisePorgressCard: async (userId, exerciseId) => {
+    return api.get(`statistics/ user_exercise_progres/${userId}/${exerciseId}`);
+  },
 };
