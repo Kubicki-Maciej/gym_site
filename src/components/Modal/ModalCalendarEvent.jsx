@@ -1,142 +1,198 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
   Button,
-  FormControlLabel,
-  Switch,
-  Box,
   Typography,
+  Stack,
+  Box,
+  IconButton,
+  Divider,
+  Avatar,
 } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { pl } from "date-fns/locale";
-import { formatDate } from "utils/scheduleUtils";
-import StudentSelector from "features/students/components/StudentSelector";
+import {
+  Close as CloseIcon,
+  Person as PersonIcon,
+  AccessTime as TimeIcon,
+  CalendarToday as CalendarIcon,
+  Timer as DurationIcon,
+  Email as EmailIcon,
+} from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
-export default function ModalCalendarEvent({
-  open,
-  onClose,
-  initialDate,
-  onSave,
-}) {
-  const [timeValue, setTimeValue] = useState(null);
-  const [duration, setDuration] = useState(60);
-  const [isOneTime, setIsOneTime] = useState(true);
-  const [repeatCount, setRepeatCount] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [userError, setUserError] = useState(false);
+export default function ModalCalendarEvent({ open, onClose, eventData }) {
+  const naviagte = useNavigate();
+  if (!eventData) return null;
 
-  // ✅ FIX: bez isoToDate
-  useEffect(() => {
-    if (open && initialDate instanceof Date) {
-      setTimeValue(initialDate);
-      setDuration(60);
-      setIsOneTime(true);
-      setRepeatCount("");
-      setSelectedUser(null);
-      setUserError(false);
-    }
-  }, [open, initialDate]);
+  const { id, title, start, end, extendedProps = {} } = eventData;
+  const { userId, duration, email } = extendedProps;
 
-  const handleSave = () => {
-    if (!selectedUser) {
-      setUserError(true);
-      return;
-    }
-    if (!timeValue) return;
+  // Formatowanie daty i czasu
+  const formatDate = dateString => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("pl-PL", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
-    const hours = timeValue.getHours().toString().padStart(2, "0");
-    const minutes = timeValue.getMinutes().toString().padStart(2, "0");
-
-    onSave({
-      date: initialDate, // Date
-      time: `${hours}:${minutes}`,
-      duration,
-      isOneTime,
-      repeatCount: isOneTime ? 0 : Number(repeatCount) || 0,
-      user: selectedUser,
+  const formatTime = dateString => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("pl-PL", {
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} locale={pl}>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>Nowe wydarzenie</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: { borderRadius: 2 },
+      }}
+    >
+      {/* Header */}
+      <DialogTitle
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          pb: 1,
+        }}
+      >
+        <Typography variant="h6" component="div" fontWeight="bold">
+          Szczegóły treningu
+        </Typography>
+        <IconButton onClick={onClose} size="small" aria-label="zamknij">
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
 
-        <DialogContent dividers>
-          {initialDate && (
-            <Box mb={2}>
-              <Typography variant="subtitle2" color="text.secondary">
-                Wybrana data:
+      <Divider />
+
+      {/* Content */}
+      <DialogContent sx={{ pt: 3 }}>
+        <Stack spacing={3}>
+          {/* Użytkownik */}
+          <Box display="flex" alignItems="center" gap={2}>
+            <Avatar sx={{ bgcolor: "primary.main" }}>
+              <PersonIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                Uczestnik
               </Typography>
-              <Typography variant="body1">
-                <strong>{formatDate(initialDate)}</strong>
+              <Typography variant="subtitle1" fontWeight="medium">
+                {title || "Brak nazwy"}
               </Typography>
+            </Box>
+          </Box>
+
+          {/* Data */}
+          <Box display="flex" alignItems="center" gap={2}>
+            <Avatar sx={{ bgcolor: "secondary.main" }}>
+              <CalendarIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                Data
+              </Typography>
+              <Typography variant="subtitle1" fontWeight="medium">
+                {formatDate(start)}
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Godzina */}
+          <Box display="flex" alignItems="center" gap={2}>
+            <Avatar sx={{ bgcolor: "info.main" }}>
+              <TimeIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                Godzina
+              </Typography>
+              <Typography variant="subtitle1" fontWeight="medium">
+                {formatTime(start)} - {formatTime(end)}
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Czas trwania */}
+          {duration && (
+            <Box display="flex" alignItems="center" gap={2}>
+              <Avatar sx={{ bgcolor: "success.main" }}>
+                <DurationIcon />
+              </Avatar>
+              <Box>
+                <Typography variant="body2" color="text.secondary">
+                  Czas trwania
+                </Typography>
+                <Typography variant="subtitle1" fontWeight="medium">
+                  {duration} minut
+                </Typography>
+              </Box>
             </Box>
           )}
 
-          <Box mb={2}>
-            <TimePicker
-              label="Godzina"
-              value={timeValue}
-              onChange={setTimeValue}
-              ampm={false}
-              minutesStep={5}
-              renderInput={params => <TextField {...params} fullWidth />}
-            />
-
-            <TextField
-              label="Czas trwania (min)"
-              type="number"
-              value={duration}
-              onChange={e => setDuration(Number(e.target.value))}
-              fullWidth
-              sx={{ mt: 2 }}
-            />
-          </Box>
-
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isOneTime}
-                onChange={e => setIsOneTime(e.target.checked)}
-              />
-            }
-            label="Jednorazowe wydarzenie"
-          />
-
-          {!isOneTime && (
-            <TextField
-              label="Liczba tygodni"
-              type="number"
-              value={repeatCount}
-              onChange={e => setRepeatCount(e.target.value)}
-              fullWidth
-              sx={{ mt: 2 }}
-            />
+          {/* Email (jeśli dostępny) */}
+          {email && (
+            <Box display="flex" alignItems="center" gap={2}>
+              <Avatar sx={{ bgcolor: "warning.main" }}>
+                <EmailIcon />
+              </Avatar>
+              <Box>
+                <Typography variant="body2" color="text.secondary">
+                  Email
+                </Typography>
+                <Typography variant="subtitle1" fontWeight="medium">
+                  {email}
+                </Typography>
+              </Box>
+            </Box>
           )}
+        </Stack>
+      </DialogContent>
 
-          <Box mt={2}>
-            <StudentSelector
-              setSelectedUser={setSelectedUser}
-              error={userError}
-              onSelect={() => setUserError(false)}
-            />
-          </Box>
-        </DialogContent>
+      <Divider />
 
-        <DialogActions>
-          <Button onClick={onClose}>Anuluj</Button>
-          <Button variant="contained" onClick={handleSave}>
-            Zapisz
+      {/* Actions */}
+      <DialogActions sx={{ p: 2, justifyContent: "space-between" }}>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => {
+            // Tutaj możesz dodać logikę usuwania
+            console.log("Usuń trening:", id);
+          }}
+        >
+          Usuń
+        </Button>
+        <Stack direction="row" spacing={1}>
+          <Button onClick={onClose} variant="outlined" color="inherit">
+            Zamknij
           </Button>
-        </DialogActions>
-      </Dialog>
-    </LocalizationProvider>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              naviagte(`/training/details/${id}`);
+              console.log("Edytuj trening:", id);
+            }}
+          >
+            Przejdź do treningu
+          </Button>
+        </Stack>
+      </DialogActions>
+    </Dialog>
   );
 }

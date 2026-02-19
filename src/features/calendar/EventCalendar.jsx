@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 
-// Style FullCalendar (niezbędne)
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
 
-// MUI Components
 import {
   Box,
   Button,
@@ -25,26 +22,27 @@ import {
   Paper,
 } from "@mui/material";
 
-// MUI Icons
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday"; // Ikona "Dziś"
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
-import ModalCalendarEvent from "components/Modal/ModalCalendarEvent";
+import ModalAddCalendarEvent from "components/Modal/ModalAddCalendarEvent";
+import ModalCalendarEvent from "components/Modal/ModalCalendarEvent"; // ✅ Nowy modal
 
 export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
-  const navigate = useNavigate();
   const calendarRef = useRef(null);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Zastępujemy ręczny listener 'resize' hookiem MUI
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // < 600px
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Stan dla modala dodawania
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [clickedDate, setClickedDate] = useState(null);
-  const [localEvents, setLocalEvents] = useState([]);
 
-  // Stan dla tytułu i aktywnego widoku
+  // ✅ Stan dla modala szczegółów eventu
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const [localEvents, setLocalEvents] = useState([]);
   const [currentTitle, setCurrentTitle] = useState("");
   const [currentView, setCurrentView] = useState(
     isMobile ? "listWeek" : "dayGridMonth",
@@ -79,22 +77,39 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
 
   // --- Obsługa Zdarzeń ---
 
+  // ✅ Kliknięcie w event - otwórz modal ze szczegółami
   const handleEventClick = clickInfo => {
-    const eventId = clickInfo.event.id;
-    navigate(`/training/details/${eventId}`);
+    const event = clickInfo.event;
+
+    // Przygotuj dane eventu
+    const eventData = {
+      id: event.id,
+      title: event.title,
+      start: event.start?.toISOString(),
+      end: event.end?.toISOString(),
+      extendedProps: event.extendedProps || {},
+    };
+
+    setSelectedEvent(eventData);
+    setIsEventModalOpen(true);
   };
 
+  // ✅ Zamknij modal szczegółów
+  const handleCloseEventModal = () => {
+    setIsEventModalOpen(false);
+    setSelectedEvent(null);
+  };
+
+  // Kliknięcie w datę - otwórz modal dodawania
   const handleDateClick = info => {
     setClickedDate(info.date);
-    setIsModalOpen(true);
+    setIsAddModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false);
     setClickedDate(null);
   };
-
-  // --- Helpery ---
 
   function generateEventDates(formData) {
     if (formData.isOneTime) {
@@ -132,6 +147,7 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
         extendedProps: {
           userId: user.id,
           duration: duration,
+          email: user.email,
         },
       },
     ]);
@@ -144,7 +160,7 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
       },
     });
 
-    handleCloseModal();
+    handleCloseAddModal();
   };
 
   const allEvents = useMemo(() => {
@@ -159,7 +175,7 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
         sx={{
           p: 2,
           mb: 2,
-          bgcolor: "background.default", // lub "grey.100"
+          bgcolor: "background.default",
           borderRadius: 2,
           border: "1px solid",
           borderColor: "divider",
@@ -201,7 +217,6 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
             spacing={1}
             flexWrap="wrap"
           >
-            {/* Przycisk "Dziś" */}
             <Button
               variant="outlined"
               size="small"
@@ -212,7 +227,6 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
               Dziś
             </Button>
 
-            {/* Grupa przycisków widoku */}
             <ButtonGroup
               variant="outlined"
               size="small"
@@ -262,10 +276,9 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
       {/* --- KALENDARZ --- */}
       <Box
         sx={{
-          "& .fc": { fontFamily: "inherit" }, // Dziedzicz czcionkę z MUI
+          "& .fc": { fontFamily: "inherit" },
           "& .fc-list-event": { cursor: "pointer" },
           "& .fc-event": { cursor: "pointer" },
-          // Dostosowanie nagłówków dni
           "& .fc-col-header-cell-cushion": {
             color: theme.palette.text.primary,
             textDecoration: "none",
@@ -285,19 +298,17 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
             interactionPlugin,
           ]}
           initialView={isMobile ? "listWeek" : "dayGridMonth"}
-          headerToolbar={false} // Wyłączamy domyślny toolbar
+          headerToolbar={false}
           events={allEvents}
           eventClick={handleEventClick}
           dateClick={handleDateClick}
           datesSet={dateInfo => {
-            // Aktualizacja tytułu przy każdej zmianie (np. drag & drop, zmiana miesiąca)
             setCurrentTitle(dateInfo.view.title);
             setCurrentView(dateInfo.view.type);
           }}
           selectable
           navLinks
           height="auto"
-          // Opcjonalnie: spolszczenie
           locale="pl"
           buttonText={{
             today: "Dziś",
@@ -309,11 +320,19 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
         />
       </Box>
 
-      <ModalCalendarEvent
-        open={isModalOpen}
-        onClose={handleCloseModal}
+      {/* ✅ Modal dodawania eventu */}
+      <ModalAddCalendarEvent
+        open={isAddModalOpen}
+        onClose={handleCloseAddModal}
         initialDate={clickedDate}
         onSave={handleSaveFromModal}
+      />
+
+      {/* ✅ Modal szczegółów eventu */}
+      <ModalCalendarEvent
+        open={isEventModalOpen}
+        onClose={handleCloseEventModal}
+        eventData={selectedEvent}
       />
     </Box>
   );
