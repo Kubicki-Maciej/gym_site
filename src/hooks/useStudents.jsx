@@ -14,17 +14,17 @@ export const useStudents = userId => {
   const myStudentsQuery = useQuery({
     queryKey: QUERY_KEYS.myStudents,
     queryFn: () => studentApi.getMyStudents(),
-    enabled: !!userId, // Tylko gdy userId istnieje
+    enabled: !!userId,
   });
 
   // Pobierz dostępnych studentów
   const availableStudentsQuery = useQuery({
     queryKey: QUERY_KEYS.availableStudents(userId),
     queryFn: () => studentApi.getAvailableStudents(userId),
-    enabled: !!userId, // Tylko gdy userId istnieje
+    enabled: !!userId,
   });
 
-  // Mutacja: Dodaj studenta
+  // Mutacje...
   const addStudentMutation = useMutation({
     mutationFn: studentId => studentApi.addStudent(studentId),
     onSuccess: () => {
@@ -35,7 +35,6 @@ export const useStudents = userId => {
     },
   });
 
-  // Mutacja: Usuń studenta
   const removeStudentMutation = useMutation({
     mutationFn: studentId => studentApi.removeStudent(studentId),
     onSuccess: () => {
@@ -46,7 +45,6 @@ export const useStudents = userId => {
     },
   });
 
-  // Mutacja: Utwórz nowego studenta
   const createStudentMutation = useMutation({
     mutationFn: data => studentApi.createStudent(data),
     onSuccess: () => {
@@ -57,62 +55,78 @@ export const useStudents = userId => {
     },
   });
 
-  // Wrapper dla addStudent z obsługą błędów
+  // Wrappery...
   const addStudentToTrainer = async studentId => {
     try {
       await addStudentMutation.mutateAsync(studentId);
       return { success: true };
     } catch (err) {
-      const errorMsg = err.message || "Błąd przy dodawaniu studenta";
-      return { success: false, error: errorMsg };
+      return {
+        success: false,
+        error: err.message || "Błąd przy dodawaniu studenta",
+      };
     }
   };
 
-  // Wrapper dla removeStudent z obsługą błędów
   const removeStudentFromTrainer = async studentId => {
     try {
       await removeStudentMutation.mutateAsync(studentId);
       return { success: true };
     } catch (err) {
-      const errorMsg = err.message || "Błąd przy usuwaniu studenta";
-      return { success: false, error: errorMsg };
+      return {
+        success: false,
+        error: err.message || "Błąd przy usuwaniu studenta",
+      };
     }
   };
 
-  // Wrapper dla createStudent z obsługą błędów
   const createStudentToTrainer = async (data, onSuccess) => {
     try {
       const result = await createStudentMutation.mutateAsync(data);
-      if (onSuccess) {
-        onSuccess(result);
-      }
+      if (onSuccess) onSuccess(result);
       return result;
     } catch (err) {
-      const errorMsg = err.message || "Błąd przy dodawaniu studenta";
-      return { success: false, error: errorMsg };
+      return {
+        success: false,
+        error: err.message || "Błąd przy dodawaniu studenta",
+      };
     }
   };
 
-  // Określ loading i error
-  const loading = myStudentsQuery.isLoading || availableStudentsQuery.isLoading;
-  const error =
-    myStudentsQuery.error?.message ||
-    availableStudentsQuery.error?.message ||
-    null;
-
   return {
+    // Dane
     myStudents: myStudentsQuery.data?.results || [],
     availableStudents: availableStudentsQuery.data?.results || [],
-    loading,
-    error,
+
+    // ✅ Zwracaj właściwe wartości dla QueryStateHandler
+    isLoading: myStudentsQuery.isLoading || availableStudentsQuery.isLoading,
+    isError: myStudentsQuery.isError || availableStudentsQuery.isError,
+    error: myStudentsQuery.error || availableStudentsQuery.error,
+
+    // Akcje
     addStudentToTrainer,
     removeStudentFromTrainer,
     createStudentToTrainer,
+
     refetch: async () => {
       await queryClient.refetchQueries({ queryKey: QUERY_KEYS.myStudents });
       await queryClient.refetchQueries({
         queryKey: QUERY_KEYS.availableStudents(userId),
       });
     },
+  };
+};
+
+export const useMyStudents = () => {
+  const query = useQuery({
+    queryKey: ["myStudents"],
+    queryFn: () => studentApi.getMyStudents(),
+  });
+
+  return {
+    myStudents: query.data?.results || query.data || [],
+    isLoading: query.isLoading,
+    isError: query.isError,
+    error: query.error,
   };
 };

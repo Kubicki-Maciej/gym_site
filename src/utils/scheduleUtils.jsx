@@ -86,3 +86,40 @@ export function formatDate(date) {
   const day = String(d.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+
+export function getTimeFromISO(isoString) {
+  if (!isoString) return "";
+  const d = new Date(isoString);
+  if (Number.isNaN(d.getTime())) return "";
+
+  const hours = d.getHours().toString().padStart(2, "0");
+  const minutes = d.getMinutes().toString().padStart(2, "0");
+  return `${hours}:${minutes}`;
+}
+
+export function parseISOToDate(isoString) {
+  if (!isoString) return new Date(); // domyślnie "teraz" jeśli brak daty
+
+  const date = new Date(isoString);
+
+  // Sprawdzenie czy data jest poprawna (Invalid Date)
+  if (isNaN(date.getTime())) {
+    const fallback = new Date();
+    fallback.setHours(9, 0, 0, 0);
+    return fallback;
+  }
+
+  return date;
+}
+
+export function getIsoAsDate(isoString) {
+  if (!isoString) return null;
+  const date = new Date(isoString);
+  // Sprawdzenie czy data jest poprawna
+  return isNaN(date.getTime()) ? null : date;
+}
+export function isoToDate(isoString) {
+  if (!isoString) return null;
+  const date = new Date(isoString);
+  return isNaN(date.getTime()) ? null : date;
+}
