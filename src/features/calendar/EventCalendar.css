@@ -1,0 +1,93 @@
+/* EventCalendar.css */
+
+.calendar-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 8px;
+}
+
+/* ===== MOBILNE STYLE ===== */
+@media (max-width: 768px) {
+  /* Zmniejsz header toolbar */
+  .fc .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1rem !important;
+    order: -1;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  /* Mniejsze przyciski */
+  .fc .fc-button {
+    padding: 4px 8px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .fc .fc-button-group {
+    gap: 2px;
+  }
+
+  /* Zmniejsz odstępy */
+  .fc .fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Eventy - kursor pointer */
+  .fc-event {
+    cursor: pointer;
+  }
+
+  /* Lista eventów - lepszy wygląd */
+  .fc .fc-list-event {
+    cursor: pointer;
+  }
+
+  .fc .fc-list-event:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* ===== BARDZO MAŁE EKRANY ===== */
+@media (max-width: 400px) {
+  .fc .fc-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fc .fc-toolbar-chunk {
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+
+  .fc .fc-button {
+    padding: 6px 10px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* ===== OGÓLNE STYLE ===== */
+.fc-event {
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+/* Lepszy wygląd eventów w widoku listy */
+.fc .fc-list-event-title {
+  font-weight: 500;
+}
+
+.fc .fc-list-event-time {
+  font-size: 0.85rem;
+  color: #666;
+}
