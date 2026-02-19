@@ -10,9 +10,10 @@ export function useUserBodySummary(userId) {
   });
 }
 
-export function useUserExerciseProgressCard(userId, exerciseId) {
+export function useUserExerciseProgressCard({userId, exerciseId}) {
+  console.log("useUserExerciseProgressCard", userId, exerciseId);
   return useQuery({
-    queryKey: ["user-exercise-progress-card", userId],
+    queryKey: ["user-exercise-progress-card", userId, exerciseId],
     queryFn: () => statisticApi.userExercisePorgressCard(userId, exerciseId),
     enabled: !!userId && !!exerciseId,
     staleTime: 5 * 60 * 1000,

@@ -32,6 +32,6 @@ export const statisticApi = {
   },
 
   userExercisePorgressCard: async (userId, exerciseId) => {
-    return api.get(`statistics/ user_exercise_progres/${userId}/${exerciseId}`);
+    return api.get(`statistics/user_exercise_progres/${userId}/${exerciseId}`);
   },
 };

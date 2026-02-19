@@ -27,19 +27,21 @@ export default function BodyMeasurementSection({ userId }) {
 
   return (
     <Grid container spacing={2} p={1}>
-      <Grid size={{ xs: 2, sm: 1 }} paddingRight={1}>
-        <MeasurementSelectButtons value={field} onChange={setField} />
-      </Grid>
-      <Grid size={{ xs: 10, sm: 11 }} paddingLeft={2}>
-        <Typography variant="body1" textAlign="center">
-          {field.toUpperCase()}
-        </Typography>
-        <BodyMeasurementChart
-          data={data}
-          field={field}
-          label={`Postęp - ${field}`}
-        />
-      </Grid>
+      <>
+        <Grid size={{ xs: 2, sm: 1 }} paddingRight={1}>
+          <MeasurementSelectButtons value={field} onChange={setField} />
+        </Grid>
+        <Grid size={{ xs: 10, sm: 11 }} paddingLeft={2}>
+          <Typography variant="body1" textAlign="center">
+            {field.toUpperCase()}
+          </Typography>
+          <BodyMeasurementChart
+            data={data}
+            field={field}
+            label={`Postęp - ${field}`}
+          />
+        </Grid>
+      </>
     </Grid>
   );
 }

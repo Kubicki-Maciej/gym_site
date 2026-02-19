@@ -17,8 +17,12 @@ import useSelectedUser from "hooks/useSelectedUser";
 import StudentInfo from "../../components/Student/StudentInfo";
 import useUserUpcomingTraining from "../../features/users/hooks/useUserUpcomingTraining";
 import StudentTrainingListItem from "../../components/Student/StudentTrainingListItem";
+// cards
 import BodyMeasurementSection from "features/statistics/Bodymeasurement/BodyMeasurementSection";
 import BodySummaryCard from "features/statistics/cards/BodySummaryCard";
+import ExerciseSummaryCard from "features/statistics/cards/ExerciseSummaryCard";
+
+
 export default function StudentProfileScreen({ userObject }) {
   const { selectedUser, getObjectUser } = useSelectedUser();
 
@@ -41,7 +45,7 @@ export default function StudentProfileScreen({ userObject }) {
             )}
           </Paper>
         </Box>
-        <Grid container>
+        <Grid container sx={{ alignItems: "stretch" }}>
           <Grid size={{ xs: 12, lg: 9 }}>
             <CardStatisticElement>
               <BodyMeasurementSection userId={userId} />
@@ -50,6 +54,11 @@ export default function StudentProfileScreen({ userObject }) {
           <Grid size={{ xs: 12, lg: 3 }}>
             <CardStatisticElement>
               <BodySummaryCard userId={userId} />
+            </CardStatisticElement>
+          </Grid>
+          <Grid size={{ xs: 12, lg: 6 }}>
+            <CardStatisticElement>
+              <ExerciseSummaryCard userId={userId} />
             </CardStatisticElement>
           </Grid>
         </Grid>
