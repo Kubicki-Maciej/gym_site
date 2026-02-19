@@ -320,7 +320,6 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
         />
       </Box>
 
-      {/* ✅ Modal dodawania eventu */}
       <ModalAddCalendarEvent
         open={isAddModalOpen}
         onClose={handleCloseAddModal}
@@ -328,7 +327,6 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
         onSave={handleSaveFromModal}
       />
 
-      {/* ✅ Modal szczegółów eventu */}
       <ModalCalendarEvent
         open={isEventModalOpen}
         onClose={handleCloseEventModal}
