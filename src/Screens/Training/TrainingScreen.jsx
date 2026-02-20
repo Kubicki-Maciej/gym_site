@@ -6,7 +6,7 @@ import UserAddTraining from "./Forms/UserAddTraining";
 import CreateWorkout from "../../components/Trening/CreateWorkout";
 import UserProfile from "../../features/users/components/UserProfile";
 
-import { Box, Grid, Button, Typography, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 export default function TrainingScreen() {
   return (
     <Box sx={{ display: "flex", height: "100%" }}>

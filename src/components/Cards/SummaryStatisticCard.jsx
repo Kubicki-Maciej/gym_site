@@ -20,7 +20,7 @@ import {
   Scale,
 } from "@mui/icons-material";
 
-// --- Mała karta statystyki ---
+
 const StatCard = ({ icon, label, value, color = "#1976d2", subtitle }) => (
   <Card
     elevation={0}

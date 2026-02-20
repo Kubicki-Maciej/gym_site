@@ -1,5 +1,5 @@
 // src/components/BodyMeasurementControls.jsx
-import { Paper, Grid, TextField, MenuItem } from "@mui/material";
+import { Paper, Grid, TextField } from "@mui/material";
 import { useDateRange } from "features/dateRange/useDateRange";
 import MeasurementSelect from "components/Statistic/MeasurementSelect";
 

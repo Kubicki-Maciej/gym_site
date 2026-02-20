@@ -1,6 +1,4 @@
-import React from "react";
 import { useState, useCallback } from "react";
-// import { exerciseApi } from "../api/exerciseApi";
 import { userApi } from "../api/userApi";
 
 export default function useUser() {

@@ -1,7 +1,6 @@
 // Components
 import UserExerciseStatistics from "../../features/statistics/UserExerciseStatistic";
 import UserMuscleUsage from "../../features/statistics/UserMuscleUsage";
-import ExerciseAnalysis from "../../features/statistics/ExerciseAnalysis";
 import useSelectedUser from "hooks/useSelectedUser";
 
 // Ui

@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  Paper,
-  Typography,
   Stack,
   Button,
   Box,
@@ -11,7 +9,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
 import { useMediaQuery } from "@mui/system";

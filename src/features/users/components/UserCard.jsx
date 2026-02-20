@@ -1,14 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  Avatar,
-  Typography,
-  Box,
-  Chip,
-  Button,
-} from "@mui/material";
+
+import { Card, Avatar, Typography, Box, Chip, Button } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import WeekdayInitialsStrip from "./WeekDayInitialsStrip";
 import useUserUpcomingTraining from "../hooks/useUserUpcomingTraining";

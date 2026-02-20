@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { statisticApi } from "features/statistics/api/statisticApi";
-import { formatDate } from "utils/scheduleUtils";
+
 export const useBodyMeasurements = (userId, startDate, endDate) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);

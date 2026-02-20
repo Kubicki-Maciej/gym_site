@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import EventCalendar from "features/calendar/EventCalendar";
 import {
   useUpcomingTrainerWorkouts,

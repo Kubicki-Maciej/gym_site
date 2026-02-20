@@ -6,13 +6,6 @@ import Searcher from "../Core/Searcher";
 
 import UserList from "../../features/users/components/UserList";
 
-import {
-  Delete as DeleteIcon,
-  Add as AddIcon,
-  AddCircleOutline as AddCircleIcon,
-  RemoveCircleOutline as RemoveCircleIcon,
-} from "@mui/icons-material";
-
 export default function CreateWorkout() {
   const [user, setUser] = useState(null);
   const [training, setTraining] = useState(null);

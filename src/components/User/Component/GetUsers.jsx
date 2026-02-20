@@ -6,9 +6,6 @@ import {
   Alert,
   Box,
 } from "@mui/material";
-import axios from "axios";
-import { API_URL } from "../../../config";
-import api from "../../../api/client";
 
 import { useUserContext } from "../context";
 import useUser from "../../../hooks/useUser";

@@ -1,6 +1,5 @@
 import React from "react";
-import { Box, Stack, Typography, Button } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Box, Stack } from "@mui/material";
 import SerieRow from "./SerieRow";
 
 export default function SeriesEditor({

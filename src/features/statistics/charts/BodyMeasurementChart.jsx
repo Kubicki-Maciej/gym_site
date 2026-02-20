@@ -1,5 +1,3 @@
-// src/components/BodyMeasurementChart.jsx
-import { Paper, Typography, Box } from "@mui/material";
 import {
   LineChart,
   Line,

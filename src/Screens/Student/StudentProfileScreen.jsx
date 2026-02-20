@@ -1,16 +1,4 @@
-import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Stack,
-  Paper,
-  Grid,
-  TextField,
-  MenuItem,
-} from "@mui/material";
+import { Box, Paper, Grid } from "@mui/material";
 import CardStatisticElement from "components/Cards/CardStatisticElement";
 
 import useSelectedUser from "hooks/useSelectedUser";

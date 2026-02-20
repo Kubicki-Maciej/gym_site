@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Typography, Box, TextField, IconButton } from "@mui/material";
+import { Typography, Box, TextField, IconButton } from "@mui/material";
 import {
   Delete as DeleteIcon,
   AddCircleOutline as AddCircleIcon,

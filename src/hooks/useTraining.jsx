@@ -1,7 +1,6 @@
 // src/hooks/useUserTraining.js
 import { useState, useCallback } from "react";
 import { trainingApi } from "../api/trainingApi";
-import { useMutation } from "@tanstack/react-query";
 
 export default function useTraining() {
   const [loading, setLoading] = useState(false);

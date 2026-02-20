@@ -5,10 +5,9 @@ import {
   getFirstDayOfTheCurrentMonthString,
   getLastDayOfCurrentMonthString,
 } from "components/Date/DateCurrentMonth";
-import useSelectedUser from "hooks/useSelectedUser";
 import { useBodyMeasurements } from "hooks/BodyMeasurements/useBodyMeasurements";
 import BodyMeasurementChart from "../charts/BodyMeasurementChart";
-import MeasurementSelect from "components/Statistic/MeasurementSelect";
+
 import MeasurementSelectButtons from "components/Statistic/MeasurementSelectButtons";
 
 export default function BodyMeasurementSection({ userId }) {
@@ -18,7 +17,6 @@ export default function BodyMeasurementSection({ userId }) {
     endDate: getLastDayOfCurrentMonthString(),
   });
 
-  const { getSelectedUserFromLocalStorage } = useSelectedUser();
   const { data, loading, error, refetch } = useBodyMeasurements(
     userId,
     dateRange.startDate,

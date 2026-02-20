@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { Card } from "@mui/material";
 
 // Komponenty UI
 import ExerciseSelector from "../exercise/ExerciseSelector";
 import DateRangePicker from "../dateRange/DateRangePicker";
 import ListOfStudentExercise from "../exercise/ListOfStudentExercise";
-import FolderTabs from "../../components/FolderTabs/FolderTabs";
+
 import FolderTabsMui from "../../components/FolderTabs/TabPanel";
 
 // Wykresy
 import ProgressMaxChart from "./charts/ProgressMaxChart";
-import GroupedWeightChart from "./charts/GroupedWeightChart";
+
 import WeightProgressChart from "./charts/WeightProgressChart";
 
 // Hooki i Utilsy

@@ -1,4 +1,3 @@
-import React from "react";
 import { isThisWeek, format } from "date-fns";
 import { pl } from "date-fns/locale";
 
@@ -13,7 +12,7 @@ export default function useGetLastSevenDayTrainings() {
         formatted_date: format(
           new Date(training.training_date),
           "EEEE, dd MMMM yyyy HH:mm",
-          { locale: pl }
+          { locale: pl },
         ),
       }));
   };
@@ -24,7 +23,7 @@ export default function useGetLastSevenDayTrainings() {
 
     const weekStart = new Date(today);
     weekStart.setDate(
-      today.getDate() - (currentDay === 0 ? 6 : currentDay - 1)
+      today.getDate() - (currentDay === 0 ? 6 : currentDay - 1),
     );
     weekStart.setHours(0, 0, 0, 0);
 
@@ -64,7 +63,7 @@ export default function useGetLastSevenDayTrainings() {
           ? {
               ...trainingForDay,
               formatted_date: new Date(
-                trainingForDay.training_date
+                trainingForDay.training_date,
               ).toLocaleDateString("pl-PL", {
                 weekday: "long",
                 year: "numeric",
@@ -80,7 +79,7 @@ export default function useGetLastSevenDayTrainings() {
 
     return weekMap;
   };
-  
+
   const getTime = dateString =>
     new Date(dateString).toLocaleTimeString("pl-PL", {
       hour: "2-digit",

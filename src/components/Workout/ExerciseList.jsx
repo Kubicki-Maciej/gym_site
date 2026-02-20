@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Stack, Typography, Button, Alert } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Box, Stack, Typography, Alert } from "@mui/material";
+
 import ExerciseCard from "./ExerciseCard";
 import { formatDate } from "utils/scheduleUtils";
 

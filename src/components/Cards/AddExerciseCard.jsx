@@ -4,7 +4,6 @@ import {
   CardContent,
   Button,
   Box,
-  Typography,
   Autocomplete,
   TextField,
 } from "@mui/material";
@@ -17,7 +16,7 @@ export default function AddExerciseCard({
   userSelected,
 }) {
   const [open, setOpen] = useState(false);
-  const [trainingLoaded, setTreningLoaded] = useState(false);
+
   const [allExercises, setAllExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState(null);
 
@@ -25,7 +24,7 @@ export default function AddExerciseCard({
     const fetchExercises = async () => {
       try {
         const res = await axios.get(
-          "http://127.0.0.1:8000/exercise/exercise/all"
+          "http://127.0.0.1:8000/exercise/exercise/all",
         );
         setAllExercises(res.data);
       } catch (err) {
@@ -35,7 +34,7 @@ export default function AddExerciseCard({
     fetchExercises();
   }, []);
   const availableExercises = allExercises.filter(
-    ex => !excludedExercises.some(e => e.id === ex.id)
+    ex => !excludedExercises.some(e => e.id === ex.id),
   );
 
   const handleAdd = () => {

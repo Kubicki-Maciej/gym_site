@@ -9,7 +9,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import StudentButton from "features/statistics/Buttons/StudentButton";
-import { Delete as DeleteIcon } from "@mui/icons-material";
+
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import { FitnessCenter } from "@mui/icons-material";
 

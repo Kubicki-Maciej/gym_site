@@ -5,18 +5,13 @@ import {
   AppBar,
   Toolbar,
   Box,
-  Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
-import { CustomNavButton } from "../../common/navBarButton";
+
 import { MobileNavBar } from "./MobileNavBar";
 import { DesktopNavBar } from "./DesktopNavBar";
 import { styled } from "@mui/material/styles";

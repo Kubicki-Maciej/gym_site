@@ -3,8 +3,6 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import PeopleIcon from "@mui/icons-material/People";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import Groups2Icon from "@mui/icons-material/Groups2";
 import FormatListBulletedAddIcon from "@mui/icons-material/FormatListBulletedAdd";

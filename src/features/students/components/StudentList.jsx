@@ -2,19 +2,12 @@
 import React from "react";
 import {
   List,
-  ListItem,
-  ListItemText,
-  ListItemButton,
-  IconButton,
   Typography,
-  Box,
   Paper,
   CircularProgress,
   Alert,
 } from "@mui/material";
-import { Delete as DeleteIcon } from "@mui/icons-material";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import { FitnessCenter } from "@mui/icons-material";
+
 import SingleStudent from "../../users/components/SingleStudent";
 
 export const StudentList = ({

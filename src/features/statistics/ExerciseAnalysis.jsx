@@ -2,7 +2,7 @@ import useExerciseAnalysis from "../../hooks/useExerciseAnalysis";
 import useUserExerciseInDateRangeStatistic from "hooks/useUserExerciseInDateRangeStatistic";
 import QueryStateHandler from "../../components/QueryStateHandler/QueryStateHandler";
 
-import { BarChart, LineChart, XAxis, YAxis, Bar, Line } from "recharts";
+import { LineChart, XAxis, YAxis, Line } from "recharts";
 import OneRMChart from "./charts/OneRMChart";
 
 export default function ExerciseAnalysis({ userId, exerciseId }) {
