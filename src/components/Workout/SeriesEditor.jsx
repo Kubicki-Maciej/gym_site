@@ -13,12 +13,12 @@ export default function SeriesEditor({
   return (
     <Box
       sx={{
-        p: 1.5,
+        p: 1,
         backgroundColor: "#f5f5f5",
         borderRadius: "8px",
       }}
     >
-      <Stack spacing={2}>
+      <Stack spacing={0.5}>
         {exercise.exerciseSeries.map((serie, idx) => (
           <SerieRow
             key={serie.id}

@@ -4,7 +4,7 @@ export const getExerciseTypeReapetsOrTime = exerciseType => {
     cardio: "Czas w min:",
   };
 
-  return labels[exerciseType] ?? "Nieznany typ ćwiczenia";
+  return labels[exerciseType] ?? "Powtórzenia:";
 };
 
 export const getExerciseTypeWeightOrDistance = exerciseType => {
@@ -13,5 +13,5 @@ export const getExerciseTypeWeightOrDistance = exerciseType => {
     cardio: "Dystans (m):",
   };
 
-  return labels[exerciseType] ?? "Nieznany typ ćwiczenia";
+  return labels[exerciseType] ?? "Waga (kg):";
 };

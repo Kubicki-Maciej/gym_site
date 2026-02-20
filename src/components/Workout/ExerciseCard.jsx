@@ -64,9 +64,10 @@ export default function ExerciseCard({
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+          <Typography variant="h7" sx={{ fontWeight: 600 }}>
             {exercise.name}
           </Typography>
           <IconButton

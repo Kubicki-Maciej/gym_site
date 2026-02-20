@@ -23,9 +23,15 @@ export default function SerieRow({
 
   return (
     <Box
+      component="ExerciseBox"
       spacing={2}
       sx={{
-        p: 1,
+        // p: 1,
+        paddingLeft: 1,
+        paddingRight: 1,
+        paddingTop: 0.5,
+        paddingBottom: 0.5,
+
         backgroundColor: "white",
         borderRadius: "6px",
         border: "1px solid #e0e0e0",
@@ -37,6 +43,7 @@ export default function SerieRow({
       }}
     >
       <Box
+        component="SerieDeleteBox"
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -57,12 +64,16 @@ export default function SerieRow({
         </IconButton>
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <Box
+        component="InputFieldsBox"
+        sx={{ display: "flex", flexDirection: "column" }}
+      >
         <Box
+          component="RepBox"
           sx={{
             display: "flex",
             alignItems: "center",
-            p: 1,
+            p: "6px",
             justifyContent: "space-between",
           }}
         >
@@ -99,10 +110,11 @@ export default function SerieRow({
         </Box>
 
         <Box
+          component="WeightBox"
           sx={{
             display: "flex",
             alignItems: "center",
-            p: 1,
+            p: "6px",
             justifyContent: "space-between",
           }}
         >
