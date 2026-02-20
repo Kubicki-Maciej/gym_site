@@ -5,6 +5,7 @@ export default function ExerciseSelector({
   exercises,
   onSelect,
   muscleDisable,
+  sx,
 }) {
   const [selectedMuscle, setSelectedMuscle] = useState(null);
 
@@ -37,7 +38,7 @@ export default function ExerciseSelector({
   }, [exercises, selectedMuscle]);
 
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
+    <Box display="flex" flexDirection="column" gap={2} sx={{ ...sx }}>
       {/* FILTR PO MIĘŚNIU */}
       {muscleDisable ? (
         ""

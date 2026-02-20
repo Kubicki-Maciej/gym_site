@@ -14,8 +14,9 @@ import WorkoutDetail from "../components/Workout/WorkoutDetail";
 import { StudentsPage } from "../Screens/Student/StudentPage";
 import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
 import BodyStatsPage from "Screens/Student/BodyStatsPage";
-
+import AboutUsArticle from "components/Section/AboutUsArticle";
 import MenuLayout from "../components/Layout/MenuLayout";
+import TestArticle from "components/Section/TestArticle";
 
 export default function AppRoutes() {
   const { logged } = useUserContext();
@@ -23,8 +24,8 @@ export default function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="" element={<Article />}></Route>
-      <Route path="about/*" element={<div>About me</div>}></Route>
+      <Route path="" element={<TestArticle />}></Route>
+      <Route path="about/*" element={<AboutUsArticle />}></Route>
       <Route path="login/*" element={<LoginPage />}></Route>
       <Route path="register/*" element={<RegisterPage />}></Route>
       <Route path="logout/*" element={<LoginPage />}></Route>

@@ -5,6 +5,7 @@ import { useUserExerciseProgressCard } from "hooks/statistic/useCardStatistic";
 import QueryStateHandler from "components/QueryStateHandler/QueryStateHandler";
 import SummaryStatisticCard from "components/Cards/SummaryStatisticCard";
 import { isEmpty } from "utils/utils";
+import { Box } from "@mui/material";
 
 export default function ExerciseSummaryCard({ userId }) {
   console.log("userId");
@@ -25,41 +26,39 @@ export default function ExerciseSummaryCard({ userId }) {
   } = useUserExerciseProgressCard(userId, selectedExercise?.id);
 
   const dataEx = exerciseSummary ?? [];
-  console.log("selectedExercise :", selectedExercise);
-
-  console.log("*******************");
-  console.log("exerciseSummary :", exerciseSummary);
-
   return (
     <QueryStateHandler
       isLoading={isListLoading}
       isError={isListError}
       error={listError}
     >
-      <ExerciseSelector
-        onSelect={setSelectedExercise}
-        exercises={exerciseList}
-        muscleDisable={true}
-      />
+      <Box>
+        <ExerciseSelector
+          onSelect={setSelectedExercise}
+          exercises={exerciseList}
+          muscleDisable={true}
+          sx={{ p: 2 }}
+        />
 
-      {selectedExercise ? (
-        <QueryStateHandler
-          isLoading={isSummaryLoading}
-          isError={isSummaryError}
-          error={summaryError}
-        >
-          {!isEmpty(exerciseSummary) ? (
-            <SummaryStatisticCard data={exerciseSummary} />
-          ) : (
-            <p>ćwiczenie nie ma danych</p>
-          )}
+        {selectedExercise ? (
+          <QueryStateHandler
+            isLoading={isSummaryLoading}
+            isError={isSummaryError}
+            error={summaryError}
+          >
+            {!isEmpty(exerciseSummary) ? (
+              <SummaryStatisticCard data={exerciseSummary} />
+            ) : (
+              <p>ćwiczenie nie ma danych</p>
+            )}
 
-          {/* {JSON.stringify(exerciseSummary, null, 2)}
-           */}
-        </QueryStateHandler>
-      ) : (
-        <p>Prosze wybrać ćwiczenie</p>
-      )}
+            {/* {JSON.stringify(exerciseSummary, null, 2)}
+             */}
+          </QueryStateHandler>
+        ) : (
+          <p>Prosze wybrać ćwiczenie</p>
+        )}
+      </Box>
     </QueryStateHandler>
   );
 }
