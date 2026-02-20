@@ -1,22 +1,13 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Box,
-  Button,
-  Stack,
-  Typography,
-  Grid,
-  Tab,
-  Tabs,
-  Alert,
-  Snackbar,
-} from "@mui/material";
+import { Container, Box, Tab, Tabs, Alert, Snackbar } from "@mui/material";
 import { CenteredRow } from "../../components/Layout/CentredRow";
 import { useStudents } from "../../hooks/useStudents";
 import { StudentList } from "../../features/students/components/StudentList";
 import CreateNewStudent from "../../features/students/components/CreateNewStudent";
 import { AvailableStudentsList } from "../../features/students/components/AvailableStudentsList";
 import { useUserContext } from "components/User/context";
+import BoxLayout from "components/Layout/BoxLayout";
+
 function TabPanel({ children, value, index }) {
   return (
     <div hidden={value !== index}>
@@ -82,7 +73,7 @@ export const StudentsPage = () => {
   const myStudentIds = myStudents.map(s => s.id);
 
   return (
-    <Container>
+    <BoxLayout>
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
@@ -128,6 +119,6 @@ export const StudentsPage = () => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         message={snackbar.message}
       />
-    </Container>
+    </BoxLayout>
   );
 };

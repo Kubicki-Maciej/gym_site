@@ -54,7 +54,6 @@ export default function AppRoutes() {
           </ProtectedTrainingRoute>
         }
       ></Route>
-
       <Route
         path="trainingmenu/*"
         element={

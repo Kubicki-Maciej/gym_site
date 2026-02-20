@@ -27,7 +27,7 @@ export default function ModalAddCalendarEvent({
   const [timeValue, setTimeValue] = useState(null);
   const [duration, setDuration] = useState(60);
   const [isOneTime, setIsOneTime] = useState(true);
-  const [repeatCount, setRepeatCount] = useState("");
+  const [repeatCount, setRepeatCount] = useState(1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [userError, setUserError] = useState(false);
 
@@ -36,7 +36,7 @@ export default function ModalAddCalendarEvent({
       setTimeValue(initialDate);
       setDuration(60);
       setIsOneTime(true);
-      setRepeatCount("");
+      setRepeatCount(1);
       setSelectedUser(null);
       setUserError(false);
     }
@@ -114,8 +114,13 @@ export default function ModalAddCalendarEvent({
               label="Liczba tygodni"
               type="number"
               value={repeatCount}
-              onChange={e => setRepeatCount(e.target.value)}
+              onChange={e =>
+                setRepeatCount(
+                  Math.max(1, Number(e.target.value) || 1).toString(),
+                )
+              }
               fullWidth
+              min="1"
               sx={{ mt: 2 }}
             />
           )}

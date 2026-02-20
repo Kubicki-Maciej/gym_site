@@ -5,6 +5,7 @@ import { StatusAlertService } from "react-status-alert";
 import useUserTraining from "../../hooks/useUserTraining";
 import useWorkoutDetail from "../../hooks/useWorkoutDetails";
 
+import BoxLayout from "components/Layout/BoxLayout";
 import WorkoutHeader from "./WorkoutHeader";
 import ExerciseList from "./ExerciseList";
 import AddExerciseDialog from "./AddExerciseDialog";
@@ -84,7 +85,7 @@ export default function WorkoutDetail() {
     );
 
   return (
-    <Box sx={{ p: 2 }}>
+    <BoxLayout>
       <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
         <Button variant="outlined" color="primary" onClick={handleGoBack}>
           back
@@ -124,6 +125,6 @@ export default function WorkoutDetail() {
         onAddTraining={() => setIsAddTrainingOpen(true)}
         onAddExercise={() => setIsAddExerciseOpen(true)}
       />
-    </Box>
+    </BoxLayout>
   );
 }

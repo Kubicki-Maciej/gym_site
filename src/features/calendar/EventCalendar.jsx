@@ -21,6 +21,7 @@ import {
   useTheme,
   Paper,
 } from "@mui/material";
+import BoxLayout from "components/Layout/BoxLayout";
 
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -168,7 +169,7 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
   }, [dataEvents, localEvents]);
 
   return (
-    <Box sx={{ maxWidth: 900, mx: "auto", p: { xs: 1, md: 2 } }}>
+    <BoxLayout>
       {/* --- CUSTOM TOOLBAR MUI --- */}
       <Paper
         elevation={0}
@@ -332,6 +333,6 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
         onClose={handleCloseEventModal}
         eventData={selectedEvent}
       />
-    </Box>
+    </BoxLayout>
   );
 }
