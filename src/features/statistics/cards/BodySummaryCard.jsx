@@ -4,11 +4,7 @@ import { TrendingUp, TrendingDown } from "@mui/icons-material";
 import QueryStateHandler from "components/QueryStateHandler/QueryStateHandler";
 
 export default function BodySummaryCard({ userId }) {
-  console.log("userId", userId);
   const { data, isLoading, isError, error } = useUserBodySummary(userId);
-  console.log("bodySummary");
-  console.log(data);
-
   const ProgressItem = ({ label, dataKey }) => {
     if (!data?.[dataKey]) return null;
 
@@ -57,4 +53,3 @@ export default function BodySummaryCard({ userId }) {
     </QueryStateHandler>
   );
 }
-

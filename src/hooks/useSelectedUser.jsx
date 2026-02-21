@@ -49,7 +49,6 @@ export default function useSelectedUser() {
   const setSelectedObjectUser = userData => {
     try {
       if (userData) {
-        console.log(userData);
         localStorage.setItem(
           SELECTED_USER_OBJECT_KEY,
           JSON.stringify(userData),

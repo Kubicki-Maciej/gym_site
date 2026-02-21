@@ -8,8 +8,6 @@ import { isEmpty } from "utils/utils";
 import { Box } from "@mui/material";
 
 export default function ExerciseSummaryCard({ userId }) {
-  console.log("userId");
-  console.log(userId);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const {
     data: exerciseList,

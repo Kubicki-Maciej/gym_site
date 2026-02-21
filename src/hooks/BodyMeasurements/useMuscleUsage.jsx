@@ -8,5 +8,7 @@ export default function useMuscleUsage(userId, week) {
   return useQuery({
     queryKey: ["user-muscle-usage", userId, week],
     queryFn: () => statisticApi.getUserMuscleUsageWeek(userId, week),
+    enabled: !!userId && !!week,
+    staleTime: 5 * 60 * 1000,
   });
 }

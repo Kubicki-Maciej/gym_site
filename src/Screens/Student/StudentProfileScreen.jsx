@@ -8,6 +8,7 @@ import StudentTrainingListItem from "../../components/Student/StudentTrainingLis
 // cards
 import BodyMeasurementSection from "features/statistics/Bodymeasurement/BodyMeasurementSection";
 import BodySummaryCard from "features/statistics/cards/BodySummaryCard";
+import MuscleUsageCard from "features/statistics/cards/MuscleUsageCard";
 import ExerciseSummaryCard from "features/statistics/cards/ExerciseSummaryCard";
 
 export default function StudentProfileScreen({ userObject }) {
@@ -35,7 +36,7 @@ export default function StudentProfileScreen({ userObject }) {
         <Grid container sx={{ alignItems: "stretch" }}>
           <Grid size={{ xs: 12, lg: 8 }} sx={{ p: 1 }}>
             <CardStatisticElement>
-              <BodyMeasurementSection userId={userId} />
+              <MuscleUsageCard userId={userId} />
             </CardStatisticElement>
           </Grid>
           <Grid size={{ xs: 12, lg: 4 }} sx={{ p: 1 }}>
