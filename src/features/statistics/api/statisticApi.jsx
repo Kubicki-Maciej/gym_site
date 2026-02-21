@@ -24,6 +24,11 @@ export const statisticApi = {
       `statistics/body-measurements/${userId}/${startDate}/${endDate}`,
     );
   },
+  getUserMuscleUsageWeek: async (userId, week) => {
+    return api.get(
+      `statistics/body-user_muscle_usage_serie_week/${userId}/${week}`,
+    );
+  },
   createBodyMeasurement: async (userId, data) => {
     return api.post(`statistics/body-measurements/${userId}`, data);
   },
