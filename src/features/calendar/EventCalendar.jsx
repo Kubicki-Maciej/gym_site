@@ -95,13 +95,11 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
     setIsEventModalOpen(true);
   };
 
-  // ✅ Zamknij modal szczegółów
   const handleCloseEventModal = () => {
     setIsEventModalOpen(false);
     setSelectedEvent(null);
   };
 
-  // Kliknięcie w datę - otwórz modal dodawania
   const handleDateClick = info => {
     setClickedDate(info.date);
     setIsAddModalOpen(true);
@@ -136,23 +134,6 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
     const startDate = new Date(date);
     const [hours, minutes] = time.split(":");
     startDate.setHours(Number(hours), Number(minutes), 0, 0);
-    const endDate = new Date(startDate.getTime() + duration * 60000);
-
-    setLocalEvents(prev => [
-      ...prev,
-      {
-        id: `local-${Date.now()}`,
-        title: user.last_name || user.email,
-        start: startDate.toISOString(),
-        end: endDate.toISOString(),
-        extendedProps: {
-          userId: user.id,
-          duration: duration,
-          email: user.email,
-        },
-      },
-    ]);
-
     sendDataTo({
       idUser: formData.user.id,
       dates: {
@@ -327,7 +308,6 @@ export default function EventCalendar({ sendDataTo, dataEvents = [] }) {
         initialDate={clickedDate}
         onSave={handleSaveFromModal}
       />
-
       <ModalCalendarEvent
         open={isEventModalOpen}
         onClose={handleCloseEventModal}

@@ -16,6 +16,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { pl } from "date-fns/locale";
 import { formatDate } from "utils/scheduleUtils";
+import { combineDateAndTime } from "utils/timeUtils";
 import StudentSelector from "features/students/components/StudentSelector";
 
 export default function ModalAddCalendarEvent({
@@ -53,7 +54,7 @@ export default function ModalAddCalendarEvent({
     const minutes = timeValue.getMinutes().toString().padStart(2, "0");
 
     onSave({
-      date: initialDate, // Date
+      date: combineDateAndTime(initialDate, hours, minutes),
       time: `${hours}:${minutes}`,
       duration,
       isOneTime,
