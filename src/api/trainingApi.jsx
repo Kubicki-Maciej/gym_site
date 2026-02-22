@@ -49,7 +49,6 @@ export const trainingApi = {
     return api
       .put(`exercise/workout/updateexercise/${serieId}`, data)
       .then(res => {
-        console.log("RESPONSE", res);
         return res;
       });
   },

@@ -50,7 +50,7 @@ export default function ExerciseCard({
   trainingObject,
 }) {
   const [collapsed, setCollapsed] = useState(false);
-  // console.log("exercise", exercise);
+
   const handleToggleCollapse = () => {
     setCollapsed(prev => !prev);
   };

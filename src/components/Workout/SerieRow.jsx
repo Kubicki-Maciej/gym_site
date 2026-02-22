@@ -92,7 +92,6 @@ export default function SerieRow({
             value={serie.repeats}
             onChange={e => {
               updateSerieDebounced("repeats", parseInt(e.target.value) || 0);
-              console.log("zmiana powtorzen");
             }}
             sx={{
               width: "70px",
@@ -126,12 +125,6 @@ export default function SerieRow({
             value={serie.weight}
             onChange={e => {
               updateSerieDebounced("weight", parseFloat(e.target.value) || 0);
-              console.log(
-                "SerieRow onChange",
-                exerciseId,
-                serie.id,
-                e.target.value,
-              );
             }}
             sx={{
               width: "70px",

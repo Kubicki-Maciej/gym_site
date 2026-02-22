@@ -1,12 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-
 import { statisticApi } from "features/statistics/api/statisticApi";
 
-import React from "react";
-
-export default function useMuscleUsage(userId, week) {
+export default function useMuscleUsageInSeries(userId, week) {
   return useQuery({
-    queryKey: ["user-muscle-usage", userId, week],
+    queryKey: ["user-muscle-usage-series", userId, week],
     queryFn: () => statisticApi.getUserMuscleUsageWeek(userId, week),
     enabled: !!userId && !!week,
     staleTime: 5 * 60 * 1000,

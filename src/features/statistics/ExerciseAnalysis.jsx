@@ -17,7 +17,6 @@ export default function ExerciseAnalysis({ userId, exerciseId }) {
     startDate: "2026-01-01",
     endDate: "2026-02-25",
   });
-  console.log("Exercise analysis");
 
   const analysis = useExerciseAnalysis(statisticsData?.history ?? []);
 

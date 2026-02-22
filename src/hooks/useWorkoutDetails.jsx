@@ -178,9 +178,6 @@ export default function useWorkoutDetail(
         [field]: newValue,
       };
 
-      console.log("payload");
-      console.log(payload);
-
       saveTimeoutRef.current = setTimeout(() => {
         updateExerciseMutation.mutate({
           serieId,

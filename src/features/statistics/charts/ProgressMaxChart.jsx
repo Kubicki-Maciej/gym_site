@@ -16,7 +16,6 @@ import { useCarousel } from "../../../hooks/useCarousel";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 export default function ProgressMaxChart({ data }) {
-  console.log("data", data);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 

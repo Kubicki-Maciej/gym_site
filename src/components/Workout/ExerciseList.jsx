@@ -16,7 +16,6 @@ export default function ExerciseList({
   onDeleteExercise,
   trainingObject,
 }) {
-  console.log("exercises", exercises);
   return (
     <Box>
       <Stack direction="column" alignItems="left" sx={{ mb: 2 }}>

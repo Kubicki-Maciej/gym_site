@@ -107,11 +107,13 @@ export default function EditTrening() {
       //   "Exercise groups IDs:",
       //   exercises.map(ex => ex.id)
       // );
-      await updateMainTraining({
+      const dataToSend = {
         trainingId: trainingId,
         description: trainingComment,
         exercise_groups: exercises.map(ex => ex.id),
-      });
+      };
+
+      await updateMainTraining(dataToSend);
       showAlert("Trening zaktualizowany pomyślnie!", "success");
       resetForm();
     } catch (err) {

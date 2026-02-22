@@ -11,7 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import StudentSeriesCard from "./StudentSeriesCard";
 
-export default function StudentExerciseItem({ exercise }) {
+export default function StudentExerciseItem({ exercise, showName = false }) {
   const [expandedSeries, setExpandedSeries] = useState(false);
   const seriesCount =
     exercise.exercises_series?.length || exercise.sets?.length || 0;
@@ -39,11 +39,14 @@ export default function StudentExerciseItem({ exercise }) {
         }}
       >
         <Box sx={{ flex: 1 }}>
+          <Typography variant="subtitle2">{exercise.date || ""}</Typography>
           <Typography variant="subtitle2" sx={{ fontWeight: "bold", mb: 0.5 }}>
-            {exercise.date ||
-              exercise.name ||
-              exercise.exercise_name ||
-              "Nieznane ćwiczenie"}
+            {showName
+              ? exercise.name || exercise.exercise_name
+              : exercise.date ||
+                exercise.name ||
+                exercise.exercise_name ||
+                "Nieznane ćwiczenie"}
           </Typography>
 
           {seriesCount > 0 && (

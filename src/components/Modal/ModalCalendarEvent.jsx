@@ -172,7 +172,6 @@ export default function ModalCalendarEvent({ open, onClose, eventData }) {
           color="error"
           onClick={() => {
             // Tutaj możesz dodać logikę usuwania
-            console.log("Usuń trening:", id);
           }}
         >
           Usuń
@@ -186,7 +185,6 @@ export default function ModalCalendarEvent({ open, onClose, eventData }) {
             color="primary"
             onClick={() => {
               naviagte(`/training/details/${id}`);
-              console.log("Edytuj trening:", id);
             }}
           >
             Przejdź do treningu

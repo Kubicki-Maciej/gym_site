@@ -274,8 +274,7 @@ export default function useTraining() {
         userId,
         trainingId,
       );
-      console.log("data");
-      console.log(data);
+
       setError(null);
       return { has_access: data?.has_access ?? false };
     } catch (err) {

@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 import UserAddTraining from "../Screens/Training/Forms/UserAddTraining";
-import CreateWorkout from "../components/Trening/CreateWorkout";
 import UserProfile from "../features/users/components/UserProfile";
 import { StudentsPage } from "../Screens/Student/StudentPage";
 import EditTrening from "../components/Trening/EditTrening";
@@ -64,14 +63,7 @@ export default function MenuRoutes({ sideBarName }) {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="workout/create"
-          element={
-            <ProtectedRoute requireTrainer>
-              <CreateWorkout />
-            </ProtectedRoute>
-          }
-        />
+
         <Route
           path="students"
           element={
