@@ -6,8 +6,6 @@ import { ProtectedRoute, ProtectedTrainingRoute } from "./ProtectedRoute";
 import LoginPage from "../Screens/Auth/Login/LoginPage";
 import RegisterPage from "../Screens/Auth/Register/RegisterPage";
 
-import TrainingScreen from "../Screens/Training/TrainingScreen";
-
 import TrainerCalendar from "Screens/Calendar/TrainerCalendar";
 
 import WorkoutDetail from "../components/Workout/WorkoutDetail";
@@ -31,14 +29,6 @@ export default function AppRoutes() {
       <Route path="logout/*" element={<LoginPage />}></Route>
 
       <Route path="/403" element={<Forbidden />} />
-      <Route
-        path="training/*"
-        element={
-          <ProtectedRoute requireTrainer>
-            <TrainingScreen />
-          </ProtectedRoute>
-        }
-      ></Route>
       <Route
         path="schedule/"
         element={

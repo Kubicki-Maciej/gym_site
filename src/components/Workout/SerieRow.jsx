@@ -1,5 +1,12 @@
 import React from "react";
-import { Typography, Box, TextField, IconButton } from "@mui/material";
+import {
+  Typography,
+  Box,
+  TextField,
+  IconButton,
+  Checkbox,
+  Tooltip,
+} from "@mui/material";
 import {
   Delete as DeleteIcon,
   AddCircleOutline as AddCircleIcon,
@@ -11,6 +18,7 @@ import {
   getExerciseTypeWeightOrDistance,
 } from "../../utils/exerciseUtils";
 
+// pojedyńcza seria
 export default function SerieRow({
   initialSerie,
   index,
@@ -21,23 +29,22 @@ export default function SerieRow({
   const { serie, updateSerieDebounced, adJustSerie } =
     useSerieRow(initialSerie);
 
+  console.log(initialSerie);
+
   return (
     <Box
       component="ExerciseBox"
       spacing={2}
       sx={{
-        // p: 1,
         paddingLeft: 1,
         paddingRight: 1,
         paddingTop: 0.5,
         paddingBottom: 0.5,
-
-        backgroundColor: "white",
+        backgroundColor: serie.warm_up ? "#fff3e0" : "white",
         borderRadius: "6px",
-        border: "1px solid #e0e0e0",
+        border: serie.warm_up ? "1px solid #ffb74d" : "1px solid #e0e0e0",
         display: "flex",
         flexDirection: "row",
-
         justifyContent: "space-between",
         height: "100%",
       }}
@@ -52,9 +59,28 @@ export default function SerieRow({
           alignItems: "flex-start",
         }}
       >
-        <Typography variant="caption" sx={{ fontWeight: 600 }}>
-          Seria {index + 1}
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="caption" sx={{ fontWeight: 600 }}>
+            {serie.warm_up ? "Rozgrzewka" : `Seria ${index + 1}`}
+          </Typography>
+          <Tooltip title="Seria rozgrzewkowa" placement="top">
+            <Checkbox
+              checked={serie.warm_up || false}
+              onChange={e => {
+                updateSerieDebounced("warm_up", e.target.checked);
+              }}
+              size="small"
+              sx={{
+                p: "2px",
+                ml: 0.5,
+                color: "#ff9800",
+                "&.Mui-checked": {
+                  color: "#ff9800",
+                },
+              }}
+            />
+          </Tooltip>
+        </Box>
         <IconButton
           color="error"
           size="small"
