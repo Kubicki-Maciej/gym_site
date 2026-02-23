@@ -5,6 +5,7 @@ import useSnackbarAlerts from "../../hooks/useSnackbarAlerts";
 import useSelectedUser from "hooks/useSelectedUser";
 import { Button } from "@mui/material";
 import useTraining from "hooks/useTraining";
+import BoxLayout from "components/Layout/BoxLayout";
 
 export default function StudentCreateTraining() {
   const { createMultipleTrainings } = useTraining();
@@ -35,7 +36,7 @@ export default function StudentCreateTraining() {
   }
 
   return (
-    <>
+    <BoxLayout>
       <PlanTraining
         userSelected={true}
         onTrainingChange={handleTrainingChange}
@@ -48,6 +49,6 @@ export default function StudentCreateTraining() {
         statusAlert={statusAlert.severity}
         message={statusAlert.message}
       />
-    </>
+    </BoxLayout>
   );
 }

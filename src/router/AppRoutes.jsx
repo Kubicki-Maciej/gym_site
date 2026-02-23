@@ -69,7 +69,6 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route path="test/" element={<BodyStatsPage />} />
 
       <Route path="clienttraining/" element={<ClientTrainingScreen />} />
     </Routes>

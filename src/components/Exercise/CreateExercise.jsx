@@ -1,3 +1,4 @@
+import BoxLayout from "components/Layout/BoxLayout";
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -137,193 +138,199 @@ export default function CreateExercise() {
   };
 
   return (
-    <Container maxWidth="sm" disableGutters={isMobile} className="BAARRK">
-      <Box
-        sx={{
-          width: "100%",
-          // px: isMobile ? 2 : 3,
-          // py: isMobile ? 2 : 4,
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-        }}
+    <BoxLayout>
+      <Container
+        maxWidth="sm"
+        disableGutters={isMobile}
+        className="Edit/Create_exercise"
       >
-        <Stack spacing={3} sx={{ width: "100%" }}>
-          {/* Nagłówek */}
-          <Typography
-            variant={isMobile ? "h6" : "h5"}
-            fontWeight={700}
-            sx={{
-              fontSize: isMobile ? "1.25rem" : "1.5rem",
-              mb: 1,
-            }}
-          >
-            Dodaj nowe ćwiczenie
-          </Typography>
-
-          {/* Wyszukiwanie istniejącego ćwiczenia */}
-          <Box>
+        <Box
+          sx={{
+            width: "100%",
+            // px: isMobile ? 2 : 3,
+            // py: isMobile ? 2 : 4,
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Stack spacing={3} sx={{ width: "100%" }}>
+            {/* Nagłówek */}
             <Typography
-              variant="subtitle2"
+              variant={isMobile ? "h6" : "h5"}
+              fontWeight={700}
               sx={{
-                mb: 1.5,
-                color: "text.secondary",
-                fontSize: isMobile ? "0.875rem" : "1rem",
+                fontSize: isMobile ? "1.25rem" : "1.5rem",
+                mb: 1,
               }}
             >
-              Lub załaduj istniejące:
+              Dodaj nowe ćwiczenie
             </Typography>
-            <Searcher
-              dataOutput={getExerciseFromSearcher}
-              labelName="Szukaj ćwiczenia"
-              apiAdress="exercise/exercise/all"
-              disabled={loading}
-            />
-            <Box
-              sx={{
-                width: "100%",
-                height: "1px",
-                backgroundColor: "#e0e0e0",
-                mt: 2,
-              }}
-            />
-          </Box>
 
-          {/* Nazwa ćwiczenia */}
-          <TextField
-            label="Nazwa ćwiczenia"
-            value={exerciseName}
-            onChange={e => setExerciseName(e.target.value)}
-            fullWidth
-            required
-            disabled={loading}
-            placeholder="np. Wyciskanie sztangi leżąc"
-            size="small"
-            variant="outlined"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                fontSize: isMobile ? "0.875rem" : "1rem",
-              },
-            }}
-          />
-
-          {/* Opis ćwiczenia */}
-          <TextField
-            label="Opis ćwiczenia"
-            value={exerciseDescription}
-            onChange={e => setExerciseDescription(e.target.value)}
-            fullWidth
-            multiline
-            minRows={isMobile ? 2 : 3}
-            disabled={loading}
-            helperText="Opcjonalnie opisz sprzęt, pozycję, itp."
-            placeholder="np. Leż na ławce, weź sztangę na wysokości klatki piersiowej..."
-            size="small"
-            variant="outlined"
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                fontSize: isMobile ? "0.875rem" : "1rem",
-              },
-            }}
-          />
-
-          {/* Grupy mięśniowe */}
-          <Autocomplete
-            multiple
-            onChange={handleMuscleGroupsChange}
-            options={muscleGroupOptions}
-            getOptionLabel={option => option.name || ""}
-            value={muscleGroups}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            disabled={loading}
-            size="small"
-            renderInput={params => (
-              <TextField
-                {...params}
-                label="Rodzaj partii mięśniowe"
-                variant="outlined"
-                placeholder="Wybierz grupy mięśniowe..."
-                required
+            {/* Wyszukiwanie istniejącego ćwiczenia */}
+            <Box>
+              <Typography
+                variant="subtitle2"
                 sx={{
-                  "& .MuiOutlinedInput-root": {
-                    fontSize: isMobile ? "0.875rem" : "1rem",
-                  },
+                  mb: 1.5,
+                  color: "text.secondary",
+                  fontSize: isMobile ? "0.875rem" : "1rem",
+                }}
+              >
+                Lub załaduj istniejące:
+              </Typography>
+              <Searcher
+                dataOutput={getExerciseFromSearcher}
+                labelName="Szukaj ćwiczenia"
+                apiAdress="exercise/exercise/all"
+                disabled={loading}
+              />
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "1px",
+                  backgroundColor: "#e0e0e0",
+                  mt: 2,
                 }}
               />
-            )}
-            componentsProps={{
-              paper: {
-                sx: {
-                  maxHeight: 200,
-                },
-              },
-            }}
-          />
+            </Box>
 
-          {/* Przyciski akcji */}
-          <Stack
-            direction={isMobile ? "column" : "row"}
-            spacing={1}
-            sx={{ mt: 2 }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleCreateNewExercise}
-              disabled={loading}
+            {/* Nazwa ćwiczenia */}
+            <TextField
+              label="Nazwa ćwiczenia"
+              value={exerciseName}
+              onChange={e => setExerciseName(e.target.value)}
               fullWidth
+              required
+              disabled={loading}
+              placeholder="np. Wyciskanie sztangi leżąc"
+              size="small"
+              variant="outlined"
               sx={{
-                py: isMobile ? 1.25 : 1,
-                fontSize: isMobile ? "0.875rem" : "1rem",
-                fontWeight: 600,
-                position: "relative",
-                minHeight: 40,
+                "& .MuiOutlinedInput-root": {
+                  fontSize: isMobile ? "0.875rem" : "1rem",
+                },
               }}
-            >
-              {loading ? (
-                <>
-                  <CircularProgress
-                    size={18}
-                    sx={{
-                      position: "absolute",
-                      color: "inherit",
-                    }}
-                  />
-                  <span style={{ visibility: "hidden" }}>Zapisz</span>
-                </>
-              ) : (
-                "Zapisz ćwiczenie"
-              )}
-            </Button>
+            />
 
-            {exerciseObject && (
+            {/* Opis ćwiczenia */}
+            <TextField
+              label="Opis ćwiczenia"
+              value={exerciseDescription}
+              onChange={e => setExerciseDescription(e.target.value)}
+              fullWidth
+              multiline
+              minRows={isMobile ? 2 : 3}
+              disabled={loading}
+              helperText="Opcjonalnie opisz sprzęt, pozycję, itp."
+              placeholder="np. Leż na ławce, weź sztangę na wysokości klatki piersiowej..."
+              size="small"
+              variant="outlined"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  fontSize: isMobile ? "0.875rem" : "1rem",
+                },
+              }}
+            />
+
+            {/* Grupy mięśniowe */}
+            <Autocomplete
+              multiple
+              onChange={handleMuscleGroupsChange}
+              options={muscleGroupOptions}
+              getOptionLabel={option => option.name || ""}
+              value={muscleGroups}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              disabled={loading}
+              size="small"
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  label="Rodzaj partii mięśniowe"
+                  variant="outlined"
+                  placeholder="Wybierz grupy mięśniowe..."
+                  required
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      fontSize: isMobile ? "0.875rem" : "1rem",
+                    },
+                  }}
+                />
+              )}
+              componentsProps={{
+                paper: {
+                  sx: {
+                    maxHeight: 200,
+                  },
+                },
+              }}
+            />
+
+            {/* Przyciski akcji */}
+            <Stack
+              direction={isMobile ? "column" : "row"}
+              spacing={1}
+              sx={{ mt: 2 }}
+            >
               <Button
-                variant="outlined"
-                color="error"
-                onClick={resetForm}
+                variant="contained"
+                color="primary"
+                onClick={handleCreateNewExercise}
                 disabled={loading}
-                fullWidth={isMobile}
+                fullWidth
                 sx={{
                   py: isMobile ? 1.25 : 1,
                   fontSize: isMobile ? "0.875rem" : "1rem",
                   fontWeight: 600,
+                  position: "relative",
                   minHeight: 40,
                 }}
               >
-                Wyczyść
+                {loading ? (
+                  <>
+                    <CircularProgress
+                      size={18}
+                      sx={{
+                        position: "absolute",
+                        color: "inherit",
+                      }}
+                    />
+                    <span style={{ visibility: "hidden" }}>Zapisz</span>
+                  </>
+                ) : (
+                  "Zapisz ćwiczenie"
+                )}
               </Button>
-            )}
-          </Stack>
-        </Stack>
-      </Box>
 
-      <SnackbarAlert
-        open={statusAlert.open}
-        onClose={handleCloseAlert}
-        severity={statusAlert.severity}
-        message={statusAlert.message}
-        autoHideDuration={statusAlert.autoHideDuration}
-      />
-    </Container>
+              {exerciseObject && (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={resetForm}
+                  disabled={loading}
+                  fullWidth={isMobile}
+                  sx={{
+                    py: isMobile ? 1.25 : 1,
+                    fontSize: isMobile ? "0.875rem" : "1rem",
+                    fontWeight: 600,
+                    minHeight: 40,
+                  }}
+                >
+                  Wyczyść
+                </Button>
+              )}
+            </Stack>
+          </Stack>
+        </Box>
+
+        <SnackbarAlert
+          open={statusAlert.open}
+          onClose={handleCloseAlert}
+          severity={statusAlert.severity}
+          message={statusAlert.message}
+          autoHideDuration={statusAlert.autoHideDuration}
+        />
+      </Container>
+    </BoxLayout>
   );
 }

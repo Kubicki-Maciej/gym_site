@@ -54,7 +54,7 @@ export default function ExerciseSummaryCard({ userId }) {
              */}
           </QueryStateHandler>
         ) : (
-          <p>Prosze wybrać ćwiczenie</p>
+          ""
         )}
       </Box>
     </QueryStateHandler>

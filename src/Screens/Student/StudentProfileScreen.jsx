@@ -44,7 +44,7 @@ export default function StudentProfileScreen({ userObject }) {
               <BodySummaryCard userId={userId} />
             </CardStatisticElement>
           </Grid>
-          <Grid size={{ xs: 12, lg: 9 }} sx={{ p: 1 }}>
+          <Grid size={{ xs: 12, lg: 12 }} sx={{ p: 1 }}>
             <CardStatisticElement>
               <ExerciseSummaryCard userId={userId} />
             </CardStatisticElement>
