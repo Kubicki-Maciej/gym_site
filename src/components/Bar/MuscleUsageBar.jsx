@@ -32,13 +32,13 @@ const colorsListty = [
   "#ed6c02",
   "#e65100",
   "#e65100",
-  "#e65100",
+  "#e60000",
 ];
 
 const MuscleUsageBar = ({
   label = "Legenda",
-  minLabel = "Min",
-  maxLabel = "Max",
+  minLabel = "1",
+  maxLabel = "30+",
 }) => {
   const uniqueColors = [...new Set(colorsListty)];
 
