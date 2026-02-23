@@ -6,11 +6,8 @@ import MuscleVisualizer from "features/muscleBody/MuscleVisualizer";
 
 export default function MuscleUsageCard({ userId }) {
   const [warmUp, setWarmUp] = useState(0);
-  const { isLoading, isError, error, data } = useMuscleUsageInSeries(
-    userId,
-    1,
-    warmUp,
-  );
+  const { isLoading, isError, error, data, isFetching } =
+    useMuscleUsageInSeries(userId, 1, warmUp);
 
   return (
     <QueryStateHandler isLoading={isLoading} isError={isError} error={error}>
@@ -21,6 +18,7 @@ export default function MuscleUsageCard({ userId }) {
             warmUp={warmUp}
             onWarmUpChange={setWarmUp}
           />
+          {isFetching && <small>Ładowanie...</small>}
         </Box>
       ) : (
         "Brak ćwiczeń"

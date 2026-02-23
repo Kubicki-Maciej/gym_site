@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { statisticApi } from "features/statistics/api/statisticApi";
 
 export default function useMuscleUsageInSeries(userId, week, warmUp) {
@@ -7,5 +7,6 @@ export default function useMuscleUsageInSeries(userId, week, warmUp) {
     queryFn: () => statisticApi.getUserMuscleUsageWeek(userId, week, warmUp),
     enabled: !!userId && !!week,
     staleTime: 5 * 60 * 1000,
+    placeholderData: keepPreviousData,
   });
 }
