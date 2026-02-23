@@ -5,7 +5,7 @@ import { useState } from "react";
 import MuscleVisualizer from "features/muscleBody/MuscleVisualizer";
 
 export default function MuscleUsageCard({ userId }) {
-  const [warmUp, setWarmUp] = useState(false);
+  const [warmUp, setWarmUp] = useState(0);
   const { isLoading, isError, error, data } = useMuscleUsageInSeries(
     userId,
     1,
