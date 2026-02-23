@@ -22,8 +22,8 @@ export const useNavItems = () => {
   } else {
     return [
       { label: "Home", href: "" },
-      { label: "About", href: "about/" },
-      { label: "Contact", href: "#contact" },
+      { label: "O nas", href: "about/" },
+      // { label: "Contact", href: "#contact" },
     ];
   }
 };

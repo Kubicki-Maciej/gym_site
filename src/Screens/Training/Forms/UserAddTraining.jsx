@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import useUserTraining from "../../../hooks/useUserTraining";
 import SnackbarAlert from "../../../components/Alerts/SnackbarAlert";
 import useSnackbarAlerts from "../../../hooks/useSnackbarAlerts";
+import BoxLayout from "components/Layout/BoxLayout";
 
 // TrainingScheduleConfigurator
 export default function UserAddTraining() {

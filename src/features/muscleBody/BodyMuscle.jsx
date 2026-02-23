@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Model from "react-body-highlighter";
 import ModalMuscle from "components/Modal/ModalMuscle";
+import ColorLegendBar from "components/Bar/MuscleUsageBar";
 
 const colorsListty = [
   "#90caf9",

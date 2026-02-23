@@ -59,8 +59,6 @@ function App() {
           >
             <Section />
           </div>
-
-          <Footer />
         </div>
       </ThemeProvider>
     </QueryClientProvider>

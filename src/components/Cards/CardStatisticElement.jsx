@@ -9,6 +9,9 @@ export default function CardStatisticElement({ children }) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        border: "none",
+        outline: "none",
+        boxShadow: "none",
         // alignItems: "center",
       }}
     >
