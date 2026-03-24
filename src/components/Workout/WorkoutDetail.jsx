@@ -54,6 +54,7 @@ export default function WorkoutDetail() {
     getAllExercises,
     getAllTrainings,
   );
+  console.log("training uzytkownika", training);
 
   if (loading)
     return (

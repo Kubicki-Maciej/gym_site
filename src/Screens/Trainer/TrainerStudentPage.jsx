@@ -7,6 +7,7 @@ import CreateNewStudent from "../../features/students/components/CreateNewStuden
 import { AvailableStudentsList } from "../../features/students/components/AvailableStudentsList";
 import { useUserContext } from "components/User/context";
 import BoxLayout from "components/Layout/BoxLayout";
+import AddStudentByCode from "features/students/AddStudentByCode";
 
 function TabPanel({ children, value, index }) {
   return (
@@ -16,7 +17,7 @@ function TabPanel({ children, value, index }) {
   );
 }
 
-export const StudentsPage = () => {
+export const TrainerStudentPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -90,6 +91,7 @@ export const StudentsPage = () => {
         <Tab label={`Moi studenci (${myStudents.length})`} />
         <Tab label={"Dodaj studenta"} />
         <Tab label={`Dostępni do dodania (${availableStudents.length})`} />
+        <Tab label={`Dodaj z kodu`} />
       </Tabs>
 
       <TabPanel value={tabValue} index={0}>
@@ -112,6 +114,10 @@ export const StudentsPage = () => {
           myStudentIds={myStudentIds}
         />
       </TabPanel>
+      <TabPanel value={tabValue} index={3}>
+        <AddStudentByCode />
+      </TabPanel>
+
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}

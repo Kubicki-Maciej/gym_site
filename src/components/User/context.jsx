@@ -1,54 +1,3 @@
-/**
- * UserContext - przechowuje informacje o zalogowanym użytkowniku
- *
- * Struktura contextu:
- * {
- *   logged: boolean - czy użytkownik jest zalogowany
- *   user: object - dane zalogowanego użytkownika (id, email, imię, itd.)
- *   login: function - funkcja do zalogowania użytkownika
- *   logout: function - funkcja do wylogowania użytkownika
- *   updateUser: function - funkcja do aktualizacji danych użytkownika
- * }
- */
-
-/**
- * UserProvider - komponent dostawcy contextu
- * Zarządza stanem zalogowanego użytkownika
- *
- * JAK UŻYWAĆ:
- * 1. Otwórz plik App.js lub main.jsx
- * 2. Opakuj aplikację (lub Router) w UserProvider:
- *    <UserProvider>
- *      <App />
- *    </UserProvider>
- *
- * 3. W dowolnym komponencie użyj hook'a useUserContext():
- *    import { useUserContext } from './path/to/context.jsx'
- *
- *    function MyComponent() {
- *      const { logged, user, login, logout, updateUser } = useUserContext();
- *
- *      // Sprawdzenie czy użytkownik jest zalogowany
- *      if (logged) {
- *        ('Zalogowany użytkownik:', user);
- *      }
- *
- *      // Zalogowanie użytkownika
- *      const handleLogin = (userData) => {
- *        login(userData);
- *      };
- *
- *      // Wylogowanie
- *      const handleLogout = () => {
- *        logout();
- *      };
- *
- *      // Aktualizacja danych użytkownika
- *      const handleUpdateUser = (updatedData) => {
- *        updateUser(updatedData);
- *      };
- *    }
- */ // src/context/UserContext.jsx
 import { createContext, useContext, useState, useEffect } from "react";
 
 export const UserContext = createContext({
@@ -70,6 +19,8 @@ export function UserProvider({ children }) {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  console.log("--USER--");
+  console.log(user);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -98,6 +49,13 @@ export function UserProvider({ children }) {
     localStorage.setItem("token", access);
     localStorage.setItem("refresh", refresh);
     localStorage.setItem("user", JSON.stringify(userData));
+    if (!userData?.is_user_trainer) {
+      localStorage.setItem("selectedObjectUser", JSON.stringify(userData));
+      localStorage.setItem("selectedUser", JSON.stringify(userData.id));
+    } else {
+      localStorage.setItem("selectedObjectUser", []);
+      localStorage.setItem("selectedUser", 0);
+    }
 
     setAccessToken(access);
     setRefreshToken(refresh);

@@ -3,7 +3,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 
 import UserAddTraining from "../Screens/Training/Forms/UserAddTraining";
 import UserProfile from "../features/users/components/UserProfile";
-import { StudentsPage } from "../Screens/Student/StudentPage";
+import { TrainerStudentPage } from "../Screens/Trainer/TrainerStudentPage";
 import EditTrening from "../components/Trening/EditTrening";
 import CreateExercise from "../components/Exercise/CreateExercise";
 import CreateNewTraining from "../components/Trening/CreateTrening";
@@ -68,7 +68,7 @@ export default function MenuRoutes({ sideBarName }) {
           path="students"
           element={
             <ProtectedRoute requireTrainer>
-              <StudentsPage />
+              <TrainerStudentPage />
             </ProtectedRoute>
           }
         />
@@ -78,7 +78,7 @@ export default function MenuRoutes({ sideBarName }) {
             path=""
             element={
               <ProtectedRoute requireTrainer>
-                <StudentsPage />
+                <TrainerStudentPage />
               </ProtectedRoute>
             }
           />
@@ -140,6 +140,7 @@ export default function MenuRoutes({ sideBarName }) {
             </ProtectedRoute>
           }
         />
+        
       </Routes>
     </>
   );

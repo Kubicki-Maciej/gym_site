@@ -29,6 +29,11 @@ export const statisticApi = {
       `statistics/user_muscle_usage_serie_week/${userId}/${week}/${warmUp}`,
     );
   },
+  getUserMuscleUsageInTraining: async (userId, trainingId, warmUp) => {
+    return api.get(
+      `statistics/user_muscle_usage_in_training/${userId}/training/${trainingId}/muscle-usage/${warmUp}/`,
+    );
+  },
   createBodyMeasurement: async (userId, data) => {
     return api.post(`statistics/body-measurements/${userId}`, data);
   },

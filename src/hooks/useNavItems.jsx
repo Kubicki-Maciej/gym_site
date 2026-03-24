@@ -6,7 +6,6 @@ export const useNavItems = () => {
   if (logged) {
     if (user?.is_user_trainer) {
       return [
-        // { label: "Strona Startowa", href: "/" },
         { label: "Treningi", href: "/trainingmenu" },
         { label: "Moi Klienci", href: "/clientsmenu" },
         { label: "Kalendarz", href: "/schedule" },
@@ -14,16 +13,16 @@ export const useNavItems = () => {
       ];
     } else {
       return [
-        { label: "trainings", href: "/clienttraining" },
-        { label: "user1", href: "/" },
-        { label: "user2", href: "/" },
+        { label: "Treningi", href: "/clienttraining" },
+        { label: "Fitapp", href: "/fitapp" },
+        { label: "Wymiary", href: "" },
+        { label: "Ustawienia", href: "/settings" },
       ];
     }
   } else {
     return [
       { label: "Home", href: "" },
       { label: "O nas", href: "about/" },
-      // { label: "Contact", href: "#contact" },
     ];
   }
 };

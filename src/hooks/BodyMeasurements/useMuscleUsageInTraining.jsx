@@ -1,27 +1,27 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { statisticApi } from "features/statistics/api/statisticApi";
 
-export default function useMuscleUsageInSeries(
+export default function useMuscleUsageInTraining(
   userId,
-  week,
+  trainingId,
   warmUp,
   options = {},
 ) {
   const { enabled = true } = options;
 
   return useQuery({
-    queryKey: ["user-muscle-usage-series", userId, week, warmUp],
+    queryKey: ["user-muscle-usage-training", userId, trainingId, warmUp],
     queryFn: async () => {
-      const data = await statisticApi.getUserMuscleUsageWeek(
+      const data = await statisticApi.getUserMuscleUsageInTraining(
         userId,
-        week,
+        trainingId,
         warmUp,
       );
       return (
         data?.filter(item => item.eng_name !== null && item.name !== null) || []
       );
     },
-    enabled: !!userId && !!week && enabled, // dodane 'enabled' z options
+    enabled: !!userId && !!trainingId && enabled,
     staleTime: 5 * 60 * 1000,
     placeholderData: keepPreviousData,
   });

@@ -13,13 +13,11 @@ import ExerciseSummaryCard from "features/statistics/cards/ExerciseSummaryCard";
 
 export default function StudentProfileScreen({ userObject }) {
   const { selectedUser, getObjectUser } = useSelectedUser();
-
-  // const { selectedUser } = useUserContext();
-
   const { loading, error, trainingList } =
     useUserUpcomingTraining(selectedUser);
   const { getSelectedUserFromLocalStorage } = useSelectedUser();
   const userId = getSelectedUserFromLocalStorage();
+
   if (selectedUser) {
     return (
       <>

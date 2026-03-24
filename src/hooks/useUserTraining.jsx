@@ -6,7 +6,7 @@ export default function useUserTraining() {
   const getUserDataTraining = useCallback(async trainingId => {
     try {
       const data = await workoutApi.getUserTraining(trainingId);
-      console.log("DATA Z TRENINGU ", data);
+      // console.log("DATA Z TRENINGU ", data);
       return data;
     } catch (error) {
       console.error("Error fetching training:", error);

@@ -9,12 +9,13 @@ import RegisterPage from "../Screens/Auth/Register/RegisterPage";
 import TrainerCalendar from "Screens/Calendar/TrainerCalendar";
 
 import WorkoutDetail from "../components/Workout/WorkoutDetail";
-import { StudentsPage } from "../Screens/Student/StudentPage";
+import { TrainerStudentPage } from "../Screens/Trainer/TrainerStudentPage";
 import ClientTrainingScreen from "../Screens/Client/ClientTrainingScreen";
 import BodyStatsPage from "Screens/Student/BodyStatsPage";
 import AboutUsArticle from "components/Section/AboutUsArticle";
 import MenuLayout from "../components/Layout/MenuLayout";
 import TestArticle from "components/Section/TestArticle";
+import CreateStudentCodePage from "Screens/Student/CreateStudentCodePage";
 
 export default function AppRoutes() {
   const { logged } = useUserContext();
@@ -57,7 +58,7 @@ export default function AppRoutes() {
         path="clientsmenu/*"
         element={
           <ProtectedRoute requireTrainer>
-            <StudentsPage />
+            <TrainerStudentPage />
           </ProtectedRoute>
         }
       />
@@ -71,6 +72,8 @@ export default function AppRoutes() {
       />
 
       <Route path="clienttraining/" element={<ClientTrainingScreen />} />
+      <Route path="settings" element={<CreateStudentCodePage />} />
+      <Route path="fitapp" element={<BodyStatsPage />} />
     </Routes>
   );
 }
