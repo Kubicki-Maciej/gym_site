@@ -15,7 +15,8 @@ import BodyStatsPage from "Screens/Student/BodyStatsPage";
 import AboutUsArticle from "components/Section/AboutUsArticle";
 import MenuLayout from "../components/Layout/MenuLayout";
 import TestArticle from "components/Section/TestArticle";
-import CreateStudentCodePage from "Screens/Student/CreateStudentCodePage";
+
+import UserSettingsScreen from "Screens/Settings/UserSettingsScreen";
 
 export default function AppRoutes() {
   const { logged } = useUserContext();
@@ -72,7 +73,7 @@ export default function AppRoutes() {
       />
 
       <Route path="clienttraining/" element={<ClientTrainingScreen />} />
-      <Route path="settings" element={<CreateStudentCodePage />} />
+      <Route path="settings" element={<UserSettingsScreen />} />
       <Route path="fitapp" element={<BodyStatsPage />} />
     </Routes>
   );
