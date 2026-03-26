@@ -1,3 +1,4 @@
+// SerieRow.jsx
 import React from "react";
 import {
   Typography,
@@ -18,23 +19,27 @@ import {
   getExerciseTypeWeightOrDistance,
 } from "../../utils/exerciseUtils";
 
-// pojedyńcza seria
 export default function SerieRow({
   initialSerie,
   index,
   exerciseId,
   onRemoveSerie,
   exerciseType,
+  onSerieUpdate,
 }) {
-  const { serie, updateSerieDebounced, adJustSerie } =
-    useSerieRow(initialSerie);
-
-  console.log(initialSerie);
+  const { serie, updateSerieDebounced, adJustSerie } = useSerieRow(
+    initialSerie,
+    // Wrapper który dodaje exerciseId
+    (serieId, payload) => {
+      if (onSerieUpdate) {
+        onSerieUpdate(exerciseId, serieId, payload);
+      }
+    },
+  );
 
   return (
     <Box
-      component="ExerciseBox"
-      spacing={2}
+      component="div"
       sx={{
         paddingLeft: 1,
         paddingRight: 1,
@@ -50,7 +55,6 @@ export default function SerieRow({
       }}
     >
       <Box
-        component="SerieDeleteBox"
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -90,12 +94,8 @@ export default function SerieRow({
         </IconButton>
       </Box>
 
-      <Box
-        component="InputFieldsBox"
-        sx={{ display: "flex", flexDirection: "column" }}
-      >
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box
-          component="RepBox"
           sx={{
             display: "flex",
             alignItems: "center",
@@ -135,7 +135,6 @@ export default function SerieRow({
         </Box>
 
         <Box
-          component="WeightBox"
           sx={{
             display: "flex",
             alignItems: "center",
@@ -146,7 +145,6 @@ export default function SerieRow({
           <Typography variant="caption">
             {getExerciseTypeWeightOrDistance(exerciseType)}
           </Typography>
-
           <TextField
             value={serie.weight}
             onChange={e => {

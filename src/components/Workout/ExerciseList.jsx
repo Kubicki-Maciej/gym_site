@@ -15,6 +15,7 @@ export default function ExerciseList({
   onRemoveSerie,
   onDeleteExercise,
   trainingObject,
+  onSerieUpdate,
 }) {
   return (
     <Box>
@@ -41,6 +42,7 @@ export default function ExerciseList({
               onRemoveSerie={onRemoveSerie}
               onDeleteExercise={onDeleteExercise}
               trainingObject={trainingObject}
+              onSerieUpdate={onSerieUpdate}
             />
           ))}
         </Stack>

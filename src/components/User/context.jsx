@@ -19,8 +19,6 @@ export function UserProvider({ children }) {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log("--USER--");
-  console.log(user);
 
   useEffect(() => {
     const token = localStorage.getItem("token");

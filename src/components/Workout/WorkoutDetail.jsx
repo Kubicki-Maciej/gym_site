@@ -48,13 +48,13 @@ export default function WorkoutDetail() {
     handleSaveChanges,
     setIsAddExerciseOpen,
     setIsAddTrainingOpen,
+    handleSerieUpdate,
   } = useWorkoutDetail(
     id,
     getUserDataTraining,
     getAllExercises,
     getAllTrainings,
   );
-  console.log("training uzytkownika", training);
 
   if (loading)
     return (
@@ -103,6 +103,7 @@ export default function WorkoutDetail() {
         onRemoveSerie={handleRemoveSerie}
         onDeleteExercise={handleDeleteExercise}
         trainingObject={training}
+        onSerieUpdate={handleSerieUpdate}
       />
       <AddExerciseDialog
         open={isAddExerciseOpen}

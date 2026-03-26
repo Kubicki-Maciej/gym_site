@@ -1,3 +1,4 @@
+// useWorkoutDetails.js
 import { useState, useEffect, useCallback, useRef } from "react";
 import { StatusAlertService } from "react-status-alert";
 import useUserTraining from "./useUserTraining";
@@ -29,6 +30,38 @@ export default function useWorkoutDetail(
   } = useTraining();
 
   const { deleteSeriesExercise, addTrainingExercises } = useUserTraining();
+
+  const syncTrainingWithExercises = useCallback(updatedExercises => {
+    setTraining(prevTraining => {
+      if (!prevTraining) return prevTraining;
+
+      return {
+        ...prevTraining,
+        user_exercises: prevTraining.user_exercises
+          .map(userEx => {
+            const updatedEx = updatedExercises.find(
+              ex => ex.userExerciseId === userEx.id,
+            );
+
+            if (updatedEx) {
+              return {
+                ...userEx,
+                exercises_series: updatedEx.exerciseSeries.map(serie => ({
+                  id: serie.id,
+                  repeats: serie.repeats,
+                  weight: serie.weight,
+                  warm_up: serie.warm_up, // ✅ Dodane warm_up
+                })),
+              };
+            }
+            return userEx;
+          })
+          .filter(userEx =>
+            updatedExercises.some(ex => ex.userExerciseId === userEx.id),
+          ),
+      };
+    });
+  }, []);
 
   useEffect(() => {
     const fetchTrainingData = async () => {
@@ -114,8 +147,8 @@ export default function useWorkoutDetail(
 
   const handleSerieChange = useCallback(
     (exerciseId, serieId, field, value) => {
-      setExercises(prev =>
-        prev.map(ex =>
+      setExercises(prev => {
+        const updated = prev.map(ex =>
           ex.userExerciseId === exerciseId
             ? {
                 ...ex,
@@ -124,31 +157,30 @@ export default function useWorkoutDetail(
                 ),
               }
             : ex,
-        ),
-      );
+        );
+
+        // ✅ Synchronizuj training (włącznie z warm_up)
+        syncTrainingWithExercises(updated);
+
+        return updated;
+      });
 
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
 
       saveTimeoutRef.current = setTimeout(() => {
-        const payload = {
-          [field]: value,
-        };
-
-        updateExerciseMutation.mutate({
-          serieId,
-          payload,
-        });
+        const payload = { [field]: value };
+        updateExerciseMutation.mutate({ serieId, payload });
       }, 1200);
     },
-    [updateExerciseMutation],
+    [updateExerciseMutation, syncTrainingWithExercises],
   );
 
   const handleAdjustSerie = useCallback(
     (exerciseId, serieId, field, delta, value) => {
-      setExercises(prev =>
-        prev.map(ex =>
+      setExercises(prev => {
+        const updated = prev.map(ex =>
           ex.userExerciseId === exerciseId
             ? {
                 ...ex,
@@ -162,8 +194,13 @@ export default function useWorkoutDetail(
                 ),
               }
             : ex,
-        ),
-      );
+        );
+
+        syncTrainingWithExercises(updated);
+
+        return updated;
+      });
+
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
@@ -173,19 +210,13 @@ export default function useWorkoutDetail(
         ?.exerciseSeries.find(s => s.id === serieId);
 
       const newValue = Math.max(0, (serie[field] || 0) + delta);
-
-      const payload = {
-        [field]: newValue,
-      };
+      const payload = { [field]: newValue };
 
       saveTimeoutRef.current = setTimeout(() => {
-        updateExerciseMutation.mutate({
-          serieId,
-          payload,
-        });
+        updateExerciseMutation.mutate({ serieId, payload });
       }, 1200);
     },
-    [updateExerciseMutation],
+    [updateExerciseMutation, exercises, syncTrainingWithExercises],
   );
 
   const handleAddSerie = useCallback(
@@ -201,14 +232,16 @@ export default function useWorkoutDetail(
 
       try {
         const returnedRep = await createSingleRep(payload);
-        setExercises(prev =>
-          prev.map(ex => {
+
+        setExercises(prev => {
+          const updated = prev.map(ex => {
             if (ex.userExerciseId === exerciseId) {
               const lastRep = ex.exerciseSeries.at(-1);
               const newSerie = {
                 id: returnedRep.id,
-                repeats: lastRep.repeats || 12,
-                weight: lastRep.weight || 0,
+                repeats: lastRep?.repeats || 12,
+                weight: lastRep?.weight || 0,
+                warm_up: false,
               };
               return {
                 ...ex,
@@ -216,27 +249,79 @@ export default function useWorkoutDetail(
               };
             }
             return ex;
-          }),
-        );
+          });
+
+          syncTrainingWithExercises(updated);
+
+          return updated;
+        });
+
         StatusAlertService.showSuccess("✅ Seria dodana!");
       } catch (err) {
         console.error("Błąd dodawania serii:", err);
         StatusAlertService.showError("❌ Błąd dodawania serii");
       }
     },
-    [exercises, createSingleRep],
+    [exercises, createSingleRep, syncTrainingWithExercises],
+  );
+
+  const handleRemoveSerie = useCallback(
+    (exerciseId, serieId) => {
+      setExercises(prev => {
+        const updated = prev.map(ex =>
+          ex.userExerciseId === exerciseId
+            ? {
+                ...ex,
+                exerciseSeries: ex.exerciseSeries.filter(
+                  serie => serie.id !== serieId,
+                ),
+              }
+            : ex,
+        );
+
+        syncTrainingWithExercises(updated);
+
+        return updated;
+      });
+
+      deleteSingleExercise(serieId)
+        .then(result => {
+          if (result) {
+            StatusAlertService.showSuccess("✅ Seria usunięta");
+          } else {
+            StatusAlertService.showError("❌ Błąd usuwania serii");
+          }
+        })
+        .catch(err => {
+          console.error("Błąd usuwania serii:", err);
+          StatusAlertService.showError("❌ Błąd usuwania serii");
+        });
+    },
+    [deleteSingleExercise, syncTrainingWithExercises],
   );
 
   const handleDeleteExercise = useCallback(
     async exerciseId => {
-      setExercises(prev => prev.filter(ex => ex.id !== exerciseId));
+      setExercises(prev => {
+        const updated = prev.filter(ex => ex.userExerciseId !== exerciseId);
+
+        setTraining(prevTraining => {
+          if (!prevTraining) return prevTraining;
+          return {
+            ...prevTraining,
+            user_exercises: prevTraining.user_exercises.filter(
+              userEx => userEx.id !== exerciseId,
+            ),
+          };
+        });
+
+        return updated;
+      });
+
       setIsSaving(true);
       try {
         const result = await deleteSeriesExercise(exerciseId);
         if (result) {
-          setExercises(prev =>
-            prev.filter(ex => ex.userExerciseId !== exerciseId),
-          );
           StatusAlertService.showSuccess("✅ Ćwiczenie usunięte");
         } else {
           StatusAlertService.showError("❌ Błąd usuwania ćwiczenia");
@@ -251,46 +336,37 @@ export default function useWorkoutDetail(
     [deleteSeriesExercise],
   );
 
-  const handleRemoveSerie = useCallback(
-    (exerciseId, serieId) => {
-      setExercises(prev =>
-        prev.map(ex =>
-          ex.userExerciseId === exerciseId
-            ? {
-                ...ex,
-                exerciseSeries: ex.exerciseSeries.filter(
-                  serie => serie.id !== serieId,
-                ),
-              }
-            : ex,
-        ),
-      );
-      deleteSingleExercise(serieId)
-        .then(result => {
-          if (result) {
-            StatusAlertService.showSuccess("✅ Seria usunięta");
-          } else {
-            StatusAlertService.showError("❌ Błąd usuwania serii");
-          }
-        })
-        .catch(err => {
-          console.error("Błąd usuwania serii:", err);
-          StatusAlertService.showError("❌ Błąd usuwania serii");
-        });
-    },
-    [deleteSingleExercise],
-  );
-
   const handleAddExercise = useCallback(data => {
     const newExercise = {
       id: data.id,
-      name: data.name,
-      exerciseId: data.exercise,
+      name: data.exercise?.name || data.name,
+      exerciseId: data.exercise?.id || data.exercise,
       userExerciseId: data.id,
       exerciseSeries: data.exercises_series || [],
+      muscleGroupIds: data.exercise?.muscle_group || [],
+      exerciseType: data.exercise?.exercise_type,
     };
 
     setExercises(prev => [...prev, newExercise]);
+
+    setTraining(prevTraining => {
+      if (!prevTraining) return prevTraining;
+
+      const newUserExercise = {
+        id: data.id,
+        exercise: data.exercise || {
+          id: data.exercise,
+          name: data.name,
+          muscle_group: [],
+        },
+        exercises_series: data.exercises_series || [],
+      };
+
+      return {
+        ...prevTraining,
+        user_exercises: [...prevTraining.user_exercises, newUserExercise],
+      };
+    });
   }, []);
 
   const handleAddTraining = useCallback(
@@ -310,11 +386,14 @@ export default function useWorkoutDetail(
             exerciseSeries: userExercise.exercises_series || [],
             name: userExercise.exercise.name,
             muscleGroupIds: userExercise.exercise.muscle_group || [],
+            exerciseType: userExercise.exercise.exercise_type,
           }));
 
           setExercises(newExercises);
+
           setTraining(prev => ({
             ...prev,
+            ...result,
             usedTraining: selectedTrainingId,
           }));
 
@@ -372,6 +451,29 @@ export default function useWorkoutDetail(
     }
   }, [exercises, training, trainingId, updateTraining]);
 
+  const handleSerieUpdate = useCallback(
+    (exerciseId, serieId, payload) => {
+      setExercises(prev => {
+        const updated = prev.map(ex =>
+          ex.userExerciseId === exerciseId
+            ? {
+                ...ex,
+                exerciseSeries: ex.exerciseSeries.map(serie =>
+                  serie.id === serieId ? { ...serie, ...payload } : serie,
+                ),
+              }
+            : ex,
+        );
+
+        // ✅ Synchronizuj training
+        syncTrainingWithExercises(updated);
+
+        return updated;
+      });
+    },
+    [syncTrainingWithExercises],
+  );
+
   return {
     training,
     exercises,
@@ -392,5 +494,6 @@ export default function useWorkoutDetail(
     handleSaveChanges,
     setIsAddExerciseOpen,
     setIsAddTrainingOpen,
+    handleSerieUpdate,
   };
 }

@@ -8,6 +8,7 @@ export default function SeriesEditor({
   onAdjustSerie,
 
   onRemoveSerie,
+  onSerieUpdate,
 }) {
   return (
     <Box
@@ -26,6 +27,7 @@ export default function SeriesEditor({
             exerciseId={exercise.userExerciseId}
             onRemoveSerie={onRemoveSerie}
             exerciseType={exercise.exerciseType}
+            onSerieUpdate={onSerieUpdate}
           />
         ))}
       </Stack>

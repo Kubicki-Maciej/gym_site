@@ -12,7 +12,6 @@ export default function MuscleUsageCard({
 }) {
   const [warmUp, setWarmUp] = useState(0);
 
-  // Wywołujemy oba hooki, ale tylko jeden będzie aktywny
   const seriesQuery = useMuscleUsageInSeries(userId, 1, warmUp, {
     enabled: mode === "week",
   });
@@ -21,7 +20,6 @@ export default function MuscleUsageCard({
     enabled: mode === "single",
   });
 
-  // Wybieramy aktywny query
   const { isLoading, isError, error, data, isFetching } =
     mode === "week" ? seriesQuery : trainingQuery;
 

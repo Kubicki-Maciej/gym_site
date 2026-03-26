@@ -7,7 +7,6 @@ export default function SingleTraining({ onTrainingChange, userSelected }) {
   const [selectedTraining, setSelectedTraining] = useState(null);
   const [exercises, setExercises] = useState([]);
 
-  // Gdy wybierzesz trening, ustaw ćwiczenia z tego treningu
   const handleTrainingSelect = training => {
     setSelectedTraining(training);
     setExercises(training?.exercise_groups || []);
@@ -17,7 +16,6 @@ export default function SingleTraining({ onTrainingChange, userSelected }) {
     });
   };
 
-  // Dodawanie ćwiczenia
   const handleAddExercise = exercise => {
     setExercises(prev => {
       const newExercises = [...prev, exercise];
@@ -29,7 +27,6 @@ export default function SingleTraining({ onTrainingChange, userSelected }) {
     });
   };
 
-  // Usuwanie ćwiczenia
   const handleRemoveExercise = id => {
     setExercises(prev => {
       const newExercises = prev.filter(ex => ex.id !== id);

@@ -25,6 +25,7 @@ export default function WorkoutHeader({
   onAddTraining,
   onCancel,
 }) {
+  console.log("training", training);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -43,7 +44,7 @@ export default function WorkoutHeader({
         elevation: 8,
         sx: {
           width: isMobile ? "90%" : 500,
-          maxHeight: "70vh",
+          maxHeight: "90vh",
           borderRadius: 3,
           overflow: "hidden",
         },
@@ -88,6 +89,7 @@ export default function WorkoutHeader({
           <TrainingHeatMapMuscle
             trainingId={training?.id}
             userId={training?.user}
+            dataTraining={training}
           />
         </Box>
       </Paper>

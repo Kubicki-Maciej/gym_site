@@ -48,9 +48,9 @@ export default function ExerciseCard({
   onRemoveSerie,
   onDeleteExercise,
   trainingObject,
+  onSerieUpdate,
 }) {
   const [collapsed, setCollapsed] = useState(false);
-  console.log("Exercise", exercise);
 
   const handleToggleCollapse = () => {
     setCollapsed(prev => !prev);
@@ -100,6 +100,7 @@ export default function ExerciseCard({
                   onSerieChange={onSerieChange}
                   onAdjustSerie={onAdjustSerie}
                   onRemoveSerie={onRemoveSerie}
+                  onSerieUpdate={onSerieUpdate}
                 />
               )}
             </>
