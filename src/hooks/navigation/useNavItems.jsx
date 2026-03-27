@@ -13,7 +13,7 @@ export const useNavItems = () => {
       ];
     } else {
       return [
-        { label: "Treningi", href: "/clienttraining" },
+        { label: "Treningi", href: "/student-training-menu" },
         { label: "Fitapp", href: "/fitapp" },
         { label: "Wymiary", href: "" },
         { label: "Ustawienia", href: "/settings" },

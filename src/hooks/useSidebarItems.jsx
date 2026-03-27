@@ -13,6 +13,10 @@ import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import StraightenIcon from "@mui/icons-material/Straighten";
 
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import HistoryIcon from "@mui/icons-material/History";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+
 export const useSidebarItems = () => {
   const sidebarItems = [
     {
@@ -92,7 +96,38 @@ export const useSidebarItems = () => {
         },
       ],
     },
-
+    {
+      id: "student-training",
+      name: "Moje Treningi",
+      icon: PeopleIcon,
+      path: "/student-training-menu",
+      submenu: [
+        {
+          id: "training-planner",
+          name: "Planer Treningów",
+          icon: CalendarMonthIcon,
+          path: "training-planner",
+        },
+        {
+          id: "workout-builder",
+          name: "Kreator Treningu",
+          icon: FitnessCenterIcon,
+          path: "workout-builder",
+        },
+        {
+          id: "training-history",
+          name: "Historia Treningów",
+          icon: HistoryIcon,
+          path: "student-training",
+        },
+        {
+          id: "exercise-library",
+          name: "Atlas Ćwiczeń",
+          icon: MenuBookIcon,
+          path: "exercise-library",
+        },
+      ],
+    },
     {
       id: "clients",
       name: "Moi klienci",

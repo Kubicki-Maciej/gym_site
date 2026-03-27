@@ -71,9 +71,13 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="student-training-menu/*"
+        element={<MenuLayout sideBarName={"student-training"} />}
+      />
 
-      <Route path="clienttraining/" element={<ClientTrainingScreen />} />
       <Route path="settings" element={<UserSettingsScreen />} />
+
       <Route path="fitapp" element={<BodyStatsPage />} />
     </Routes>
   );

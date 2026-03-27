@@ -12,10 +12,11 @@ import MuscleUsageCard from "features/statistics/cards/MuscleUsageCard";
 import ExerciseSummaryCard from "features/statistics/cards/ExerciseSummaryCard";
 
 export default function StudentProfileScreen({ userObject }) {
-  const { selectedUser, getObjectUser } = useSelectedUser();
+  const { selectedUser, getObjectUser, getSelectedUserFromLocalStorage } =
+    useSelectedUser();
   const { loading, error, trainingList } =
     useUserUpcomingTraining(selectedUser);
-  const { getSelectedUserFromLocalStorage } = useSelectedUser();
+
   const userId = getSelectedUserFromLocalStorage();
 
   if (selectedUser) {
