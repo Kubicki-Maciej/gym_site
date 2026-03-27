@@ -19,7 +19,7 @@ export default function WeekStrip(props) {
         pb: { xs: 1.5, sm: 2.5 },
         // boxShadow: 3,
         width: "100%",
-        maxWidth: 550,
+        maxWidth: 450,
         mx: "auto",
         overflow: "hidden",
       }}
@@ -54,7 +54,7 @@ export default function WeekStrip(props) {
           onClick={goPrev}
           size="small"
           sx={{
-            p: { xs: 0.25, sm: 0.5 },
+            // p: { xs: 0.25, sm: 0.5 },
             flexShrink: 0,
           }}
           aria-label="Poprzedni tydzień"
@@ -69,7 +69,7 @@ export default function WeekStrip(props) {
           alignItems="center"
           sx={{
             minWidth: 0,
-            px: { xs: 0.25, sm: 0.5 },
+            // px: { xs: 0.25, sm: 0.5 },
           }}
         >
           {days.map(day => (

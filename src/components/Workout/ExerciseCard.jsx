@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -6,51 +6,49 @@ import {
   Typography,
   Box,
   IconButton,
+  Fab,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
-import SeriesEditor from "./SeriesEditor";
-import { Fab } from "@mui/material";
 import { keyframes } from "@mui/system";
+
+import SeriesEditor from "./SeriesEditor";
 import RecentExercise from "../RecentExercise/RecentExercise";
 
 const slideDown = keyframes`
-  from {
-    opacity: 0;
-    max-height: 0;
-    margin-top: 0;
-  }
-  to {
-    opacity: 1;
-    max-height: 1000px;
-    margin-top: 16px;
-  }
+  from { opacity: 0; max-height: 0; margin-top: 0; }
+  to { opacity: 1; max-height: 1000px; margin-top: 8px; }
 `;
 
 const slideUp = keyframes`
-  from {
-    opacity: 1;
-    max-height: 1000px;
-    margin-top: 16px;
-  }
-  to {
-    opacity: 0;
-    max-height: 0;
-    margin-top: 0;
-  }
+  from { opacity: 1; max-height: 1000px; margin-top: 8; }
+  to { opacity: 0; max-height: 0; margin-top: 0; }
 `;
 
 export default function ExerciseCard({
   exercise,
+  mode = "edit",
+  trainingObject,
   onSerieChange,
   onAdjustSerie,
   onAddSerie,
   onRemoveSerie,
   onDeleteExercise,
-  trainingObject,
   onSerieUpdate,
 }) {
   const [collapsed, setCollapsed] = useState(false);
+
+  const isReadonly = mode === "readonly";
+
+  const safeExercise = useMemo(() => {
+    return {
+      userExerciseId: exercise?.userExerciseId ?? exercise?.id,
+      exerciseId: exercise?.exerciseId ?? exercise?.exercise,
+      name: exercise?.name ?? "Brak nazwy",
+      exerciseSeries:
+        exercise?.exerciseSeries ?? exercise?.exercises_series ?? [],
+    };
+  }, [exercise]);
 
   const handleToggleCollapse = () => {
     setCollapsed(prev => !prev);
@@ -59,18 +57,18 @@ export default function ExerciseCard({
   return (
     <Card elevation={1}>
       <CardContent sx={{ pb: 1 }}>
-        {/* header */}
+        {/* HEADER */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
           <Typography variant="h7" sx={{ fontWeight: 600 }}>
-            {exercise.name}
+            {safeExercise.name}
           </Typography>
+
           <IconButton
             size="medium"
             onClick={handleToggleCollapse}
@@ -84,6 +82,7 @@ export default function ExerciseCard({
           </IconButton>
         </Box>
 
+        {/* CONTENT */}
         <Box
           sx={{
             animation: !collapsed
@@ -94,56 +93,64 @@ export default function ExerciseCard({
         >
           {!collapsed && (
             <>
-              {exercise.exerciseSeries?.length > 0 && (
+              {safeExercise.exerciseSeries.length > 0 ? (
                 <SeriesEditor
-                  exercise={exercise}
+                  exercise={safeExercise}
+                  readOnly={isReadonly} // 🔥 dodaj w SeriesEditor
                   onSerieChange={onSerieChange}
                   onAdjustSerie={onAdjustSerie}
                   onRemoveSerie={onRemoveSerie}
                   onSerieUpdate={onSerieUpdate}
                 />
+              ) : (
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  Brak serii
+                </Typography>
               )}
             </>
           )}
         </Box>
       </CardContent>
 
-      <CardActions
-        sx={{
-          justifyContent: "space-between",
-          pt: 0,
-          px: 2,
-        }}
-      >
-        <IconButton
-          size="small"
-          color="error"
-          onClick={() => {
-            onDeleteExercise(exercise.userExerciseId);
-          }}
-          title="Usuń ćwiczenie"
-        >
-          <DeleteIcon />
-        </IconButton>
-        <RecentExercise
-          exerciseId={exercise.exerciseId}
-          trainingObject={trainingObject}
-        />
-        <Fab
-          size="small"
-          color="success"
-          aria-label="add"
+      {/* ACTIONS */}
+      {!isReadonly && (
+        <CardActions
           sx={{
-            "&:hover": {
-              transform: "scale(1.15)",
-              transition: "transform 0.2s ease-in-out",
-            },
+            justifyContent: "space-between",
+            pt: 0,
+            px: 2,
           }}
-          onClick={() => onAddSerie(exercise.userExerciseId)}
         >
-          <AddIcon />
-        </Fab>
-      </CardActions>
+          <IconButton
+            size="small"
+            color="error"
+            onClick={() => onDeleteExercise?.(safeExercise.userExerciseId)}
+            title="Usuń ćwiczenie"
+          >
+            <DeleteIcon />
+          </IconButton>
+
+          <RecentExercise
+            exerciseId={safeExercise.exerciseId}
+            trainingObject={trainingObject}
+          />
+
+          <Fab
+            size="small"
+            color="success"
+            aria-label="add"
+            onClick={() => onAddSerie?.(safeExercise.userExerciseId)}
+            sx={{
+              "&:hover": {
+                transform: "scale(1.15)",
+                transition: "transform 0.2s ease-in-out",
+              },
+            }}
+          >
+            <AddIcon />
+          </Fab>
+        </CardActions>
+      )}
     </Card>
   );
 }

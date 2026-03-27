@@ -3,8 +3,19 @@ import WeekStrip from "components/Calendar/WeekStrip";
 import QueryStateHandler from "components/QueryStateHandler/QueryStateHandler";
 import useUserTrainingsInDateRangeQuery from "hooks/Training/useUserTrainingInDateRangeQuerry";
 import CardExerciseWithPicture from "components/Cards/CardExerciseWithPicture";
+import useUserTraining from "hooks/useUserTraining";
+import { Box, Grid } from "@mui/material";
+import ExerciseCard from "components/Workout/ExerciseCard";
+
+const mapExerciseToCardFormat = exercise => ({
+  userExerciseId: exercise.id,
+  exerciseId: exercise.exercise,
+  name: exercise.name,
+  exerciseSeries: exercise.exercises_series || [],
+});
 
 export default function StudentPlanTrainingPage() {
+  const { getAllExercises, getAllTrainings } = useUserTraining();
   const userId = 63;
 
   const [payload, setPayload] = useState({
@@ -20,7 +31,6 @@ export default function StudentPlanTrainingPage() {
       if (prev.start_date === startIso && prev.end_date === endIso) {
         return prev;
       }
-
       return {
         start_date: startIso,
         end_date: endIso,
@@ -58,29 +68,46 @@ export default function StudentPlanTrainingPage() {
         onDateChange={handleDateChange}
         markedDates={markedDates}
       />
+      <QueryStateHandler
+        isLoading={isLoading}
+        error={error}
+        children={
+          <div style={{ marginTop: 0, width: "100%" }}>
+            {!isLoading && selectedDayTrainings.length === 0 && (
+              <p>Brak treningów dla wybranego dnia</p>
+            )}
+            <Box sx={{ width: "100%" }}>
+              <Grid container spacing={0}>
+                {selectedDayTrainings.flatMap(training =>
+                  training.user_exercises.map(exercise => {
+                    const mappedExercise = mapExerciseToCardFormat(exercise);
 
-      <div style={{ marginTop: 16 }}>
-        <p>Wybrany dzień: {selectedDateIso}</p>
-
-        {isLoading && <p>Ładowanie...</p>}
-        {error && <p>Błąd: {error.message}</p>}
-
-        {!isLoading && selectedDayTrainings.length === 0 && (
-          <p>Brak treningów dla wybranego dnia</p>
-        )}
-
-        {selectedDayTrainings.map(training => (
-          <CardExerciseWithPicture
-            children={
-              <div key={training.id}>
-                <p>ID: {training.id}</p>
-                <p>Data: {training.training_date}</p>
-                <pre>{JSON.stringify(training, null, 2)}</pre>
-              </div>
-            }
-          />
-        ))}
-      </div>
+                    return (
+                      <Grid
+                        item
+                        size={{ xs: 12, md: 6 }}
+                        key={exercise.id}
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CardExerciseWithPicture>
+                          <ExerciseCard
+                            exercise={mappedExercise}
+                            mode="readonly"
+                            trainingObject={training}
+                          />
+                        </CardExerciseWithPicture>
+                      </Grid>
+                    );
+                  }),
+                )}
+              </Grid>
+            </Box>
+          </div>
+        }
+      ></QueryStateHandler>
     </div>
   );
 }
