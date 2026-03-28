@@ -6,6 +6,8 @@ import CardExerciseWithPicture from "components/Cards/CardExerciseWithPicture";
 import useUserTraining from "hooks/useUserTraining";
 import { Box, Grid } from "@mui/material";
 import ExerciseCard from "components/Workout/ExerciseCard";
+import StudentCreateWorkout from "./StudentCreateWorkout";
+import CreateTrainingStudentButton from "components/Workout/CreateTrainingStudentButton";
 
 const mapExerciseToCardFormat = exercise => ({
   userExerciseId: exercise.id,
@@ -24,7 +26,6 @@ export default function StudentPlanTrainingPage() {
   });
 
   const [selectedDateIso, setSelectedDateIso] = useState(null);
-  console.log("selectedDateIso", selectedDateIso);
 
   const handleWeekChange = useCallback(({ startIso, endIso }) => {
     setPayload(prev => {
@@ -46,6 +47,7 @@ export default function StudentPlanTrainingPage() {
     data = [],
     isLoading,
     error,
+    refetch,
   } = useUserTrainingsInDateRangeQuery(userId, payload);
 
   const markedDates = useMemo(() => {
@@ -61,53 +63,91 @@ export default function StudentPlanTrainingPage() {
     });
   }, [data, selectedDateIso]);
 
+  // Rozdzielenie treningów na własne i przypisane
+  const { ownTrainings, assignedTrainings } = useMemo(() => {
+    return selectedDayTrainings.reduce(
+      (acc, training) => {
+        if (training.created_by === training.user) {
+          acc.ownTrainings.push(training);
+        } else {
+          acc.assignedTrainings.push(training);
+        }
+        return acc;
+      },
+      { ownTrainings: [], assignedTrainings: [] },
+    );
+  }, [selectedDayTrainings]);
+
+  // Callback po utworzeniu treningu
+  const handleTrainingCreated = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
+  const showCreateButton =
+    !isLoading && selectedDateIso && ownTrainings.length === 0;
+
   return (
-    <div>
+    <>
       <WeekStrip
         onWeekChange={handleWeekChange}
         onDateChange={handleDateChange}
         markedDates={markedDates}
       />
-      <QueryStateHandler
-        isLoading={isLoading}
-        error={error}
-        children={
-          <div style={{ marginTop: 0, width: "100%" }}>
-            {!isLoading && selectedDayTrainings.length === 0 && (
-              <p>Brak treningów dla wybranego dnia</p>
-            )}
-            <Box sx={{ width: "100%" }}>
-              <Grid container spacing={0}>
-                {selectedDayTrainings.flatMap(training =>
-                  training.user_exercises.map(exercise => {
-                    const mappedExercise = mapExerciseToCardFormat(exercise);
 
-                    return (
-                      <Grid
-                        item
-                        size={{ xs: 12, md: 6 }}
-                        key={exercise.id}
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <CardExerciseWithPicture>
-                          <ExerciseCard
-                            exercise={mappedExercise}
-                            mode="readonly"
-                            trainingObject={training}
-                          />
-                        </CardExerciseWithPicture>
-                      </Grid>
-                    );
-                  }),
-                )}
-              </Grid>
+      <QueryStateHandler isLoading={isLoading} error={error}>
+        <Box sx={{ marginTop: 0, width: "100%" }}>
+          {assignedTrainings.length > 0 && (
+            <Grid container spacing={0}>
+              {assignedTrainings.flatMap(training =>
+                training.user_exercises.map(exercise => {
+                  const mappedExercise = mapExerciseToCardFormat(exercise);
+
+                  return (
+                    <Grid
+                      item
+                      size={{ xs: 12 }}
+                      key={exercise.id}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CardExerciseWithPicture>
+                        <ExerciseCard
+                          exercise={mappedExercise}
+                          mode="readonly"
+                          trainingObject={training}
+                        />
+                      </CardExerciseWithPicture>
+                    </Grid>
+                  );
+                }),
+              )}
+            </Grid>
+          )}
+
+          {/* Własne treningi - edytowalne */}
+          {ownTrainings.length > 0 && (
+            <Box sx={{ mt: 2 }}>
+              {ownTrainings.map(training => (
+                <StudentCreateWorkout
+                  key={training.id}
+                  trainingId={training.id}
+                />
+              ))}
             </Box>
-          </div>
-        }
-      ></QueryStateHandler>
-    </div>
+          )}
+
+          {/* Przycisk tworzenia - gdy brak własnych treningów */}
+          {showCreateButton && (
+            <CreateTrainingStudentButton
+              userId={userId}
+              selectedDate={selectedDateIso}
+              onSuccess={handleTrainingCreated}
+            />
+          )}
+        </Box>
+      </QueryStateHandler>
+    </>
   );
 }

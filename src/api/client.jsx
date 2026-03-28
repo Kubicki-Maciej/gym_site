@@ -86,7 +86,7 @@ const api = {
   login: async (username, password) => {
     const res = await fetch(`${API_URL}/api/token/`, {
       // Endpoint SimpleJWT
-      method: "POST",
+      method: "POST", 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });

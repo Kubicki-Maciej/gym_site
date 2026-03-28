@@ -1,33 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import React from "react";
 import { Box, CircularProgress, Alert, Button, Stack } from "@mui/material";
-import useUserTraining from "../../hooks/useUserTraining";
-import useWorkoutDetail from "../../hooks/useWorkoutDetails";
 
-import BoxLayout from "components/Layout/BoxLayout";
-import WorkoutHeader from "./WorkoutHeader";
-import WorkoutExerciseSection from "./WorkoutExerciseSection";
-import AddExerciseDialog from "./AddExerciseDialog";
-import AddTrainingDialog from "./AddTrainingDialog";
+import AddExerciseDialog from "components/Workout/AddExerciseDialog";
+import AddTrainingDialog from "components/Workout/AddTrainingDialog";
+import WorkoutHeader from "components/Workout/WorkoutHeader";
+import useWorkoutDetail from "hooks/useWorkoutDetails";
+import ExerciseList from "components/Workout/ExerciseList";
 
-export default function WorkoutDetail() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  // const { getUserDataTraining, getAllExercises, getAllTrainings } =
-  //   useUserTraining();
-
-  const handleGoBack = () => {
-    const source = searchParams.get("source");
-
-    if (source === "profileUser") {
-      navigate("/student/profile");
-    } else {
-      navigate(-1);
-    }
-  };
-
+export default function StudentCreateWorkout({ trainingId }) {
   const {
     training,
     exercises,
@@ -38,7 +18,7 @@ export default function WorkoutDetail() {
     allTrainings,
     isAddExerciseOpen,
     isAddTrainingOpen,
-    fetchTrainingData,
+    // fetchTrainingData,
     handleSerieChange,
     handleAdjustSerie,
     handleAddSerie,
@@ -50,26 +30,7 @@ export default function WorkoutDetail() {
     setIsAddExerciseOpen,
     setIsAddTrainingOpen,
     handleSerieUpdate,
-  } = useWorkoutDetail(
-    id,
-    // getUserDataTraining,
-    // getAllExercises,
-    // getAllTrainings,
-  );
-
-  if (loading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "400px",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  } = useWorkoutDetail(trainingId);
 
   if (error)
     return (
@@ -84,16 +45,9 @@ export default function WorkoutDetail() {
         <Alert severity="warning">Trening nie został znaleziony</Alert>
       </Box>
     );
-
   return (
-    <BoxLayout>
-      <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
-        <Button variant="outlined" color="primary" onClick={handleGoBack}>
-          back
-        </Button>
-      </Stack>
-
-      <WorkoutExerciseSection
+    <>
+      <ExerciseList
         trainingDate={training.training_date}
         userName={training.user_name}
         exercises={exercises}
@@ -110,7 +64,7 @@ export default function WorkoutDetail() {
         onClose={() => setIsAddExerciseOpen(false)}
         onAdd={handleAddExercise}
         exercisesList={allExercises}
-        idUserTraining={id}
+        idUserTraining={trainingId}
         existingExercises={exercises}
       />
       <AddTrainingDialog
@@ -126,6 +80,6 @@ export default function WorkoutDetail() {
         onAddTraining={() => setIsAddTrainingOpen(true)}
         onAddExercise={() => setIsAddExerciseOpen(true)}
       />
-    </BoxLayout>
+    </>
   );
 }

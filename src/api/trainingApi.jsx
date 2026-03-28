@@ -102,4 +102,7 @@ export const trainingApi = {
       raw_input: rawInput,
     });
   },
+  createUserTraining: async data => {
+    return api.post(`training/user/create-empty-training`, data);
+  },
 };

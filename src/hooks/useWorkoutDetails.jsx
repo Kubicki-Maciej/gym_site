@@ -7,9 +7,9 @@ import { useMutation } from "@tanstack/react-query";
 
 export default function useWorkoutDetail(
   trainingId,
-  getUserDataTraining,
-  getAllExercises,
-  getAllTrainings,
+  // getUserDataTraining,
+  // getAllExercises,
+  // getAllTrainings,
 ) {
   const [training, setTraining] = useState(null);
   const [exercises, setExercises] = useState([]);
@@ -29,7 +29,13 @@ export default function useWorkoutDetail(
     updateExercise,
   } = useTraining();
 
-  const { deleteSeriesExercise, addTrainingExercises } = useUserTraining();
+  const {
+    deleteSeriesExercise,
+    addTrainingExercises,
+    getUserDataTraining,
+    getAllExercises,
+    getAllTrainings,
+  } = useUserTraining();
 
   const syncTrainingWithExercises = useCallback(updatedExercises => {
     setTraining(prevTraining => {

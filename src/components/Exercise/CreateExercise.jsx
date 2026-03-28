@@ -43,6 +43,7 @@ export default function CreateExercise() {
     const loadMuscleGroups = async () => {
       try {
         const data = await getAllMuscles();
+        console.log("data muscle ", data);
         setMuscleGroupOptions(data);
       } catch (err) {
         showAlert("Nie udało się pobrać grup mięśniowych", "error");
@@ -82,14 +83,14 @@ export default function CreateExercise() {
 
   const getExerciseFromSearcher = exercise => {
     if (exercise) {
+      console.log("exercise:", exercise);
       setExerciseObject(exercise);
       setExerciseName(exercise.name);
       setExerciseDescription(exercise.description || "");
 
-      const selectedGroups = muscleGroupOptions.filter(group =>
-        exercise.muscle_group.includes(group.id),
-      );
-      setMuscleGroups(selectedGroups);
+      // ✅ Użyj bezpośrednio - obiekty mają tę samą strukturę
+      setMuscleGroups(exercise.muscle_group || []);
+
       showAlert(`Ćwiczenie: ${exercise.name} załadowane`, "info", 2000);
     } else {
       resetForm();
@@ -115,8 +116,9 @@ export default function CreateExercise() {
       const exerciseData = {
         name: exerciseName,
         description: exerciseDescription,
-        muscle_group: muscleGroups.map(group => group.id),
+        muscle_group: muscleGroups.map(group => group.id), // ✅ Lista ID
       };
+      console.log("Wysyłam:", exerciseData); // Debug
 
       await createExercise(exerciseData);
       showAlert("Ćwiczenie utworzone pomyślnie! ✓", "success");
