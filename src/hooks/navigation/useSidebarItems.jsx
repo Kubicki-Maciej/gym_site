@@ -103,16 +103,16 @@ export const useSidebarItems = () => {
       path: "/student-training-menu",
       submenu: [
         {
-          id: "training-planner",
+          id: "workout-planner",
           name: "Planer Treningów",
           icon: CalendarMonthIcon,
-          path: "training-planner",
+          path: "workout-planner",
         },
         {
-          id: "workout-builder",
+          id: "trainig-builder",
           name: "Kreator Treningu",
           icon: FitnessCenterIcon,
-          path: "workout-builder",
+          path: "training-builder",
         },
         {
           id: "training-history",

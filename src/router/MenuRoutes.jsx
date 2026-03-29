@@ -15,7 +15,8 @@ import StudentProgressScreen from "../Screens/Statistic/StudentProgressScreen";
 import CreateTrainingFromText from "components/Trening/CreateTrainingFromText";
 import BodyStatsPage from "Screens/Student/BodyStatsPage";
 import ClientTrainingScreen from "Screens/Client/ClientTrainingScreen";
-import StudentPlanTrainingPage from "Screens/Student/StudentPlanTrainingPage";
+import StudentPlanTrainingWorkout from "Screens/Student/StudentPlanTrainingWorkout";
+import TrainingBuilder from "features/training/TrainigBuilder";
 
 export default function MenuRoutes({ sideBarName }) {
   return (
@@ -143,7 +144,11 @@ export default function MenuRoutes({ sideBarName }) {
         {/* Trainer End */}
         {/* Student Start */}
         <Route path="student-training/" element={<ClientTrainingScreen />} />
-        <Route path="training-planner/" element={<StudentPlanTrainingPage />} />
+        <Route
+          path="workout-planner/"
+          element={<StudentPlanTrainingWorkout />}
+        />
+        <Route path="training-builder/" element={<TrainingBuilder />} />
         {/* Student End */}
       </Routes>
     </>
