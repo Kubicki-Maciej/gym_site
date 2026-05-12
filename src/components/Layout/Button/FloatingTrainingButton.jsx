@@ -1,4 +1,6 @@
-function FloatingTrainingButton({ count, onClick }) {
+import { Badge, Fab } from "@mui/material";
+import { FitnessCenter } from "@mui/icons-material";
+export default function FloatingTrainingButton({ count, onClick }) {
   if (count === 0) return null;
 
   return (
@@ -7,13 +9,13 @@ function FloatingTrainingButton({ count, onClick }) {
       color="secondary"
       sx={{
         position: "fixed",
-        bottom: 20,
+        bottom: 80,
         right: 20,
         zIndex: 1000,
       }}
     >
       <Fab color="primary" onClick={onClick}>
-        <FitnessCenterIcon />
+        <FitnessCenter />
       </Fab>
     </Badge>
   );

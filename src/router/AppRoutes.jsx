@@ -17,6 +17,7 @@ import MenuLayout from "../components/Layout/MenuLayout";
 import TestArticle from "components/Section/TestArticle";
 
 import UserSettingsScreen from "Screens/Settings/UserSettingsScreen";
+import FitAppScreen from "Screens/FitApp/FitAppScreen";
 
 export default function AppRoutes() {
   const { logged } = useUserContext();
@@ -78,7 +79,8 @@ export default function AppRoutes() {
 
       <Route path="settings" element={<UserSettingsScreen />} />
 
-      <Route path="fitapp" element={<BodyStatsPage />} />
+      <Route path="fitapp" element={<FitAppScreen />} />
+      <Route path="student-measurements" element={<BodyStatsPage />} />
     </Routes>
   );
 }

@@ -2,33 +2,31 @@ import React from "react";
 import { Box, Chip, Autocomplete, TextField } from "@mui/material";
 
 export default function ExerciseFilters({
-  muscleOptions = [],
-  selectedMuscles = [],
+  muscleOptions,
+  selectedMuscles,
   setSelectedMuscles,
 }) {
-  const handleReset = () => {
-    setSelectedMuscles([]);
-  };
-
   return (
-    <Box sx={{ mb: 2 }}>
-      {/* 🔥 CHIP RESET */}
-      <Box sx={{ display: "flex", gap: 1, mb: 1, flexWrap: "wrap" }}>
+    <Box>
+      {/* RESET */}
+      <Box sx={{ mb: 1 }}>
         <Chip
           label="ALL"
           clickable
           color={selectedMuscles.length === 0 ? "primary" : "default"}
-          onClick={handleReset}
+          onClick={() => setSelectedMuscles([])}
         />
       </Box>
 
-      {/* 🔥 AUTOCOMPLETE */}
+      {/* MUSCLE FILTER */}
       <Autocomplete
         multiple
         options={muscleOptions}
         value={selectedMuscles}
-        onChange={(e, value) => setSelectedMuscles(value)}
-        renderInput={params => <TextField {...params} label="Mięśnie" />}
+        onChange={(e, val) => setSelectedMuscles(val)}
+        renderInput={params => (
+          <TextField {...params} label="Grupy mięśniowe" />
+        )}
       />
     </Box>
   );

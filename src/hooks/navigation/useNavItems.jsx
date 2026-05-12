@@ -15,7 +15,7 @@ export const useNavItems = () => {
       return [
         { label: "Treningi", href: "/student-training-menu" },
         { label: "Fitapp", href: "/fitapp" },
-        { label: "Wymiary", href: "" },
+        { label: "Wymiary", href: "/student-measurements" },
         { label: "Ustawienia", href: "/settings" },
       ];
     }

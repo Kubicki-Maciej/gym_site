@@ -6,12 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 export default function CalendarNavigator({ prev, next, year, month }) {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      gap={2} // odstęp między elementami
-    >
+    <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
       <CalendarButton onClick={prev} icon={<ArrowBackIcon />} />
       {year} {month}
       <CalendarButton onClick={next} icon={<ArrowForwardIcon />} />

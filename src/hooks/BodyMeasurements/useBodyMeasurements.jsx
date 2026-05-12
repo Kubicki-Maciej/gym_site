@@ -11,6 +11,7 @@ export const useBodyMeasurements = (userId, startDate, endDate) => {
     setError(null);
 
     try {
+      console.log("startDate", startDate);
       const data = await statisticApi.getBodyMeasurements(
         userId,
         startDate,
@@ -23,7 +24,7 @@ export const useBodyMeasurements = (userId, startDate, endDate) => {
     } finally {
       setLoading(false);
     }
-  }, [JSON.stringify(userId)]);
+  }, [JSON.stringify(userId), startDate, endDate]);
 
   useEffect(() => {
     fetchMeasurements();

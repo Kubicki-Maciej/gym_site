@@ -1,5 +1,5 @@
+import React from "react";
 import { Box, Typography } from "@mui/material";
-import { useEffect } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
@@ -8,35 +8,26 @@ import ExerciseTrainingCard from "components/Cards/ExerciseTrainingCard";
 export default function ExerciseTrainingRow({ title, list = [], onAdd }) {
   const [sliderRef, instanceRef] = useKeenSlider({
     mode: "snap",
-    rubberband: true,
     slides: {
-      perView: 1.2,
-      spacing: 12,
+      perView: 2.5,
+      spacing: 10,
     },
     breakpoints: {
       "(min-width: 600px)": {
-        slides: { perView: 2, spacing: 12 },
+        slides: { perView: 3.5, spacing: 12 },
       },
       "(min-width: 900px)": {
-        slides: { perView: 3, spacing: 16 },
-      },
-      "(min-width: 1200px)": {
-        slides: { perView: 4, spacing: 16 },
+        slides: { perView: 4.1, spacing: 16 },
       },
     },
   });
 
-  // 🔥 FIX NA ZACINANIE
-  useEffect(() => {
-    if (instanceRef.current) {
-      instanceRef.current.update();
-    }
-  }, [list, instanceRef]);
-
-  if (!list.length) return null;
+  React.useEffect(() => {
+    instanceRef.current?.update();
+  }, [list]);
 
   return (
-    <Box sx={{ mb: 4 }}>
+    <Box sx={{ mb: 3 }}>
       <Typography variant="h6" sx={{ mb: 1 }}>
         {title}
       </Typography>
@@ -46,6 +37,7 @@ export default function ExerciseTrainingRow({ title, list = [], onAdd }) {
         className="keen-slider"
         sx={{
           width: "100%",
+          maxWidth: "100%",
           overflow: "hidden",
         }}
       >
@@ -55,7 +47,7 @@ export default function ExerciseTrainingRow({ title, list = [], onAdd }) {
             className="keen-slider__slide"
             sx={{
               minWidth: 0,
-              height: "100%", // 🔥 równa wysokość
+              maxWidth: "100%",
             }}
           >
             <ExerciseTrainingCard exercise={ex} onAdd={onAdd} />

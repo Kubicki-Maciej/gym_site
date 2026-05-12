@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from "react";
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, Paper, Typography } from "@mui/material";
 
 import ExerciseTrainingRow from "./ExerciseTrainingRow";
 import ExerciseFilters from "./ExerciseFilters";
+import TrainingDialog from "components/Dialog/TrainingDialog";
+import FloatingTrainingButton from "components/Layout/Button/FloatingTrainingButton";
 
-// 🔥 helper OUTSIDE
 const getMuscleGroups = exercise => {
   if (!exercise?.muscle_group) return ["Inne"];
   return exercise.muscle_group.map(m => m.name);
@@ -13,21 +14,21 @@ const getMuscleGroups = exercise => {
 export default function ExerciseTrainingList({
   exercises,
   onAdd,
+  onRemove,
+  selectedExercises,
   search,
   setSearch,
-  selectedExercises = [],
-  onOpenTraining,
+  showOnlyExercises = false,
 }) {
   const [selectedMuscles, setSelectedMuscles] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
 
-  // 🔥 OPTIONS
   const muscleOptions = useMemo(() => {
     const set = new Set();
     exercises.forEach(e => getMuscleGroups(e).forEach(g => set.add(g)));
     return Array.from(set);
   }, [exercises]);
 
-  // 🔥 FILTER
   const filtered = useMemo(() => {
     return exercises.filter(e => {
       const matchSearch = e.name.toLowerCase().includes(search.toLowerCase());
@@ -42,7 +43,6 @@ export default function ExerciseTrainingList({
     });
   }, [exercises, search, selectedExercises, selectedMuscles]);
 
-  // 🔥 GROUP
   const grouped = useMemo(() => {
     return filtered.reduce((acc, ex) => {
       getMuscleGroups(ex).forEach(g => {
@@ -54,24 +54,27 @@ export default function ExerciseTrainingList({
   }, [filtered]);
 
   return (
-    <Box sx={{ width: "100%", maxWidth: "100vw", overflow: "hidden" }}>
-      {/* SEARCH */}
-      <TextField
-        fullWidth
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        placeholder="Szukaj ćwiczeń..."
-        sx={{ mb: 2 }}
-      />
+    <Box sx={{ width: "100%", overflowX: "hidden" }}>
+      <Paper sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Filtry
+        </Typography>
 
-      {/* 🔥 FILTER COMPONENT */}
-      <ExerciseFilters
-        muscleOptions={muscleOptions}
-        selectedMuscles={selectedMuscles}
-        setSelectedMuscles={setSelectedMuscles}
-      />
+        <TextField
+          fullWidth
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Szukaj ćwiczeń..."
+          sx={{ mb: 2 }}
+        />
 
-      {/* ROWS */}
+        <ExerciseFilters
+          muscleOptions={muscleOptions}
+          selectedMuscles={selectedMuscles}
+          setSelectedMuscles={setSelectedMuscles}
+        />
+      </Paper>
+
       {Object.entries(grouped).map(([group, list]) => (
         <ExerciseTrainingRow
           key={group}
@@ -80,39 +83,26 @@ export default function ExerciseTrainingList({
           onAdd={onAdd}
         />
       ))}
-
-      {/* 🔥 FLOAT BUTTON */}
-      <FloatingTrainingButton
-        count={selectedExercises.length}
-        onClick={onOpenTraining}
-      />
+      {showOnlyExercises ? (
+        ""
+      ) : (
+        <>
+          {" "}
+          <FloatingTrainingButton
+            count={selectedExercises.length}
+            onClick={() => setOpenDialog(true)}
+          />
+          <TrainingDialog
+            open={openDialog}
+            onClose={() => setOpenDialog(false)}
+            exercises={exercises}
+            selectedExercises={selectedExercises}
+            onRemove={onRemove}
+          />
+        </>
+      )}
     </Box>
   );
 }
 
-function FloatingTrainingButton({ count, onClick }) {
-  if (count === 0) return null;
-
-  return (
-    <Box
-      onClick={onClick}
-      sx={{
-        position: "fixed",
-        bottom: 20,
-        right: 20,
-        bgcolor: "primary.main",
-        color: "white",
-        width: 60,
-        height: 60,
-        borderRadius: "50%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        zIndex: 1000,
-      }}
-    >
-      {count}
-    </Box>
-  );
-}
+//

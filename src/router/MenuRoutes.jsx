@@ -17,6 +17,7 @@ import BodyStatsPage from "Screens/Student/BodyStatsPage";
 import ClientTrainingScreen from "Screens/Client/ClientTrainingScreen";
 import StudentPlanTrainingWorkout from "Screens/Student/StudentPlanTrainingWorkout";
 import TrainingBuilder from "features/training/TrainigBuilder";
+import StudentAtlasPage from "Screens/Student/StudentAtlasPage";
 
 export default function MenuRoutes({ sideBarName }) {
   return (
@@ -149,6 +150,7 @@ export default function MenuRoutes({ sideBarName }) {
           element={<StudentPlanTrainingWorkout />}
         />
         <Route path="training-builder/" element={<TrainingBuilder />} />
+        {/* <Route path="exercise-library/" element={<StudentAtlasPage />} /> */}
         {/* Student End */}
       </Routes>
     </>

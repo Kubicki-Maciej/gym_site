@@ -23,7 +23,7 @@ export default function ExerciseTrainingCard({ exercise, onAdd }) {
       <CardMedia
         component="img"
         height="120"
-        image={image || "https://via.placeholder.com/300x200?text=No+Image"}
+        image={image || "https://picsum.photos/300/200"}
       />
 
       {/* CONTENT */}

@@ -83,12 +83,6 @@ export const useSidebarItems = () => {
           path: "create",
         },
         {
-          id: "data-measurement",
-          name: "Wymiary",
-          icon: StraightenIcon,
-          path: "measurement",
-        },
-        {
           id: "data-student",
           name: "Progres użytkownika",
           icon: MovingOutlinedIcon,
@@ -120,12 +114,12 @@ export const useSidebarItems = () => {
           icon: HistoryIcon,
           path: "student-training",
         },
-        {
-          id: "exercise-library",
-          name: "Atlas Ćwiczeń",
-          icon: MenuBookIcon,
-          path: "exercise-library",
-        },
+        // {
+        //   id: "exercise-library",
+        //   name: "Atlas Ćwiczeń",
+        //   icon: MenuBookIcon,
+        //   path: "exercise-library",
+        // },
       ],
     },
     {
