@@ -11,6 +11,8 @@ import { useMeals } from "hooks/Fitapp/useNutrition";
 import { useMemo, useState } from "react";
 import MealIngredientsModal from "./MealIngredientsModal";
 import MealCreatorModal from "./MealCreatorModal";
+import MealCard from "components/Fitapp/MealCard";
+import MealSliderCards from "components/Fitapp/MealSliderCards";
 
 export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
   const { data: meals = [] } = useMeals();
@@ -29,7 +31,7 @@ export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
     <>
       <Dialog open={open} onClose={onClose} fullWidth>
         <Box p={2}>
-          <Typography variant="h6">Add meal</Typography>
+          <Typography variant="h6">Dodaj posiłek</Typography>
 
           <TextField
             fullWidth
@@ -40,15 +42,18 @@ export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
           />
 
           <Stack spacing={1} mt={2}>
-            {filteredMeals.map(meal => (
-              <Button
+            <MealSliderCards
+              filteredMeals={filteredMeals}
+              onMealClick={setSelectedMeal}
+            />
+            {/* {filteredMeals.map(meal => (
+              
+              <MealCard
                 key={meal.id}
-                variant="outlined"
+                name={meal.name}
                 onClick={() => setSelectedMeal(meal)}
-              >
-                {meal.name}
-              </Button>
-            ))}
+              />
+            ))} */}
           </Stack>
 
           <Button

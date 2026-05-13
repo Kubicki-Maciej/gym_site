@@ -23,7 +23,7 @@ export default function MealSection({
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h6">{label}</Typography>
 
-        <Button onClick={() => setOpenAdd(true)}>Add</Button>
+        <Button onClick={() => setOpenAdd(true)}>Dodaj przycisk</Button>
       </Stack>
 
       <Stack spacing={1} mt={2}>
