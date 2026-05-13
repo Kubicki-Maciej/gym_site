@@ -10,7 +10,12 @@ import {
 import { useMemo, useState, useEffect } from "react";
 import { useAddMealToDiary } from "hooks/Fitapp/useDiaryActions";
 
-export default function MealIngredientsModal({ meal, mealType, onClose }) {
+export default function MealIngredientsModal({
+  meal,
+  mealType,
+  onClose,
+  selectedDay,
+}) {
   const addMealMutation = useAddMealToDiary();
 
   const [ingredients, setIngredients] = useState([]);
@@ -27,14 +32,11 @@ export default function MealIngredientsModal({ meal, mealType, onClose }) {
     return ingredients.reduce(
       (acc, ing) => {
         const factor = Number(ing.weight_g) / 100;
-
-        acc.kcal += Number(ing.product_details.kcal_per_100g) * factor;
-
-        acc.protein += Number(ing.product_details.protein_per_100g) * factor;
-
-        acc.carbs += Number(ing.product_details.carbs_per_100g) * factor;
-
-        acc.fat += Number(ing.product_details.fat_per_100g) * factor;
+        // ing.product jest obiektem
+        acc.kcal += Number(ing.product.kcal_per_100g) * factor;
+        acc.protein += Number(ing.product.protein_per_100g) * factor;
+        acc.carbs += Number(ing.product.carbs_per_100g) * factor;
+        acc.fat += Number(ing.product.fat_per_100g) * factor;
 
         return acc;
       },
@@ -49,10 +51,11 @@ export default function MealIngredientsModal({ meal, mealType, onClose }) {
 
   if (!meal) return null;
 
-  const handleWeightChange = (id, value) => {
+  // POPRAWKA: Porównujemy po ID, a nie po całym obiekcie
+  const handleWeightChange = (productId, value) => {
     setIngredients(prev =>
       prev.map(ing =>
-        ing.product === id
+        ing.product.id === productId // <-- Zmiana na ing.product.id
           ? {
               ...ing,
               weight_g: value,
@@ -66,10 +69,11 @@ export default function MealIngredientsModal({ meal, mealType, onClose }) {
     addMealMutation.mutate({
       meal_id: meal.id,
       meal_type: mealType,
-      date: new Date().toISOString().split("T")[0],
+      date: selectedDay,
 
       ingredients: ingredients.map(ing => ({
-        product: ing.product,
+        // POPRAWKA: Backend oczekuje ID produktu (integer), a nie całego obiektu
+        product: ing.product.id, // <-- Zmiana na ing.product.id
         weight_g: Number(ing.weight_g),
       })),
     });
@@ -84,14 +88,19 @@ export default function MealIngredientsModal({ meal, mealType, onClose }) {
 
         <Stack spacing={2} mt={2}>
           {ingredients.map(ing => (
-            <Box key={ing.product}>
+            // POPRAWKA: Używamy unikalnego ID z obiektu jako key
+            <Box key={ing.product.id}>
+              {" "}
+              {/* <-- Zmiana na ing.product.id */}
               <Typography fontWeight={600}>{ing.product_name}</Typography>
-
               <TextField
                 fullWidth
                 type="number"
                 value={ing.weight_g}
-                onChange={e => handleWeightChange(ing.product, e.target.value)}
+                // POPRAWKA: Przekazujemy ID produktu do uchwytu
+                onChange={e =>
+                  handleWeightChange(ing.product.id, e.target.value)
+                }
               />
             </Box>
           ))}

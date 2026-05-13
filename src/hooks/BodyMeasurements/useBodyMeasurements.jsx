@@ -11,7 +11,6 @@ export const useBodyMeasurements = (userId, startDate, endDate) => {
     setError(null);
 
     try {
-      console.log("startDate", startDate);
       const data = await statisticApi.getBodyMeasurements(
         userId,
         startDate,

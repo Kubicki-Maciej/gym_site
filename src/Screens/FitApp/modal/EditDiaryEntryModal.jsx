@@ -27,7 +27,6 @@ export default function EditDiaryEntryModal({ entry, onClose }) {
   const [localIngredients, setLocalIngredients] = useState([]);
 
   useEffect(() => {
-    console.log("entry?.ingredients changed", entry?.ingredients);
     if (!entry?.ingredients) return;
 
     setLocalIngredients(prev => {
@@ -51,8 +50,6 @@ export default function EditDiaryEntryModal({ entry, onClose }) {
   const debouncedUpdate = useMemo(
     () =>
       debounce((id, weight) => {
-        console.log("PATCH", id, weight);
-
         updateDiaryIngredient.mutate({
           id,
           payload: {
@@ -130,7 +127,7 @@ export default function EditDiaryEntryModal({ entry, onClose }) {
   const handleDelete = id => {
     // optimistic remove
     setLocalIngredients(prev => prev.filter(i => i.id !== id));
-    console.log("delete id ", id);
+
     deleteIngredient.mutate(id);
   };
 

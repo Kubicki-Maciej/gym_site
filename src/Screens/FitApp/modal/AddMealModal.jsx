@@ -10,12 +10,14 @@ import {
 import { useMeals } from "hooks/Fitapp/useNutrition";
 import { useMemo, useState } from "react";
 import MealIngredientsModal from "./MealIngredientsModal";
+import MealCreatorModal from "./MealCreatorModal";
 
-export default function AddMealModal({ open, onClose, mealType }) {
+export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
   const { data: meals = [] } = useMeals();
 
   const [search, setSearch] = useState("");
   const [selectedMeal, setSelectedMeal] = useState(null);
+  const [openMealModal, setOpenMealModal] = useState(false);
 
   const filteredMeals = useMemo(() => {
     return meals.filter(m =>
@@ -56,6 +58,7 @@ export default function AddMealModal({ open, onClose, mealType }) {
               bgcolor: "green",
               color: "white",
             }}
+            onClick={() => setOpenMealModal(true)}
           >
             + Create custom meal
           </Button>
@@ -66,6 +69,11 @@ export default function AddMealModal({ open, onClose, mealType }) {
         meal={selectedMeal}
         mealType={mealType}
         onClose={() => setSelectedMeal(null)}
+        selectedDay={selectedDay}
+      />
+      <MealCreatorModal
+        open={openMealModal}
+        onClose={() => setOpenMealModal(false)}
       />
     </>
   );

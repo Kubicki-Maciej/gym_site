@@ -15,7 +15,6 @@ export function useMeals() {
 }
 
 export function useDiaryEntries(payload) {
-  console.log(payload);
   const startDate = payload?.start_date;
   const endDate = payload?.end_date;
   return useQuery({

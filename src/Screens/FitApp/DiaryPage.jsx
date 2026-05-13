@@ -34,11 +34,7 @@ export default function DiaryPage() {
   const [selectedDateIso, setSelectedDateIso] = useState(null);
   const [editingEntryId, setEditingEntryId] = useState(null);
 
-  // Jeśli hook przyjmuje payload tygodnia:
   const { data = [], isLoading, error } = useDiaryEntries(payload);
-
-  // Jeśli hook NIE przyjmuje payload, użyj:
-  // const { data = [], isLoading, error } = useDiaryEntries();
 
   const handleWeekChange = useCallback(({ startIso, endIso }) => {
     setPayload(prev => {
@@ -118,6 +114,7 @@ export default function DiaryPage() {
                   entry => entry.meal_type === mealType.key,
                 )}
                 onEdit={entry => setEditingEntryId(entry.id)}
+                selectedDay={selectedDateIso}
               />
             ))}
           </Stack>

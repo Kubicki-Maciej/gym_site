@@ -25,7 +25,6 @@ export default function WorkoutHeader({
   onAddTraining,
   onCancel,
 }) {
-  console.log("training", training);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 

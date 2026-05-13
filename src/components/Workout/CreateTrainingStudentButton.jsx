@@ -29,7 +29,6 @@ export default function CreateTrainingButton({
 
     createTraining(payload, {
       onSuccess: response => {
-        console.log("Trening utworzony:", response);
         if (onSuccess) {
           onSuccess(response.data);
         }

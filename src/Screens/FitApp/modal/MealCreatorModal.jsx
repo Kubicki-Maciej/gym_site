@@ -14,7 +14,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { useMemo, useState } from "react";
 
-import ProductPicker from "./ProductPicker";
+import ProductPicker from "components/Fitapp/ProductPicker";
 
 import { useProducts } from "hooks/Fitapp/useNutrition";
 import { useCreateMeal } from "hooks/Fitapp/useMeals";
@@ -89,6 +89,15 @@ export default function MealCreatorModal({ open, onClose }) {
   };
 
   const handleSave = () => {
+    console.log("handle save");
+    console.log({
+      name,
+      ingredients: ingredients.map(ing => ({
+        product: ing.product,
+        weight_g: Number(ing.weight_g),
+      })),
+    });
+
     createMeal.mutate({
       name,
       ingredients: ingredients.map(ing => ({

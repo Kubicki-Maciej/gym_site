@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export default function DayBall({ day, onSelect }) {
+export default function DayBall({ day, onSelect}) {
   const getBallStyles = () => {
     if (day.isSelected && day.isToday) {
       return {

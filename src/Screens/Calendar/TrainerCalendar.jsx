@@ -19,7 +19,6 @@ export default function TrainerCalendar() {
     useCreateMultipleTrainings(trainerId);
 
   const sendDataToApi = data => {
-    console.log("data do stworzenia treningu;  ", data);
     createMultipleTrainings(data);
   };
 

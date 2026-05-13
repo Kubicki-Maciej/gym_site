@@ -4,9 +4,14 @@ import { useState } from "react";
 // import DiaryEntryCard from "./DiaryEntryCard";
 import DiaryEntryCard from "./DairyEnterCard";
 
-export default function MealSection({ type, label, entries, onEdit }) {
+export default function MealSection({
+  type,
+  label,
+  entries,
+  onEdit,
+  selectedDay,
+}) {
   const [openAdd, setOpenAdd] = useState(false);
-  console.log("entries ", entries);
   return (
     <Box
       sx={{
@@ -35,6 +40,7 @@ export default function MealSection({ type, label, entries, onEdit }) {
         open={openAdd}
         onClose={() => setOpenAdd(false)}
         mealType={type}
+        selectedDay={selectedDay}
       />
     </Box>
   );
