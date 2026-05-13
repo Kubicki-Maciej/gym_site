@@ -17,7 +17,7 @@ const mapExerciseToCardFormat = exercise => ({
 });
 
 export default function StudentPlanTrainingWorkout() {
-  const { getAllExercises, getAllTrainings } = useUserTraining();
+  // const { getAllExercises, getAllTrainings } = useUserTraining();
   const userId = 63;
 
   const [payload, setPayload] = useState({

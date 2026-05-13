@@ -82,11 +82,12 @@ const api = {
   post: (path, data) => request("POST", path, data),
   put: (path, data) => request("PUT", path, data),
   del: path => request("DELETE", path),
+  patch: (path, data) => request("PATCH", path, data),
   // Helper do logowania, aby nie używać request() z auth headerem
   login: async (username, password) => {
     const res = await fetch(`${API_URL}/api/token/`, {
       // Endpoint SimpleJWT
-      method: "POST", 
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });

@@ -13,9 +13,20 @@ export function useMeals() {
     queryFn: fitappApi.getMeals,
   });
 }
-export function useDiaryEntries() {
+
+export function useDiaryEntries(payload) {
+  console.log(payload);
+  const startDate = payload?.start_date;
+  const endDate = payload?.end_date;
   return useQuery({
     queryKey: ["diaryEntries"],
-    queryFn: fitappApi.getDiaryEntries,
+    // queryKey: ["diaryEntries", startDate, endDate],
+    // queryFn: fitappApi.getDiaryEntries,
+    queryFn: () =>
+      fitappApi.getDiaryEntries({
+        start_date: startDate,
+        end_date: endDate,
+      }),
+    enabled: !!startDate && !!endDate,
   });
 }

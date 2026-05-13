@@ -1,41 +1,72 @@
-import { Dialog, Box, Button } from "@mui/material";
+import {
+  Dialog,
+  Box,
+  TextField,
+  Typography,
+  Stack,
+  Button,
+} from "@mui/material";
+
 import { useMeals } from "hooks/Fitapp/useNutrition";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "api/client";
-import { queryKeys } from "hooks/Fitapp/queryKeys";
+import { useMemo, useState } from "react";
+import MealIngredientsModal from "./MealIngredientsModal";
 
 export default function AddMealModal({ open, onClose, mealType }) {
-  const { data: meals } = useMeals();
-  const queryClient = useQueryClient();
+  const { data: meals = [] } = useMeals();
 
-  const addMeal = useMutation({
-    mutationFn: meal_id =>
-      api.post("api/nutrition/diary/add_meal/", {
-        meal_id,
-        meal_type: mealType,
-        date: new Date(),
-      }),
+  const [search, setSearch] = useState("");
+  const [selectedMeal, setSelectedMeal] = useState(null);
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.diaryEntries });
-    },
-  });
+  const filteredMeals = useMemo(() => {
+    return meals.filter(m =>
+      m.name.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [search, meals]);
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <Box p={2}>
-        {meals?.map(meal => (
+    <>
+      <Dialog open={open} onClose={onClose} fullWidth>
+        <Box p={2}>
+          <Typography variant="h6">Add meal</Typography>
+
+          <TextField
+            fullWidth
+            placeholder="Search meals..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            sx={{ mt: 2 }}
+          />
+
+          <Stack spacing={1} mt={2}>
+            {filteredMeals.map(meal => (
+              <Button
+                key={meal.id}
+                variant="outlined"
+                onClick={() => setSelectedMeal(meal)}
+              >
+                {meal.name}
+              </Button>
+            ))}
+          </Stack>
+
           <Button
-            key={meal.id}
-            onClick={() => {
-              addMeal.mutate(meal.id);
-              onClose();
+            fullWidth
+            sx={{
+              mt: 3,
+              bgcolor: "green",
+              color: "white",
             }}
           >
-            {meal.name}
+            + Create custom meal
           </Button>
-        ))}
-      </Box>
-    </Dialog>
+        </Box>
+      </Dialog>
+
+      <MealIngredientsModal
+        meal={selectedMeal}
+        mealType={mealType}
+        onClose={() => setSelectedMeal(null)}
+      />
+    </>
   );
 }

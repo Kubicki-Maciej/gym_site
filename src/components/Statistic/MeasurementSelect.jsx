@@ -25,5 +25,4 @@ export default function MeasurementSelect({
   );
 }
 
-// Eksportuj też opcje gdybyś potrzebował w innym miejscu
 export { MEASUREMENT_OPTIONS };
