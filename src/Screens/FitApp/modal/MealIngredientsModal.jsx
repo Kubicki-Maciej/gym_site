@@ -1,14 +1,8 @@
-import {
-  Dialog,
-  Box,
-  Typography,
-  TextField,
-  Stack,
-  Button,
-} from "@mui/material";
+import { Box, Typography, TextField, Stack, Button } from "@mui/material";
 
 import { useMemo, useState, useEffect } from "react";
 import { useAddMealToDiary } from "hooks/Fitapp/useDiaryActions";
+import ResponsiveModal from "components/Core/ResponsiveModal";
 
 export default function MealIngredientsModal({
   meal,
@@ -17,7 +11,6 @@ export default function MealIngredientsModal({
   selectedDay,
 }) {
   const addMealMutation = useAddMealToDiary();
-
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
@@ -32,7 +25,7 @@ export default function MealIngredientsModal({
     return ingredients.reduce(
       (acc, ing) => {
         const factor = Number(ing.weight_g) / 100;
-        // ing.product jest obiektem
+
         acc.kcal += Number(ing.product.kcal_per_100g) * factor;
         acc.protein += Number(ing.product.protein_per_100g) * factor;
         acc.carbs += Number(ing.product.carbs_per_100g) * factor;
@@ -51,11 +44,10 @@ export default function MealIngredientsModal({
 
   if (!meal) return null;
 
-  // POPRAWKA: Porównujemy po ID, a nie po całym obiekcie
   const handleWeightChange = (productId, value) => {
     setIngredients(prev =>
       prev.map(ing =>
-        ing.product.id === productId // <-- Zmiana na ing.product.id
+        ing.product.id === productId
           ? {
               ...ing,
               weight_g: value,
@@ -70,10 +62,8 @@ export default function MealIngredientsModal({
       meal_id: meal.id,
       meal_type: mealType,
       date: selectedDay,
-
       ingredients: ingredients.map(ing => ({
-        // POPRAWKA: Backend oczekuje ID produktu (integer), a nie całego obiektu
-        product: ing.product.id, // <-- Zmiana na ing.product.id
+        product: ing.product.id,
         weight_g: Number(ing.weight_g),
       })),
     });
@@ -82,49 +72,50 @@ export default function MealIngredientsModal({
   };
 
   return (
-    <Dialog open={!!meal} onClose={onClose} fullWidth maxWidth="sm">
-      <Box p={2}>
-        <Typography variant="h6">{meal.name}</Typography>
+    <ResponsiveModal
+      open={!!meal}
+      onClose={onClose}
+      title={meal.name}
+      maxWidth="sm"
+      renderActions={({ isMobile }) => (
+        <Stack direction={isMobile ? "column" : "row"} spacing={2}>
+          {!isMobile && (
+            <Button variant="outlined" onClick={onClose} fullWidth>
+              Cancel
+            </Button>
+          )}
 
-        <Stack spacing={2} mt={2}>
-          {ingredients.map(ing => (
-            // POPRAWKA: Używamy unikalnego ID z obiektu jako key
-            <Box key={ing.product.id}>
-              {" "}
-              {/* <-- Zmiana na ing.product.id */}
-              <Typography fontWeight={600}>{ing.product_name}</Typography>
-              <TextField
-                fullWidth
-                type="number"
-                value={ing.weight_g}
-                // POPRAWKA: Przekazujemy ID produktu do uchwytu
-                onChange={e =>
-                  handleWeightChange(ing.product.id, e.target.value)
-                }
-              />
-            </Box>
-          ))}
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleAdd}
+            disabled={!ingredients.length}
+          >
+            + Add
+          </Button>
         </Stack>
+      )}
+    >
+      <Stack spacing={2}>
+        {ingredients.map(ing => (
+          <Box key={ing.product.id}>
+            <Typography fontWeight={600}>{ing.product_name}</Typography>
+            <TextField
+              fullWidth
+              type="number"
+              value={ing.weight_g}
+              onChange={e => handleWeightChange(ing.product.id, e.target.value)}
+            />
+          </Box>
+        ))}
+      </Stack>
 
-        <Box mt={3}>
-          <Typography>kcal: {Math.round(totals.kcal)}</Typography>
-
-          <Typography>Protein: {Math.round(totals.protein)}g</Typography>
-
-          <Typography>Carbs: {Math.round(totals.carbs)}g</Typography>
-
-          <Typography>Fat: {Math.round(totals.fat)}g</Typography>
-        </Box>
-
-        <Button
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3 }}
-          onClick={handleAdd}
-        >
-          + Add
-        </Button>
+      <Box mt={3}>
+        <Typography>kcal: {Math.round(totals.kcal)}</Typography>
+        <Typography>Protein: {Math.round(totals.protein)}g</Typography>
+        <Typography>Carbs: {Math.round(totals.carbs)}g</Typography>
+        <Typography>Fat: {Math.round(totals.fat)}g</Typography>
       </Box>
-    </Dialog>
+    </ResponsiveModal>
   );
 }

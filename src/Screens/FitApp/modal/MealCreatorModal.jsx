@@ -1,5 +1,4 @@
 import {
-  Dialog,
   Box,
   Typography,
   TextField,
@@ -8,49 +7,36 @@ import {
   IconButton,
   Divider,
 } from "@mui/material";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-
 import { useMemo, useState } from "react";
 
+import ResponsiveModal from "components/Core/ResponsiveModal";
 import ProductPicker from "components/Fitapp/ProductPicker";
+import NutritionBar from "components/Fitapp/NutritionBar";
 
 import { useProducts } from "hooks/Fitapp/useNutrition";
 import { useCreateMeal } from "hooks/Fitapp/useMeals";
 
 export default function MealCreatorModal({ open, onClose }) {
   const { data: products } = useProducts();
-
   const createMeal = useCreateMeal();
 
   const [name, setName] = useState("");
-
   const [ingredients, setIngredients] = useState([]);
-
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const totals = useMemo(() => {
     return ingredients.reduce(
       (acc, ing) => {
         const factor = Number(ing.weight_g) / 100;
-
         acc.kcal += Number(ing.kcal_per_100g) * factor;
-
         acc.protein += Number(ing.protein_per_100g) * factor;
-
         acc.carbs += Number(ing.carbs_per_100g) * factor;
-
         acc.fat += Number(ing.fat_per_100g) * factor;
-
         return acc;
       },
-      {
-        kcal: 0,
-        protein: 0,
-        carbs: 0,
-        fat: 0,
-      },
+      { kcal: 0, protein: 0, carbs: 0, fat: 0 },
     );
   }, [ingredients]);
 
@@ -60,9 +46,7 @@ export default function MealCreatorModal({ open, onClose }) {
       {
         product: product.id,
         product_name: product.name,
-
         weight_g: 100,
-
         kcal_per_100g: product.kcal_per_100g,
         protein_per_100g: product.protein_per_100g,
         carbs_per_100g: product.carbs_per_100g,
@@ -73,14 +57,7 @@ export default function MealCreatorModal({ open, onClose }) {
 
   const handleWeightChange = (index, value) => {
     setIngredients(prev =>
-      prev.map((ing, i) =>
-        i === index
-          ? {
-              ...ing,
-              weight_g: value,
-            }
-          : ing,
-      ),
+      prev.map((ing, i) => (i === index ? { ...ing, weight_g: value } : ing)),
     );
   };
 
@@ -89,15 +66,6 @@ export default function MealCreatorModal({ open, onClose }) {
   };
 
   const handleSave = () => {
-    console.log("handle save");
-    console.log({
-      name,
-      ingredients: ingredients.map(ing => ({
-        product: ing.product,
-        weight_g: Number(ing.weight_g),
-      })),
-    });
-
     createMeal.mutate({
       name,
       ingredients: ingredients.map(ing => ({
@@ -105,92 +73,93 @@ export default function MealCreatorModal({ open, onClose }) {
         weight_g: Number(ing.weight_g),
       })),
     });
-
     onClose();
   };
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <Box p={2}>
-          <Typography variant="h5" mb={2}>
-            Create meal
-          </Typography>
-
-          <TextField
-            fullWidth
-            label="Meal name"
-            value={name}
-            onChange={e => setName(e.target.value)}
-          />
-
-          <Stack spacing={1.5} mt={3}>
-            {ingredients.map((ing, index) => {
-              const factor = Number(ing.weight_g) / 100;
-
-              const kcal = Number(ing.kcal_per_100g) * factor;
-
-              return (
-                <Box
-                  key={`${ing.product}-${index}`}
-                  display="flex"
-                  alignItems="center"
-                  gap={1}
-                >
-                  <Box flex={1}>
-                    <Typography fontWeight={700}>{ing.product_name}</Typography>
-
-                    <Typography variant="caption">
-                      {Math.round(kcal)} kcal
-                    </Typography>
-                  </Box>
-
-                  <TextField
-                    size="small"
-                    type="number"
-                    value={ing.weight_g}
-                    onChange={e => handleWeightChange(index, e.target.value)}
-                    sx={{ width: 90 }}
-                  />
-
-                  <IconButton onClick={() => handleDelete(index)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </Box>
-              );
-            })}
+      <ResponsiveModal
+        open={open}
+        onClose={onClose}
+        title="Create meal"
+        renderActions={({ isMobile }) => (
+          <Stack direction={isMobile ? "column" : "row"} spacing={2}>
+            {!isMobile && (
+              <Button variant="outlined" onClick={onClose} fullWidth>
+                Cancel
+              </Button>
+            )}
+            <Button
+              variant="contained"
+              onClick={handleSave}
+              disabled={!name || ingredients.length === 0}
+              fullWidth
+            >
+              Zapisz posiłek
+            </Button>
           </Stack>
+        )}
+      >
+        <TextField
+          fullWidth
+          label="Meal name"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
 
-          <Button
-            fullWidth
-            variant="outlined"
-            startIcon={<AddIcon />}
-            sx={{ mt: 2 }}
-            onClick={() => setPickerOpen(true)}
-          >
-            Add product
-          </Button>
+        <Stack spacing={1.5} mt={3}>
+          {ingredients.map((ing, index) => {
+            const factor = Number(ing.weight_g) / 100;
+            const kcal = Number(ing.kcal_per_100g) * factor;
 
-          <Divider sx={{ my: 2 }} />
+            return (
+              <Box
+                key={`${ing.product}-${index}`}
+                display="flex"
+                alignItems="center"
+                gap={1}
+              >
+                <Box flex={1}>
+                  <Typography fontWeight={700}>{ing.product_name}</Typography>
+                  <Typography variant="caption">
+                    {Math.round(kcal)} kcal
+                  </Typography>
+                </Box>
 
-          <Typography>kcal: {Math.round(totals.kcal)}</Typography>
+                <TextField
+                  size="small"
+                  type="number"
+                  value={ing.weight_g}
+                  onChange={e => handleWeightChange(index, e.target.value)}
+                  sx={{ width: 90 }}
+                />
 
-          <Typography>Protein: {Math.round(totals.protein)}g</Typography>
+                <IconButton onClick={() => handleDelete(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            );
+          })}
+        </Stack>
 
-          <Typography>Carbs: {Math.round(totals.carbs)}g</Typography>
+        <Button
+          fullWidth
+          variant="outlined"
+          startIcon={<AddIcon />}
+          sx={{ mt: 2, mb: 2 }}
+          onClick={() => setPickerOpen(true)}
+        >
+          Dodaj składnik
+        </Button>
 
-          <Typography>Fat: {Math.round(totals.fat)}g</Typography>
-
-          <Button
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3 }}
-            onClick={handleSave}
-          >
-            Save meal
-          </Button>
-        </Box>
-      </Dialog>
+        <NutritionBar
+          kcal={Math.round(totals.kcal)}
+          protein={Math.round(totals.protein)}
+          fat={Math.round(totals.fat)}
+          carbs={Math.round(totals.carbs)}
+          variant="rectangle"
+        />
+      </ResponsiveModal>
 
       <ProductPicker
         open={pickerOpen}

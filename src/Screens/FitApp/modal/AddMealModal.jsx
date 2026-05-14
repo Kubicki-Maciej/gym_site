@@ -1,18 +1,11 @@
-import {
-  Dialog,
-  Box,
-  TextField,
-  Typography,
-  Stack,
-  Button,
-} from "@mui/material";
+import { Box, TextField, Typography, Stack, Button } from "@mui/material";
 
 import { useMeals } from "hooks/Fitapp/useNutrition";
 import { useMemo, useState } from "react";
 import MealIngredientsModal from "./MealIngredientsModal";
 import MealCreatorModal from "./MealCreatorModal";
-import MealCard from "components/Fitapp/MealCard";
 import MealSliderCards from "components/Fitapp/MealSliderCards";
+import ResponsiveModal from "components/Core/ResponsiveModal";
 
 export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
   const { data: meals = [] } = useMeals();
@@ -29,46 +22,35 @@ export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth>
-        <Box p={2}>
-          <Typography variant="h6">Dodaj posiłek</Typography>
-
-          <TextField
-            fullWidth
-            placeholder="Search meals..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            sx={{ mt: 2 }}
-          />
-
-          <Stack spacing={1} mt={2}>
-            <MealSliderCards
-              filteredMeals={filteredMeals}
-              onMealClick={setSelectedMeal}
-            />
-            {/* {filteredMeals.map(meal => (
-              
-              <MealCard
-                key={meal.id}
-                name={meal.name}
-                onClick={() => setSelectedMeal(meal)}
-              />
-            ))} */}
-          </Stack>
-
+      <ResponsiveModal
+        open={open}
+        onClose={onClose}
+        title="Dodaj posiłek"
+        renderActions={({ isMobile }) => (
           <Button
             fullWidth
-            sx={{
-              mt: 3,
-              bgcolor: "green",
-              color: "white",
-            }}
+            variant="contained"
+            color="success"
             onClick={() => setOpenMealModal(true)}
           >
             + Create custom meal
           </Button>
-        </Box>
-      </Dialog>
+        )}
+      >
+        <TextField
+          fullWidth
+          placeholder="Search meals..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+
+        <Stack spacing={1} mt={2}>
+          <MealSliderCards
+            filteredMeals={filteredMeals}
+            onMealClick={setSelectedMeal}
+          />
+        </Stack>
+      </ResponsiveModal>
 
       <MealIngredientsModal
         meal={selectedMeal}
@@ -76,6 +58,7 @@ export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
         onClose={() => setSelectedMeal(null)}
         selectedDay={selectedDay}
       />
+
       <MealCreatorModal
         open={openMealModal}
         onClose={() => setOpenMealModal(false)}
