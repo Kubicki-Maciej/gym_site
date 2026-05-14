@@ -7,6 +7,7 @@ import {
   Button,
   TextField,
   Alert,
+  Autocomplete,
 } from "@mui/material";
 import { StatusAlertService } from "react-status-alert";
 import useTraining from "../../hooks/useTraining";
@@ -74,7 +75,7 @@ export default function AddExerciseDialog({
         ) : (
           <TextField
             select
-            label="Wybierz ćwiczenie"
+            // label="Wybierz ćwiczenie"
             fullWidth
             value={selectedId}
             onChange={e => {

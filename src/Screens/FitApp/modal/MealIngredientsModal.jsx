@@ -3,6 +3,7 @@ import { Box, Typography, TextField, Stack, Button } from "@mui/material";
 import { useMemo, useState, useEffect } from "react";
 import { useAddMealToDiary } from "hooks/Fitapp/useDiaryActions";
 import ResponsiveModal from "components/Core/ResponsiveModal";
+import NutritionBar from "components/Fitapp/NutritionBar";
 
 export default function MealIngredientsModal({
   meal,
@@ -84,14 +85,13 @@ export default function MealIngredientsModal({
               Cancel
             </Button>
           )}
-
           <Button
             fullWidth
             variant="contained"
             onClick={handleAdd}
             disabled={!ingredients.length}
           >
-            + Add
+            Dodaj posiłek
           </Button>
         </Stack>
       )}
@@ -99,7 +99,7 @@ export default function MealIngredientsModal({
       <Stack spacing={2}>
         {ingredients.map(ing => (
           <Box key={ing.product.id}>
-            <Typography fontWeight={600}>{ing.product_name}</Typography>
+            <Typography fontWeight={600}>{ing.product.name}</Typography>
             <TextField
               fullWidth
               type="number"
@@ -109,12 +109,14 @@ export default function MealIngredientsModal({
           </Box>
         ))}
       </Stack>
-
       <Box mt={3}>
-        <Typography>kcal: {Math.round(totals.kcal)}</Typography>
-        <Typography>Protein: {Math.round(totals.protein)}g</Typography>
-        <Typography>Carbs: {Math.round(totals.carbs)}g</Typography>
-        <Typography>Fat: {Math.round(totals.fat)}g</Typography>
+        <NutritionBar
+          kcal={Math.round(totals.kcal)}
+          protein={Math.round(totals.protein)}
+          carbs={Math.round(totals.carbs)}
+          fat={Math.round(totals.fat)}
+          variant="rectangle"
+        />
       </Box>
     </ResponsiveModal>
   );

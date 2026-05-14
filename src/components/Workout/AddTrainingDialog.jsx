@@ -20,7 +20,7 @@ export default function AddTrainingDialog({
 
   // Filtruj dostępne treningi (wyklucz aktualny trening)
   const availableTrainings = trainingsList.filter(
-    training => training.id !== existingTraining
+    training => training.id !== existingTraining,
   );
 
   const handleAdd = async () => {

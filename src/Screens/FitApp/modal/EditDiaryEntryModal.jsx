@@ -6,19 +6,29 @@ import {
   Stack,
   Button,
   Divider,
+  Tooltip,
+  Fab,
 } from "@mui/material";
+import { OutlinedInput, InputAdornment } from "@mui/material";
 
+import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NutritionBar from "components/Fitapp/NutritionBar";
 import { useDiaryMutations } from "hooks/Fitapp/useDiaryMutations";
 
+import MacroInline from "components/Fitapp/MacroInline";
 import { useEffect, useMemo, useState } from "react";
 import { debounce } from "utils/debounce";
 import AddDiaryIngredientModal from "./AddDiaryIngredientModal";
 import ResponsiveModal from "components/Core/ResponsiveModal";
+import MacroInlineElement from "components/Fitapp/MacroInlineElement";
+import AddButton from "components/common/AddButton";
+import { Add } from "@mui/icons-material";
 
 export default function EditDiaryEntryModal({ entry, onClose }) {
-  const { updateDiaryIngredient, deleteIngredient } = useDiaryMutations();
+  const { updateDiaryIngredient, deleteIngredient, deleteDiaryEntry } =
+    useDiaryMutations();
 
   const [pickerOpen, setPickerOpen] = useState(false);
   const [localIngredients, setLocalIngredients] = useState([]);
@@ -92,6 +102,11 @@ export default function EditDiaryEntryModal({ entry, onClose }) {
     onClose();
   };
 
+  const deleteButtonDiaryEntryAction = () => {
+    deleteDiaryEntry.mutate(entry.id);
+    handleClose();
+  };
+
   const handleChange = (ingredient, value) => {
     const weight = Number(value);
 
@@ -139,27 +154,81 @@ export default function EditDiaryEntryModal({ entry, onClose }) {
       >
         <Stack spacing={1.5}>
           {localIngredients.map(ing => (
-            <Box key={ing.id} display="flex" alignItems="center" gap={1}>
+            <Box
+              key={ing.id}
+              display="flex"
+              alignItems="center"
+              gap={1}
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "3fr auto 1fr 0.5fr", // Tworzy 3 strefy: lewa, środek dopasowany do przycisku, prawa
+                alignItems: "center", // Wyrównuje w pionie
+                mt: 3,
+                width: "100%",
+              }}
+            >
               <Box flex={1}>
                 <Typography fontWeight={600}>{ing.product_name}</Typography>
-
-                <Typography variant="caption">
-                  B: {Math.round(ing.protein)}g | C: {Math.round(ing.carbs)}g |{" "}
-                  F: {Math.round(ing.fat)}g
-                </Typography>
+                <MacroInline
+                  fat={ing.fat}
+                  protein={ing.protein}
+                  carbs={ing.carbs}
+                />
               </Box>
+              <OutlinedInput
+                size="small"
+                value={ing.weight_g}
+                onChange={e => {
+                  const val = e.target.value;
+                  handleChange(ing, val === "" ? 0 : Number(val));
+                }}
+                endAdornment={<InputAdornment position="end">g</InputAdornment>}
+                inputProps={{
+                  min: 0,
+                  step: 1,
+                  inputMode: "numeric",
+                }}
+                sx={{
+                  width: 100,
+                  borderRadius: 2,
+                  bgcolor: "background.paper",
 
+                  "& input": {
+                    textAlign: "right",
+                    py: 1,
+                    px: 1,
+                    fontWeight: 600,
+                  },
+
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+
+                  "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
+                    {
+                      WebkitAppearance: "none",
+                      margin: 0,
+                    },
+                }}
+              />
+              {/* 
               <TextField
                 type="number"
                 size="small"
                 value={ing.weight_g}
                 onChange={e => handleChange(ing, Number(e.target.value))}
                 sx={{ width: 90 }}
-              />
+              /> */}
 
-              <Typography width={80}>
-                {Math.round(Number(ing.kcal))} kcal
-              </Typography>
+              <MacroInlineElement sx={{ color: "#ff7043" }}>
+                <LocalFireDepartmentIcon sx={{ fontSize: 14 }} />
+                <Typography
+                  variant="caption"
+                  sx={{ fontWeight: 600, color: "inherit" }}
+                >
+                  Kcal: {Math.round(ing.kcal)}
+                </Typography>
+              </MacroInlineElement>
 
               <IconButton onClick={() => handleDelete(ing.id)}>
                 <DeleteIcon />
@@ -168,14 +237,32 @@ export default function EditDiaryEntryModal({ entry, onClose }) {
           ))}
         </Stack>
 
-        <Button
-          fullWidth
-          variant="outlined"
-          sx={{ mt: 2 }}
-          onClick={() => setPickerOpen(true)}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr auto 1fr",
+            alignItems: "center",
+            mt: 3,
+            width: "100%",
+          }}
         >
-          + Dodaj produkt
-        </Button>
+          <Box sx={{ display: "flex", justifySelf: "flex-start" }}>
+            <Tooltip title="Usuń wpis">
+              <IconButton
+                color="error"
+                onClick={() => deleteButtonDiaryEntryAction()}
+                sx={{}}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <AddButton
+            setPickerOpen={() => setPickerOpen(true)}
+            buttonSize={40}
+          />
+          <Box />
+        </Box>
 
         <Divider sx={{ my: 2 }} />
 
@@ -184,7 +271,7 @@ export default function EditDiaryEntryModal({ entry, onClose }) {
           protein={Math.round(totals.protein)}
           carbs={Math.round(totals.carbs)}
           fat={Math.round(totals.fat)}
-          variant="mini"
+          variant="rectangle"
         />
       </ResponsiveModal>
 

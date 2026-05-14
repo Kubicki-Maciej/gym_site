@@ -9,6 +9,8 @@ import ExerciseCard from "components/Workout/ExerciseCard";
 import StudentCreateWorkout from "./StudentCreateWorkout";
 import CreateTrainingStudentButton from "components/Workout/CreateTrainingStudentButton";
 
+import { useUserContext } from "components/User/context";
+
 const mapExerciseToCardFormat = exercise => ({
   userExerciseId: exercise.id,
   exerciseId: exercise.exercise,
@@ -17,8 +19,8 @@ const mapExerciseToCardFormat = exercise => ({
 });
 
 export default function StudentPlanTrainingWorkout() {
-  // const { getAllExercises, getAllTrainings } = useUserTraining();
-  const userId = 63;
+  const { getUserId } = useUserContext();
+  const userId = getUserId();
 
   const [payload, setPayload] = useState({
     start_date: null,

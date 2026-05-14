@@ -1,53 +1,3 @@
-// import { useState } from "react";
-
-// export default function RegisterPage() {
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [email, setEmail] = useState("");
-
-//   const handleRegister = async e => {
-//     e.preventDefault();
-//     const res = await fetch("http://localhost:8000/user/register/", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ username, password }),
-//     });
-//     const data = await res.json();
-//     if (res.ok) {
-//       alert("Rejestracja zakończona sukcesem");
-//     } else {
-//       alert(data.error || "Błąd rejestracji");
-//     }
-//   };
-
-//   return (
-//     <div className="flex flex-col items-center justify-center h-screen">
-//       <h2 className="text-xl mb-4">Rejestracja</h2>
-//       <form onSubmit={handleRegister} className="flex flex-col w-64">
-//         <input
-//           className="border p-2 mb-2"
-//           placeholder="Username"
-//           value={username}
-//           onChange={e => setUsername(e.target.value)}
-//         />
-//         <input
-//           className="border p-2 mb-2"
-//           placeholder="Password"
-//           type="password"
-//           value={password}
-//           onChange={e => setPassword(e.target.value)}
-//         />
-//         <input
-//           className="border p-2 mb-2"
-//           placeholder="Email"
-//           value={password}
-//           onChange={e => setEmail(e.target.value)}
-//         />
-//         <button className="bg-green-500 text-white p-2">Zarejestruj</button>
-//       </form>
-//     </div>
-//   );
-// }
 import { API_URL } from "../../../config";
 import React, { useState } from "react";
 import {
@@ -105,18 +55,21 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       const payload = {
-        name: name,
+        first_name: name,
         password: password,
         email: email,
         password_confirm: confirm,
       };
       // (payload)
+      console.log(payload);
       const res = await fetch(`${API_URL}user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
+      console.log("data");
+      console.log(data);
 
       if (res.ok) {
         setAlert({

@@ -7,6 +7,7 @@ export function useProducts() {
     queryFn: fitappApi.getProducts,
   });
 }
+
 export function useMeals() {
   return useQuery({
     queryKey: ["meals"],

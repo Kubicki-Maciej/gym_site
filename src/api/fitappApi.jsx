@@ -2,9 +2,13 @@ import api from "./client";
 
 export const fitappApi = {
   getProducts: async () => await api.get("api/nutrition/products/"),
+  createProduct: async payload =>
+    await api.post("api/nutrition/products/", payload),
   getDiary: async () => await api.get("api/nutrition/diary/"),
   getMeals: async () => await api.get("api/nutrition/meals/"),
   getDiaryEntries: async () => await api.get("api/nutrition/diary_entry/"),
+  deleteDiaryEntry: async id =>
+    await api.del(`api/nutrition/diary_entry/${id}/`),
   getDiaryEntriesDateRange: async () =>
     await api.get("api/nutrition/diary_entry/"),
 
@@ -19,6 +23,5 @@ export const fitappApi = {
 
   addMealToDiary: async payload =>
     await api.post("api/nutrition/diary_entry/add_meal/", payload),
-
   createMeal: async payload => await api.post("api/nutrition/meals/", payload),
 };

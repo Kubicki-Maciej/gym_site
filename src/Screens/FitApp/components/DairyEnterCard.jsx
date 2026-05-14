@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
-
+import MacroInlineElement from "components/Fitapp/MacroInlineElement";
+import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 export default function DiaryEntryCard({ entry, onClick }) {
   return (
     <Box
@@ -13,9 +14,15 @@ export default function DiaryEntryCard({ entry, onClick }) {
     >
       <Typography fontWeight={700}>{entry.meal_name}</Typography>
 
-      <Typography variant="body2">
-        {Math.round(entry.total_kcal)} kcal
-      </Typography>
+      <MacroInlineElement sx={{ color: "#ff7043" }}>
+        <LocalFireDepartmentIcon sx={{ fontSize: 14 }} />
+        <Typography
+          variant="caption"
+          sx={{ fontWeight: 600, color: "inherit" }}
+        >
+          Kcal: {Math.round(entry.total_kcal)}
+        </Typography>
+      </MacroInlineElement>
     </Box>
   );
 }

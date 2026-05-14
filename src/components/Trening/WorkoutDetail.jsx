@@ -644,7 +644,7 @@ function AddExerciseDialog({
         ) : (
           <TextField
             select
-            label="Wybierz ćwiczenie"
+            // label="Wybierz ćwiczenie"
             fullWidth
             value={selectedId}
             onChange={e => {

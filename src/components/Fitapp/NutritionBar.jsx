@@ -7,6 +7,7 @@ import OpacityIcon from "@mui/icons-material/Opacity";
 
 function StatCard({ label, value, unit, icon, gradient, variant = "square" }) {
   const isRectangle = variant === "rectangle";
+  const isSuperSmall = variant === "superSmall";
 
   return (
     <Paper

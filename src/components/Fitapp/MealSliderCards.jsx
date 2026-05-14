@@ -3,6 +3,12 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import MealCard from "./MealCard";
 
+// Importy z MUI
+import { Box, Typography } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+
 export default function MealSliderCards({ filteredMeals, onMealClick }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -34,17 +40,22 @@ export default function MealSliderCards({ filteredMeals, onMealClick }) {
   });
 
   if (!filteredMeals?.length) {
-    return <div>Brak posiłków</div>;
+    return <Typography sx={{ p: 2 }}>Brak posiłków</Typography>;
   }
 
   const maxIdx = instanceRef.current?.track.details?.maxIdx ?? 0;
 
   return (
-    <div className="relative">
+    <Box sx={{ position: "relative", width: "100%" }}>
+      {/* Container na Slider */}
       <div ref={sliderRef} className="keen-slider">
         {filteredMeals.map(meal => (
-          <div key={meal.id} className="keen-slider__slide flex">
-            <MealCard name={meal.name} onClick={() => onMealClick(meal)} />
+          // Usunąłem klasę 'flex' z głównego elementu slajdu (wymaganie Keen Slidera)
+          <div key={meal.id} className="keen-slider__slide">
+            {/* Flex przeniesiony do wewnętrznego Boxa */}
+            <Box sx={{ display: "flex", height: "100%" }}>
+              <MealCard name={meal.name} onClick={() => onMealClick(meal)} />
+            </Box>
           </div>
         ))}
       </div>
@@ -71,39 +82,69 @@ export default function MealSliderCards({ filteredMeals, onMealClick }) {
       )}
 
       {loaded && instanceRef.current && (
-        <div className="flex justify-center gap-2 mt-4">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 1,
+            mt: 2,
+          }}
+        >
           {[...Array(maxIdx + 1).keys()].map(idx => (
-            <button
+            <Box
               key={idx}
+              component="button"
               onClick={() => instanceRef.current?.moveToIdx(idx)}
-              className={`w-3 h-3 rounded-full transition ${
-                currentSlide === idx ? "bg-black scale-110" : "bg-gray-300"
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
+              aria-label={`Przejdź do slajdu ${idx + 1}`}
+              sx={{
+                width: 12,
+                height: 12,
+                padding: 0,
+                border: "none",
+                borderRadius: "50%",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                backgroundColor:
+                  currentSlide === idx ? "primary.main" : "grey.300",
+                transform: currentSlide === idx ? "scale(1.2)" : "scale(1)",
+                "&:hover": {
+                  backgroundColor:
+                    currentSlide === idx ? "primary.dark" : "grey.400",
+                },
+              }}
             />
           ))}
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
+// Komponent Strzałki zaadaptowany do MUI
 function Arrow({ left, onClick, disabled }) {
   return (
-    <button
+    <IconButton
       onClick={onClick}
       disabled={disabled}
-      className={`
-        absolute top-1/2 -translate-y-1/2 z-10
-        w-10 h-10 rounded-full bg-white shadow-md
-        flex items-center justify-center
-        transition
-        ${left ? "left-2" : "right-2"}
-        ${disabled ? "opacity-40 cursor-not-allowed" : "hover:bg-gray-100"}
-      `}
-      aria-label={left ? "Previous slide" : "Next slide"}
+      aria-label={left ? "Poprzedni slajd" : "Następny slajd"}
+      sx={{
+        position: "absolute",
+        top: "50%",
+        transform: "translateY(-50%)",
+        zIndex: 10,
+        backgroundColor: "background.paper",
+        boxShadow: 2, // Ekwiwalent shadow-md
+        ...(left ? { left: 8 } : { right: 8 }), // Pozycja w lewo lub prawo
+        "&:hover": {
+          backgroundColor: "grey.100", // Ekwiwalent hover:bg-gray-100
+        },
+        "&.Mui-disabled": {
+          backgroundColor: "background.paper",
+          opacity: 0.4,
+        },
+      }}
     >
-      {left ? "←" : "→"}
-    </button>
+      {left ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+    </IconButton>
   );
 }

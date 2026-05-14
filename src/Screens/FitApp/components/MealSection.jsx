@@ -3,7 +3,8 @@ import AddMealModal from "../modal/AddMealModal";
 import { useState } from "react";
 // import DiaryEntryCard from "./DiaryEntryCard";
 import DiaryEntryCard from "./DairyEnterCard";
-
+import AddButton from "components/common/AddButton";
+import { Add } from "@mui/icons-material";
 export default function MealSection({
   type,
   label,
@@ -20,10 +21,10 @@ export default function MealSection({
         p: 2,
       }}
     >
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h6">{label}</Typography>
-
-        <Button onClick={() => setOpenAdd(true)}>Dodaj przycisk</Button>
+      <Stack direction="column" spacing={2} sx={{ width: "100%" }}>
+        <Box sx={{ alignSelf: "flex-start" }}>
+          <Typography variant="h6">{label}</Typography>
+        </Box>
       </Stack>
 
       <Stack spacing={1} mt={2}>
@@ -34,6 +35,9 @@ export default function MealSection({
             onClick={() => onEdit(entry)}
           />
         ))}
+        <Box sx={{ alignSelf: "center" }}>
+          <AddButton setPickerOpen={() => setOpenAdd(true)} buttonSize={36} />
+        </Box>
       </Stack>
 
       <AddMealModal

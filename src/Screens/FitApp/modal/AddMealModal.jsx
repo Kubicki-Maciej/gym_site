@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import MealIngredientsModal from "./MealIngredientsModal";
 import MealCreatorModal from "./MealCreatorModal";
 import MealSliderCards from "components/Fitapp/MealSliderCards";
+
 import ResponsiveModal from "components/Core/ResponsiveModal";
 
 export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
@@ -33,13 +34,13 @@ export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
             color="success"
             onClick={() => setOpenMealModal(true)}
           >
-            + Create custom meal
+            Stwórz swój przepis
           </Button>
         )}
       >
         <TextField
           fullWidth
-          placeholder="Search meals..."
+          placeholder="Wyszukaj posiłek"
           value={search}
           onChange={e => setSearch(e.target.value)}
         />

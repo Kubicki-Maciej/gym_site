@@ -37,6 +37,16 @@ export const useDiaryMutations = () => {
     },
   });
 
+  const deleteDiaryEntry = useMutation({
+    mutationFn: id => fitappApi.deleteDiaryEntry(id),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.diaryEntries,
+      });
+    },
+  });
+
   const addMealToDiary = useMutation({
     mutationFn: payload => fitappApi.addMealToDiary(payload),
 
@@ -52,5 +62,6 @@ export const useDiaryMutations = () => {
     createIngredient,
     deleteIngredient,
     addMealToDiary,
+    deleteDiaryEntry,
   };
 };

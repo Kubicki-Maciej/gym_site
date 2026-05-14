@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 
 import { useMemo, useState } from "react";
+import ResponsiveModal from "components/Core/ResponsiveModal";
 
 export default function ProductPicker({
   open,
@@ -24,12 +25,8 @@ export default function ProductPicker({
   }, [products, search]);
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <ResponsiveModal open={open} onClose={onClose} title={"Dodaj składnik"}>
       <Box p={2}>
-        <Typography variant="h6" mb={2}>
-          Add product
-        </Typography>
-
         <TextField
           fullWidth
           placeholder="Search product..."
@@ -62,6 +59,7 @@ export default function ProductPicker({
           ))}
         </Stack>
       </Box>
-    </Dialog>
+      {/* </Dialog> */}
+    </ResponsiveModal>
   );
 }

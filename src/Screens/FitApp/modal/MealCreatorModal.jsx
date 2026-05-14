@@ -15,6 +15,8 @@ import ResponsiveModal from "components/Core/ResponsiveModal";
 import ProductPicker from "components/Fitapp/ProductPicker";
 import NutritionBar from "components/Fitapp/NutritionBar";
 
+import CreateProductModal from "./CreateProductModal";
+
 import { useProducts } from "hooks/Fitapp/useNutrition";
 import { useCreateMeal } from "hooks/Fitapp/useMeals";
 
@@ -25,6 +27,7 @@ export default function MealCreatorModal({ open, onClose }) {
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [createProductOpen, setCreateProductOpen] = useState(false);
 
   const totals = useMemo(() => {
     return ingredients.reduce(
@@ -81,12 +84,12 @@ export default function MealCreatorModal({ open, onClose }) {
       <ResponsiveModal
         open={open}
         onClose={onClose}
-        title="Create meal"
+        title="Stwórz posiłek"
         renderActions={({ isMobile }) => (
           <Stack direction={isMobile ? "column" : "row"} spacing={2}>
             {!isMobile && (
               <Button variant="outlined" onClick={onClose} fullWidth>
-                Cancel
+                Anuluj
               </Button>
             )}
             <Button
@@ -151,6 +154,15 @@ export default function MealCreatorModal({ open, onClose }) {
         >
           Dodaj składnik
         </Button>
+        <Button
+          fullWidth
+          variant="outlined"
+          startIcon={<AddIcon />}
+          sx={{ mb: 2 }}
+          onClick={() => setCreateProductOpen(true)}
+        >
+          Stwórz składnik
+        </Button>
 
         <NutritionBar
           kcal={Math.round(totals.kcal)}
@@ -166,6 +178,10 @@ export default function MealCreatorModal({ open, onClose }) {
         onClose={() => setPickerOpen(false)}
         products={products || []}
         onSelect={handleAddProduct}
+      />
+      <CreateProductModal
+        open={createProductOpen}
+        onClose={() => setCreateProductOpen(false)}
       />
     </>
   );
