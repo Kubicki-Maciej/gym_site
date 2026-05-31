@@ -30,3 +30,12 @@ export function useDiaryEntries(payload) {
     enabled: !!startDate && !!endDate,
   });
 }
+
+export function useLookupProductByEan(ean) {
+  return useQuery({
+    queryKey: ["products", "lookup-ean", ean],
+    queryFn: () => fitappApi.lookupProductByEan(ean),
+    enabled: !!ean,
+    retry: false,
+  });
+}
