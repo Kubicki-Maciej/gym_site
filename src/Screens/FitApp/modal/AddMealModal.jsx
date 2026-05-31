@@ -7,10 +7,11 @@ import MealCreatorModal from "./MealCreatorModal";
 import MealSliderCards from "components/Fitapp/MealSliderCards";
 
 import ResponsiveModal from "components/Core/ResponsiveModal";
+import ScanEanModal from "./ScanEanModal";
 
 export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
   const { data: meals = [] } = useMeals();
-
+  const [scanOpen, setScanOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [openMealModal, setOpenMealModal] = useState(false);
@@ -28,14 +29,22 @@ export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
         onClose={onClose}
         title="Dodaj posiłek"
         renderActions={({ isMobile }) => (
-          <Button
-            fullWidth
-            variant="contained"
-            color="success"
-            onClick={() => setOpenMealModal(true)}
-          >
-            Stwórz swój przepis
-          </Button>
+          <>
+            <Button
+              fullWidth
+              variant="contained"
+              color="success"
+              onClick={() => setOpenMealModal(true)}
+            >
+              Stwórz swój przepis
+            </Button>
+            <Button
+              // startIcon={<QrCodeScannerIcon />}
+              onClick={() => setScanOpen(true)}
+            >
+              Skanuj EAN
+            </Button>
+          </>
         )}
       >
         <TextField
@@ -52,7 +61,7 @@ export default function AddMealModal({ open, onClose, mealType, selectedDay }) {
           />
         </Stack>
       </ResponsiveModal>
-
+      <ScanEanModal open={scanOpen} onClose={() => setScanOpen(false)} />
       <MealIngredientsModal
         meal={selectedMeal}
         mealType={mealType}

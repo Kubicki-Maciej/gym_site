@@ -30,3 +30,15 @@ export function useDiaryEntries(payload) {
     enabled: !!startDate && !!endDate,
   });
 }
+
+export function useLookupProductByEan(ean) {
+  const cleanEan = String(ean ?? "").replace(/\D/g, "");
+
+  return useQuery({
+    queryKey: ["products", "lookup-ean", cleanEan],
+    queryFn: () => fitappApi.lookupProductByEan(cleanEan),
+    enabled: cleanEan.length === 13,
+    retry: false,
+    staleTime: 5 * 60 * 1000,
+  });
+}
