@@ -26,7 +26,5 @@ export const fitappApi = {
   createMeal: async payload => await api.post("api/nutrition/meals/", payload),
 
   lookupProductByEan: async ean =>
-    await api.post("api/nutrition/products/lookup-ean/", {
-      params: { ean },
-    }),
+    await api.get(`api/nutrition/products/lookup-ean/${ean}`, {}),
 };
