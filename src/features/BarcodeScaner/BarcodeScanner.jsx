@@ -1,22 +1,21 @@
 import { useZxing } from "react-zxing";
 import { Box, Typography } from "@mui/material";
+import { useState } from "react";
 
 export default function BarcodeScanner({ onScan }) {
   console.log("isSecureContext:", window.isSecureContext);
   console.log("mediaDevices:", navigator.mediaDevices);
+  const [result, setResult] = useState("");
   const { ref } = useZxing({
     paused: false,
+    onDecodeResult(result) {
+      setResult(result.rawValue);
+    },
     constraints: {
       video: {
-        facingMode: { ideal: "environment" }, // tylna kamera
+        facingMode: { ideal: "environment" },
       },
       audio: false,
-    },
-    onDecodeResult(result) {
-      const text = result.getText();
-      if (text) {
-        onScan(text);
-      }
     },
     onError(error) {
       console.error("ZXing error:", error);
@@ -32,6 +31,7 @@ export default function BarcodeScanner({ onScan }) {
         muted
         playsInline
       />
+      <p>{result}</p>
       <Typography variant="caption">Skieruj kamerę na kod kreskowy</Typography>
     </Box>
   );
