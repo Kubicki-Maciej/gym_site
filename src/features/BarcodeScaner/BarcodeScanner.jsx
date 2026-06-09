@@ -8,17 +8,20 @@ export default function BarcodeScanner({ onScan }) {
   const [result, setResult] = useState("");
   const { ref } = useZxing({
     paused: false,
-    onDecodeResult(result) {
-      setResult(result.rawValue);
+    onDecodeResult(decodedResult) {
+      const text = decodedResult.getText();
+
+      setResult(text);
+
+      if (onScan) {
+        onScan(text);
+      }
     },
-    constraints: {
+    straints: {
       video: {
         facingMode: { ideal: "environment" },
       },
       audio: false,
-    },
-    onError(error) {
-      console.error("ZXing error:", error);
     },
   });
 
