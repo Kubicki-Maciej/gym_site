@@ -1,5 +1,6 @@
 import { useZxing } from "react-zxing";
 import { Box, Typography } from "@mui/material";
+import { useState } from "react"
 
 export default function BarcodeScanner({ onScan }) {
   console.log("isSecureContext:", window.isSecureContext);
