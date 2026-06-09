@@ -34,6 +34,7 @@ export default function BarcodeScanner({ onScan }) {
         muted
         playsInline
       />
+      <p>Wynik :</p>
       <p>{result}</p>
       <Typography variant="caption">Skieruj kamerę na kod kreskowy</Typography>
     </Box>
