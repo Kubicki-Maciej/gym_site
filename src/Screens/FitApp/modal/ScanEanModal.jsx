@@ -101,7 +101,8 @@ export default function ScanEanModal({ open, onClose }) {
           //     onScan={handleScan}
           //     onClose={() => setScannerOpen(false)}
           //   />
-          <CameraTest />
+          // <CameraTest />
+          <BarcodeScanner onScan={setEan} />
         ) : (
           <Button
             variant="outlined"
