@@ -117,19 +117,6 @@ export default function ScanEanModal({ open, onClose }) {
             Otwórz skaner kamery
           </Button>
         )}
-        {scannerNutritionOpen ? (
-          <NutritionScanner />
-        ) : (
-          <Button
-            variant="outlined"
-            startIcon={<QrCodeScannerIcon />}
-            onClick={() => setScannerNutritionOpen(true)}
-            fullWidth
-            sx={{ py: 2 }}
-          >
-            Otwórz Nutrition Scanner{" "}
-          </Button>
-        )}
 
         {/* ===== SEPARATOR ===== */}
         <Divider>
