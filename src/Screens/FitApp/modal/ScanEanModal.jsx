@@ -16,7 +16,8 @@ import ResponsiveModal from "components/Core/ResponsiveModal";
 import BarcodeScanner from "features/BarcodeScaner/BarcodeScanner";
 import { useLookupProductByEan } from "hooks/Fitapp/useNutrition";
 import { useDiaryMutations } from "hooks/Fitapp/useDiaryMutations";
-import CameraTest from "features/BarcodeScaner/CameraTest";
+// import CameraTest from "features/BarcodeScaner/CameraTest";
+import NutritionScanner from "features/NutritionScanner/NutritionScanner";
 
 export default function ScanEanModal({ open, onClose }) {
   const { createIngredient } = useDiaryMutations();
