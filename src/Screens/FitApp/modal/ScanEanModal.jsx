@@ -25,6 +25,7 @@ export default function ScanEanModal({ open, onClose }) {
   // Stan
   const [ean, setEan] = useState("");
   const [scannerOpen, setScannerOpen] = useState(false);
+  const [scannerNutritionOpen, setScannerNutritionOpen] = useState(false);
   const [weight, setWeight] = useState(100);
 
   // Lookup
@@ -105,6 +106,7 @@ export default function ScanEanModal({ open, onClose }) {
           // <CameraTest />
           <BarcodeScanner onScan={setEan} />
         ) : (
+          // <NutritionScanner />
           <Button
             variant="outlined"
             startIcon={<QrCodeScannerIcon />}
@@ -113,6 +115,19 @@ export default function ScanEanModal({ open, onClose }) {
             sx={{ py: 2 }}
           >
             Otwórz skaner kamery
+          </Button>
+        )}
+        {scannerNutritionOpen ? (
+          <NutritionScanner />
+        ) : (
+          <Button
+            variant="outlined"
+            startIcon={<QrCodeScannerIcon />}
+            onClick={() => setScannerNutritionOpen(true)}
+            fullWidth
+            sx={{ py: 2 }}
+          >
+            Otwórz Nutrition Scanner{" "}
           </Button>
         )}
 
